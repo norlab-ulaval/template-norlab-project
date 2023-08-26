@@ -25,26 +25,23 @@
 </p>
 </div>
 
----
 
 Maintainer: [Luc Coupal](https://redleader962.github.io)
 
----
+**Note:** This template is for code project implementation. For `latex` project such as writing proposal or conference paper, see the following list of [NorLab `TeX` template repositories](https://github.com/norlab-ulaval?q=template&type=all&language=tex&sort=)  
 
-# How to use this repository template
+## How to use this repository template
 
-**Note:** This template is for code project. For `latex` project, see the following [`TeX` NorLab template repositories](https://github.com/norlab-ulaval?q=template&type=all&language=tex&sort=)  
-
-## Step 1 › Generate the new repository
+### Step 1 › Generate the new repository
 1. Click on the green `Use this template` button
 2. Click on `Create a new repository`
 3. Find a miningfull name, don't worry you can change it latter (see BC Gov [Naming Repos](https://github.com/bcgov/BC-Policy-Framework-For-GitHub/blob/master/BC-Gov-Org-HowTo/Naming-Repos.md) recommandation for advice and best-practice)  
 
-## Step 2 › Configure the repository for your project type
-Execute `repository_configuration_script.bash` and follow the instructions. You will be asked what kind of project your planning to undergo (latex, ros, python, c++ ...) and the component you wish to add to your repository.
+### Step 2 › Configure the repository for your project type
+(ToDo) Execute `repository_configuration_script.bash` and follow the instructions. You will be asked what kind of project your planning to undergo (latex, ros, python, c++ ...) and the component you wish to add to your repository.
 
-## Step 3 › Configure the _GitHub_ repository settings
-Follow the `repository_configuration_checklist.md` steps.
+### Step 3 › Configure the _GitHub_ repository settings
+(ToDo) Follow the `repository_configuration_checklist.md` steps.
 We strongly recommand you to configure repository your branching scheme following Gitflow
 
 ```bash
