@@ -22,7 +22,7 @@
 <a href="https://hub.docker.com/repositories/norlabulaval">norlabulaval</a>
 (Docker Hub) &nbsp;
 </sup>
-</p>
+</p>  
 </div>
 
 
