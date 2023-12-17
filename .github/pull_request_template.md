@@ -18,11 +18,12 @@
 # Checklist:
 
 ### Code related
-- [ ] All tests pass locally with my changes (Check `tests/README.md` for testing procedure ) 
 - [ ] I have made corresponding changes to the documentation (i.e.: function, class, script header,
   README.md)
 - [ ] I have commented hard-to-understand code 
 - [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] All tests pass locally with my changes (Check `tests/README.md` for
+  local testing procedure) 
 
 ### PR creation related 
 - [ ] My pull request `base ref` branch is set to the `dev` branch (the _build-system_ won't be triggered otherwise) 
