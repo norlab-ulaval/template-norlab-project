@@ -32,7 +32,7 @@ jobs:
           node-version: "lts/*"
       - name: Install dependencies
 #        run: npm clean-install     # Require an existing package-lock.json or npm-shrinkwrap.json
-        run: npm install
+        run: npm clean-install --force
       - name: Install semantic-release additional plugins
         run: npm install @semantic-release/git @semantic-release/changelog -D
       - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
