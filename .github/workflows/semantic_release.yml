@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   release:
-    name: Release
+    name: Semantic-release
     runs-on: ubuntu-latest
     permissions:
       contents: write # to be able to publish a GitHub release
@@ -30,9 +30,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
-      - name: Install dependencies
-        run: npm clean-install     # Require an existing package-lock.json or npm-shrinkwrap.json
-#        run: npm clean-install --force
+#      - name: Install dependencies
+#        # Require an existing package-lock.json or npm-shrinkwrap.json
+#        run: npm ci
+##        run: npm clean-install --force
+      - name: Install semantic-release
+        run: npm install --save-dev semantic-release
       - name: Install semantic-release additional plugins
         run: npm install @semantic-release/git @semantic-release/changelog -D
       - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
