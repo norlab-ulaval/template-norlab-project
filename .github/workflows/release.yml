@@ -31,16 +31,14 @@ jobs:
         with:
           node-version: "lts/*"
       - name: Install dependencies
-#        run: npm clean-install
-        run: npm help clean-install
-      - name: Install dependencies 2
+#        run: npm clean-install     # Require an existing package-lock.json or npm-shrinkwrap.json
         run: npm help install
-#      - name: Install semantic-release additional plugins
-#        run: npm install @semantic-release/git @semantic-release/changelog -D
-#      - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
-#        run: npm audit signatures
-#      - name: Release
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        run: npx semantic-release
+      - name: Install semantic-release additional plugins
+        run: npm install @semantic-release/git @semantic-release/changelog -D
+      - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
+        run: npm audit signatures
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
 
