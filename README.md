@@ -42,13 +42,18 @@ Maintainer: [Luc Coupal](https://redleader962.github.io)
 
 ### Step 3 › Configure the _GitHub_ repository settings
 (ToDo) Follow the `repository_configuration_checklist.md` steps.
-We strongly recommend you to configure repository your branching scheme following Gitflow
+
+We strongly recommend you to configure your repository branching scheme following Gitflow
 
 ```bash
-master ← dev ← feature 1
+main ← dev ← feature 1
              ↖ feature 2
 ```
-with branch protection rule via pull-request enable for the `master` and the `dev` branches.
-The `master` branch is sacred. It must be deployable at any time.  
+with branch protection rule via pull-request enable for the default branch (i.e. `main`) and the `dev` branches.
+
+★ The `main` branch is sacred. It must be deployable at any time.  
+
+### Recommendation › adopt the [_conventional-commit_](https://www.conventionalcommits.org/) specification
+See [commit_msg_reference.md](https://github.com/norlab-ulaval/template-norlab-project/tree/main/commit_msg_reference.md)
 
 ---
