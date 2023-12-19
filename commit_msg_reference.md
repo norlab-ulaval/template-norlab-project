@@ -45,4 +45,4 @@ See https://www.conventionalcommits.org for details
   - `feat` triggers a `MINOR` version bump 
   - `fix` triggers a `PATCH` version bump
   - `perf` triggers a `PATCH` version bump
-  - and all others such as `doc, style ...` will register but won't a release.
+  - and all others such as `doc` and ` style` will register but won't a release.

@@ -1,3 +1,4 @@
+[//]: # ( ==== Logo ================================================== ) 
 <div align="center">
 <br>
 <br>
@@ -6,14 +7,13 @@
 </a>
 <br>
 
+[//]: # ( ==== Title ================================================= ) 
+[//]: # (TODO: change the title)
 # _NorLab Project Template_
 
 </div>
 
-
-[//]: # (<b>Project related link: </b> &nbsp; )
-
-[//]: # (Project related link:)
+[//]: # ( ==== Hyperlink ============================================= ) 
 <div align="center">
 <p>
 <sup>
@@ -24,12 +24,16 @@
 </sup>
 </p>  
 
+[//]: # ( ==== Description =========================================== ) 
+[//]: # (TODO: Change the description)
 **This template repository is meant to help quick start repository creation for code related projects.** 
 <br>
 <br>
 It has a few preconfigured tools such as a pull request template, a sematic-release github action, a standardized readme file with NorLab logo , a git ignore file with common file/directory entries, a
 code owner designation file and
 the basic directory structure. 
+
+[//]: # ( ==== Badges ================================================ ) 
 
 [![semantic-release: conventional commits](https://img.shields.io/badge/semantic--release-conventional_commits-453032?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 
@@ -38,10 +42,15 @@ the basic directory structure.
 
 <br>
 
+[//]: # ( ==== Maintainer ============================================ ) 
+[//]: # (TODO: Change the maintainer name)
 Maintainer: [Luc Coupal](https://redleader962.github.io)
 
 </div>
 <br>
+
+[//]: # ( ==== Body ================================================== ) 
+[//]: # (TODO: Delete everything after this line and make it your own)
 
 **Note:** For `latex` project such as writing proposal or conference paper, use a template from the following list of [NorLab `TeX` template repositories](https://github.com/norlab-ulaval?q=template&type=all&language=tex&sort=) instead.  
 
@@ -55,7 +64,7 @@ Maintainer: [Luc Coupal](https://redleader962.github.io)
 ### Step 2 › Make it your own
 
 1. Customize the `README.md`:
-   1. first finding a meaningful name, don't worry you can change it latter (see BC Gov [Naming Repos](https://github.com/bcgov/BC-Policy-Framework-For-GitHub/blob/master/BC-Gov-Org-HowTo/Naming-Repos.md) recommendation for advice and best-practice);
+   1. find a meaningful name, don't worry you can change it latter (see BC Gov [Naming Repos](https://github.com/bcgov/BC-Policy-Framework-For-GitHub/blob/master/BC-Gov-Org-HowTo/Naming-Repos.md) recommendation for advice and best-practice);
    2. change the maintainer name.
 2. Modify the pull request template to fit your workflow needs: [pull_request_template.md](https://github.com/norlab-ulaval/template-norlab-project/tree/main/.github/pull_request_template.md);
 3. Configure the repository directory structure for your project type
@@ -98,16 +107,14 @@ Assuming your repository is part of a bigger system,
 - easily identify the repository state currently in use as a dependency;
 - and escape "dependency hell". 
 
-See [Why Use Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and 
-
 #### How
 Any push to the `main` branch will trigger the execution of [_semantic-release_](https://semantic-release.gitbook.io) which will analyse each commits message to determine the version bump following [_semantic versioning_](https://semver.org) scheme `MAJOR.MINOR.PATCH`.
 
 **Note:** not each commits type trigger a version bump e.g.
 `<type>!` triggers a `MAJOR` version bump, 
-`fix` triggers a `PATCH` version bump, 
-`feat` triggers a `MINOR` version bump 
-and `doc, style ...` wont triggers anything.
+`feat` triggers a `MINOR` version bump, 
+`fix` and`perf` triggers a `PATCH` version bump
+and all others such as `doc` and ` style` will register but won't a release.
 
 On version bump, 
 - the `CHANGELOG.md` and the `version.txt` files get updated;
@@ -140,4 +147,3 @@ Either fix the bug and push a `fix` commit or revert the problematic commits and
 No problem, just disable the _semantic-release_ github action by deleting the `.github/workflows/semantic_release.yml` file.
 
 
----
