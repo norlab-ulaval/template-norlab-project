@@ -26,7 +26,8 @@
 
 [//]: # ( ==== Description =========================================== ) 
 [//]: # (TODO: Change the description)
-**A template repository meant to help quick start repository creation for code related projects.** 
+**A template repository for code-related research projects.
+It’s meant to help kick-start repository creation by enabling software engineering research-oriented best practice.**
 <br>
 <br>
 It has a few preconfigured tools such as a pull request template, a sematic-release github action, a standardized readme file with NorLab logo , a git ignore file with common file/directory entries, a
