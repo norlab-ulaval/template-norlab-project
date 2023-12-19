@@ -23,10 +23,18 @@
 (Docker Hub) &nbsp;
 </sup>
 </p>  
-</div>
 
+**This project template is meant to help quickstart coding project repository creation with a few pre-configured tools:** pull request template, sematic-release github action, code owner designation, basic directory structure, standardized readme file with NorLab logo, gitignore with common file and directory entries. 
+
+[![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
+<img src="https://img.shields.io/static/v1?label=powered by JetBrains TeamCity&message=CI/CD&color=green?style=plastic&logo=teamcity" />
+
+<br>
 
 Maintainer: [Luc Coupal](https://redleader962.github.io)
+
+</div>
+<br>
 
 **Note:** This template is for code project implementation. For `latex` project such as writing proposal or conference paper, see the following list of [NorLab `TeX` template repositories](https://github.com/norlab-ulaval?q=template&type=all&language=tex&sort=)  
 
