@@ -1,3 +1,17 @@
+## [1.1.0](https://github.com/norlab-ulaval/template-norlab-project/compare/v1.0.0...v1.1.0) (2023-12-19)
+
+
+### Features
+
+* improve  semantic-release github action configuration ([c05034d](https://github.com/norlab-ulaval/template-norlab-project/commit/c05034d9bfb24e0be05ea018dbf40ffe2997d0a5))
+
+
+### Bug Fixes
+
+* GH action file formating ([544645f](https://github.com/norlab-ulaval/template-norlab-project/commit/544645f39f7405a9cb794a20ba55c4c1999b44af))
+* GH action file missing install step ([320777e](https://github.com/norlab-ulaval/template-norlab-project/commit/320777e9fd6d28e6c20295fc9c8b8563c88e5561))
+* search and replace regex ([8a733fa](https://github.com/norlab-ulaval/template-norlab-project/commit/8a733fa30e7a902ff3abb69b5c1c385b7abdcbb2))
+
 # 1.0.0 (2023-12-19)
 
 
