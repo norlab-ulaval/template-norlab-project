@@ -24,10 +24,14 @@
 </sup>
 </p>  
 
-**This project template is meant to help quickstart coding project repository creation with a few pre-configured tools:** pull request template, sematic-release github action, code owner designation, basic directory structure, standardized readme file with NorLab logo, gitignore with common file and directory entries. 
+**This project template is meant to help quickstart repository creation of coding project.** 
+<br>
+This template repository has a few pre-configured tools such as _pull request template, sematic-release github action, code owner designation, basic directory structure, standardized readme file with NorLab logo, gitignore with common file and directory entries_. 
 
-[![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
-<img src="https://img.shields.io/static/v1?label=powered by JetBrains TeamCity&message=CI/CD&color=green?style=plastic&logo=teamcity" />
+[![semantic-release: conventional commits](https://img.shields.io/badge/semantic--release-conventional_commits-453032?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
+
+[//]: # (TODO: Un-comment the next line if your repository has run configuration enable on the norlab-teamcity-server)
+[//]: # (<img src="https://img.shields.io/static/v1?label=powered by JetBrains TeamCity&message=CI/CD&color=green?style=plastic&logo=teamcity" />)
 
 <br>
 
@@ -41,11 +45,10 @@ Maintainer: [Luc Coupal](https://redleader962.github.io)
 ## How to use this repository template
 
 ### Step 1 › Generate the new repository
-1. Click on the button `Use this template` in green; 
+1. Click on the button `Use this template` in green and on `Create a new repository`; 
     <br>
    ![img.png](visual/use_this_template_button.png)
-3. Click on `Create a new repository`;
-4. Customize the `README.md`:
+2. Customize the `README.md`:
    1. first finding a meaningful name, don't worry you can change it latter (see BC Gov [Naming Repos](https://github.com/bcgov/BC-Policy-Framework-For-GitHub/blob/master/BC-Gov-Org-HowTo/Naming-Repos.md) recommendation for advice and best-practice);
    2. change the maintainer name.
 
