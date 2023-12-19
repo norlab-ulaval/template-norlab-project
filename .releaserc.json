@@ -16,13 +16,16 @@
         "presetConfig": {
             "types": [
               {
-                "type": "feat", "section": "Features"
+                "type": "feat", "section": "Features",
+                "hidden": false
               },
               {
-                "type": "fix", "section": "Bug Fixes"
+                "type": "fix", "section": "Bug Fixes",
+                "hidden": false
               },
               {
-                "type": "chore", "section": "Other"
+                "type": "chore", "section": "Other",
+                "hidden": false
               },
               {
                 "type": "docs", "section": "Documentation", "hidden": false
@@ -31,16 +34,20 @@
                 "type": "style", "hidden": true
               },
               {
-                "type": "refactor", "section": "Refactoring"
+                "type": "refactor", "section": "Refactoring",
+                "hidden": false
               },
               {
-                "type": "perf", "section": "Performance improvement"
+                "type": "perf", "section": "Performance improvement",
+                "hidden": false
               },
               {
-                "type": "build", "section": "Change affecting the build system"
+                "type": "build", "section": "Change affecting the build system",
+                "hidden": false
               },
               {
-                "type": "test", "section": "Test related"
+                "type": "test", "section": "Test related",
+                "hidden": false
               },
               {
                 "type": "ci", "hidden": true
