@@ -24,9 +24,12 @@
 </sup>
 </p>  
 
-**This project template is meant to help quick start repository creation of coding projects.** 
+**This template repository is meant to help quick start repository creation for code related projects.** 
 <br>
-This template repository has a few preconfigured tools such as a _pull request template, a sematic-release github action, a code owner designation, a basic directory structure, a standardized readme file with NorLab logo and a gitignore with common file/directory entries_. 
+<br>
+It has a few preconfigured tools such as a pull request template, a sematic-release github action, a standardized readme file with NorLab logo , a git ignore file with common file/directory entries, a
+code owner designation file and
+the basic directory structure. 
 
 [![semantic-release: conventional commits](https://img.shields.io/badge/semantic--release-conventional_commits-453032?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 
@@ -40,9 +43,9 @@ Maintainer: [Luc Coupal](https://redleader962.github.io)
 </div>
 <br>
 
-**Note:** This template is for code project implementation. For `latex` project such as writing proposal or conference paper, see the following list of [NorLab `TeX` template repositories](https://github.com/norlab-ulaval?q=template&type=all&language=tex&sort=)  
+**Note:** For `latex` project such as writing proposal or conference paper, use a template from the following list of [NorLab `TeX` template repositories](https://github.com/norlab-ulaval?q=template&type=all&language=tex&sort=) instead.  
 
-## How to use this repository template
+## How to use this template repository
 
 ### Step 1 › Generate the new repository
 1. Click on the button `Use this template` in green and on `Create a new repository`; 
