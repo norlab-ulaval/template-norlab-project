@@ -2,7 +2,6 @@
 
 See https://www.conventionalcommits.org for details
 
-
 #### Commit types description:
 
 - `<type>!`:  Commit that introduces a breaking API change (correlating with MAJOR in Semantic
@@ -35,3 +34,7 @@ See https://www.conventionalcommits.org for details
 [optional-footer(s)]
 
 ```
+
+#### Note on [_semantic-release_](https://semantic-release.gitbook.io):
+
+`<type>!` triggers a `MAJOR` version bump, `fix` triggers a `PATCH` version bump, `feat` triggers a `MINOR` version bump and `doc, style ...` wont triggers anything.
