@@ -85,7 +85,7 @@ and set the following:
 4. Set _Restrict who can push to matching branches_ and add names
 5. If you use a Continuous Integration service such as _**GitHub actions**_ or our **_norlab-teamcity-server_**, set _Require status checks to pass before merging_ and set _Require branches to be up to date before merging_
 6. Repeat for the `dev` branch
-  
+   
 
 
 ### Step 4 › Release automation: enable semantic versioning tools  
