@@ -1,4 +1,4 @@
-# Conventional Commits
+## Conventional Commits
 
 See https://www.conventionalcommits.org for details
 
@@ -35,6 +35,14 @@ See https://www.conventionalcommits.org for details
 
 ```
 
-#### Note on [_semantic-release_](https://semantic-release.gitbook.io):
+---
 
-`<type>!` triggers a `MAJOR` version bump, `fix` triggers a `PATCH` version bump, `feat` triggers a `MINOR` version bump and `doc, style ...` wont triggers anything.
+## About [_semantic-release_](https://semantic-release.gitbook.io) 
+
+- Commit message containing `[skip release]` wont trigger a version bump 
+- Commit message type
+  - `<type>!` triggers a `MAJOR` version bump
+  - `feat` triggers a `MINOR` version bump 
+  - `fix` triggers a `PATCH` version bump
+  - `perf` triggers a `PATCH` version bump
+  - and all others such as `doc, style ...` will register but won't a release.

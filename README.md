@@ -98,6 +98,8 @@ Assuming your repository is part of a bigger system,
 - easily identify the repository state currently in use as a dependency;
 - and escape "dependency hell". 
 
+See [Why Use Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and 
+
 #### How
 Any push to the `main` branch will trigger the execution of [_semantic-release_](https://semantic-release.gitbook.io) which will analyse each commits message to determine the version bump following [_semantic versioning_](https://semver.org) scheme `MAJOR.MINOR.PATCH`.
 
@@ -115,13 +117,27 @@ On version bump,
 
 #### Configuration
 1. Delete the content of `CHANGELOG.md` (see it as a quick-hack reset)
-2. Adopt the [_conventional-commit_](https://www.conventionalcommits.org/) specification. This is a hard requirement for _semantic-release_. See [commit_msg_reference.md](https://github.com/norlab-ulaval/template-norlab-project/tree/main/commit_msg_reference.md) for a quick summary.
-3. Use the _**semantic-release**_ GitHub action configured in the `.github/` directory. 
-   1. You must generate a [Personal access token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) 
+2. Adopt the [_conventional-commit_](https://www.conventionalcommits.org/) specification. This is a **hard requirement** for _semantic-release_.  
+  See [commit_msg_reference.md](https://github.com/norlab-ulaval/template-norlab-project/tree/main/commit_msg_reference.md) for a quick summary.
+3. Configure the _**semantic-release**_ GitHub action implemented in the `.github/workflows/` directory. 
+   1. You must generate a GitHub [personal access token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) 
    2. and register it as a _Repository Secrets_ in the tab `Settings/secrets and variables/Actions` and name it `SEMANTIC_RELEASE_GH_TOKEN`.  
      Reference: [semantic-release/GitHub Actions](https://semantic-release.gitbook.io/semantic-release/recipes/ci-configurations/github-actions)  
       
 
-**Note:** to disable _semantic-release_, just delete `.github/workflows/semantic_release.yml`
+## Questions: 
+
+**I'm concern using _semantic-release_ and _conventional-commit_ will slow me down:** 
+<br> 
+See the following official answer: [Doesn’t this discourage rapid development and fast iteration?](https://www.conventionalcommits.org/en/v1.0.0/#doesnt-this-discourage-rapid-development-and-fast-iteration) 
+
+**What if I want the revert a buggy release:**
+<br> 
+Either fix the bug and push a `fix` commit or revert the problematic commits and push a `revert` commit.  
+
+**I don't want to use _semantic-release_ or _conventional-commit_ in my development workflow:**
+<br>
+No problem, just disable the _semantic-release_ github action by deleting the `.github/workflows/semantic_release.yml` file.
+
 
 ---

@@ -36,7 +36,7 @@
   - Breaking changes: `<type>!`
   - Reference: 
     - See `commit_msg_reference.md` in the repository root for details
-    - https://www.conventionalcommits.org
+    - [www.conventionalcommits.org](https://www.conventionalcommits.org)
 - [ ] I have indicated the related issue's id with `# <issue-id>` if changes are of type `fix`
 
  ## Note for repository admins

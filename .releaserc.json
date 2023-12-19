@@ -14,49 +14,61 @@
       {
         "preset": "conventionalcommits",
         "presetConfig": {
-            "types": [
-              {
-                "type": "feat", "section": "Features",
-                "hidden": false
-              },
-              {
-                "type": "fix", "section": "Bug Fixes",
-                "hidden": false
-              },
-              {
-                "type": "chore", "section": "Other",
-                "hidden": false
-              },
-              {
-                "type": "docs", "section": "Documentation", "hidden": false
-              },
-              {
-                "type": "style", "hidden": true
-              },
-              {
-                "type": "refactor", "section": "Refactoring",
-                "hidden": false
-              },
-              {
-                "type": "perf", "section": "Performance improvement",
-                "hidden": false
-              },
-              {
-                "type": "build", "section": "Change affecting the build system",
-                "hidden": false
-              },
-              {
-                "type": "test", "section": "Test related",
-                "hidden": false
-              },
-              {
-                "type": "ci", "hidden": true
-              },
-              {
-                "type": "revert", "hidden": true
-              }
-            ]
-          }
+          "types": [
+            {
+              "type": "feat",
+              "section": "Features",
+              "hidden": false
+            },
+            {
+              "type": "fix",
+              "section": "Bug Fixes",
+              "hidden": false
+            },
+            {
+              "type": "chore",
+              "section": "Other",
+              "hidden": false
+            },
+            {
+              "type": "docs",
+              "section": "Documentation",
+              "hidden": false
+            },
+            {
+              "type": "refactor",
+              "section": "Refactoring",
+              "hidden": false
+            },
+            {
+              "type": "perf",
+              "section": "Performance improvement",
+              "hidden": false
+            },
+            {
+              "type": "build",
+              "section": "Change affecting the build system",
+              "hidden": false
+            },
+            {
+              "type": "test",
+              "section": "Test related",
+              "hidden": false
+            },
+            {
+              "type": "style",
+              "hidden": true
+            },
+            {
+              "type": "ci",
+              "hidden": true
+            },
+            {
+              "type": "revert",
+              "hidden": true
+            }
+          ]
+        }
       }
     ],
     "@semantic-release/github",
