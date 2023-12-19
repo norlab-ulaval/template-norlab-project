@@ -24,9 +24,9 @@
 </sup>
 </p>  
 
-**This project template is meant to help quickstart repository creation of coding project.** 
+**This project template is meant to help quick start repository creation of coding projects.** 
 <br>
-This template repository has a few pre-configured tools such as _pull request template, sematic-release github action, code owner designation, basic directory structure, standardized readme file with NorLab logo, gitignore with common file and directory entries_. 
+This template repository has a few preconfigured tools such as a _pull request template, a sematic-release github action, a code owner designation, a basic directory structure, a standardized readme file with NorLab logo and a gitignore with common file/directory entries_. 
 
 [![semantic-release: conventional commits](https://img.shields.io/badge/semantic--release-conventional_commits-453032?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 
@@ -48,23 +48,25 @@ Maintainer: [Luc Coupal](https://redleader962.github.io)
 1. Click on the button `Use this template` in green and on `Create a new repository`; 
     <br>
    ![img.png](visual/use_this_template_button.png)
-2. Customize the `README.md`:
+
+### Step 2 › Make it your own
+
+1. Customize the `README.md`:
    1. first finding a meaningful name, don't worry you can change it latter (see BC Gov [Naming Repos](https://github.com/bcgov/BC-Policy-Framework-For-GitHub/blob/master/BC-Gov-Org-HowTo/Naming-Repos.md) recommendation for advice and best-practice);
    2. change the maintainer name.
+2. Modify the pull request template to fit your workflow needs: [pull_request_template.md](https://github.com/norlab-ulaval/template-norlab-project/tree/main/.github/pull_request_template.md);
+3. Configure the repository directory structure for your project type
+4. Validate the content of [`.gitignore`](https://github.com/norlab-ulaval/template-norlab-project/blob/1bd3db2f6c755bb273f7a23e49bae601123a7435/.gitignore) file.
 
-### Step 2 › Configure the repository directory structure for your project type
 
 [//]: # (&#40;ToDo&#41; Execute `repository_configuration_script.bash` and follow the instructions. You will be asked what kind of project your planning to undergo &#40;latex, ros, python, c++ ...&#41; and the component you wish to add to your repository.)
-
-1. Modify the pull request template to fit your workflow needs: [pull_request_template.md](https://github.com/norlab-ulaval/template-norlab-project/tree/main/.github/pull_request_template.md);
-2. Validate the content of [`.gitignore`](https://github.com/norlab-ulaval/template-norlab-project/blob/1bd3db2f6c755bb273f7a23e49bae601123a7435/.gitignore) file.
 
 ### Step 3 › Configure the _GitHub_ repository settings
 
 [//]: # (&#40;ToDo&#41; Follow the `repository_configuration_checklist.md` steps.)
 
 1. ★ The `main` branch is sacred. It must be deployable at any time.  
-    We strongly recommend you to configure your repository branching scheme following **_GitFlow_**
+    We strongly recommend you to configure your repository branching scheme following [**_Gitflow_**](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
     
     ```bash
     main ← dev ← feature 1
@@ -82,10 +84,28 @@ Maintainer: [Luc Coupal](https://redleader962.github.io)
       
 
 ### Step 4 › Release automation: enable semantic versioning tools  
-1. Adopt the [_conventional-commit_](https://www.conventionalcommits.org/) specification. See [commit_msg_reference.md](https://github.com/norlab-ulaval/template-norlab-project/tree/main/commit_msg_reference.md) for a quick summary.
+#### Why:
+Assuming your repository is part of a bigger system, 
+- easily identify the repository state currently in use as a dependency;
+- and escape "dependency hell". 
+
+#### How
+Any push to the `main` branch will trigger the execution of [_semantic-release_](https://semantic-release.gitbook.io) which will analyse each commits message to determine the version bump following [_semantic versioning_](https://semver.org) scheme `MAJOR.MINOR.PATCH`.
+
+Note: not each commits type trigger a version bump e.g. `fix` trigger a `PATCH` bump, `feat` trigger a `MINOR` bump and `doc` wont trigger anything.  
+
+On version bump, 
+- the `CHANGELOG.md` and the `version.txt` files get updated;
+- a new repository tag gets published with the newest versions number `v<MAJOR>.<MINOR>.<PATCH>`;
+- a new repository release gets published on the _Releases_ page 
+
+
+#### Configuration
+1. Adopt the [_conventional-commit_](https://www.conventionalcommits.org/) specification. This is a hard requirement for _semantic-release_. See [commit_msg_reference.md](https://github.com/norlab-ulaval/template-norlab-project/tree/main/commit_msg_reference.md) for a quick summary.
 2. Use the _**semantic-release**_ GitHub action configured in the `.github/` directory. 
    1. You must generate a [Personal access token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) 
    2. and register it as a _Repository Secrets_ in the tab `Settings/secrets and variables/Actions` and name it `SEMANTIC_RELEASE_GH_TOKEN`.  
-     Reference: [semantic-release/GitHub Actions](https://semantic-release.gitbook.io/semantic-release/recipes/ci-configurations/github-actions)
+     Reference: [semantic-release/GitHub Actions](https://semantic-release.gitbook.io/semantic-release/recipes/ci-configurations/github-actions)  
+      
 
 ---
