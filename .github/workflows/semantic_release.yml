@@ -26,9 +26,9 @@ jobs:
         uses: actions/checkout@v4
         # The GITHUB_TOKEN credential does not have the required permission
         # to operate on protected branches. Solution: use Personal Access Token
-        persist-credentials: false
         with:
           fetch-depth: 0
+          persist-credentials: false
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
