@@ -92,7 +92,6 @@ and set the following:
 
 
 ### Step 4 › Release automation: enable semantic versioning tools  
-**Note:** to disable _semantic-release_, just delete `.github/workflows/semantic_release.yml`
 
 #### Why:
 Assuming your repository is part of a bigger system, 
@@ -122,5 +121,7 @@ On version bump,
    2. and register it as a _Repository Secrets_ in the tab `Settings/secrets and variables/Actions` and name it `SEMANTIC_RELEASE_GH_TOKEN`.  
      Reference: [semantic-release/GitHub Actions](https://semantic-release.gitbook.io/semantic-release/recipes/ci-configurations/github-actions)  
       
+
+**Note:** to disable _semantic-release_, just delete `.github/workflows/semantic_release.yml`
 
 ---
