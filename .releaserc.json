@@ -11,7 +11,57 @@
     [
       "@semantic-release/release-notes-generator",
       {
-        "preset": "conventionalcommits"
+        "preset": "conventionalcommits",
+        "presetConfig": [
+          {
+            "types": [
+              {
+                "type": "feat",
+                "section": "Features"
+              },
+              {
+                "type": "fix",
+                "section": "Bug Fixes"
+              },
+              {
+                "type": "chore",
+                "section": "Other"
+              },
+              {
+                "type": "docs",
+                "section": "Documentation"
+              },
+              {
+                "type": "style",
+                "hidden": true
+              },
+              {
+                "type": "refactor",
+                "section": "Refactoring"
+              },
+              {
+                "type": "perf",
+                "section": "Performance improvement"
+              },
+              {
+                "type": "build",
+                "section": "Change affecting the build system"
+              },
+              {
+                "type": "test",
+                "section": "Test related"
+              },
+              {
+                "type": "ci",
+                "hidden": true
+              },
+              {
+                "type": "revert",
+                "hidden": true
+              }
+            ]
+          }
+        ]
       }
     ],
     "@semantic-release/github",

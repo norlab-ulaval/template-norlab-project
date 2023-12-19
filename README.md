@@ -65,25 +65,32 @@ Maintainer: [Luc Coupal](https://redleader962.github.io)
 
 [//]: # (&#40;ToDo&#41; Follow the `repository_configuration_checklist.md` steps.)
 
-1. ★ The `main` branch is sacred. It must be deployable at any time.  
-    We strongly recommend you to configure your repository branching scheme following [**_Gitflow_**](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
-    
-    ```bash
-    main ← dev ← feature 1
-               ↖ feature 2
-    ```
-    with _**Branch Protection Rule**_ enable for the default branch (i.e. `main`) and the `dev` branches.
-   1. Set _Require a pull request before merging_
-   2. Set _Require conversation resolution before merging_
-   3. Set _Restrict who can push to matching branches_
-   4. If you use a Continuous Integration service such as _**GitHub actions**_ or our **_norlab-teamcity-server_**, set
-      _Require status checks to pass before merging_
-       
-   ![img.png](visual/branch_protection_rule_menu.png)
+★ The `main` branch is sacred. It must be deployable at any time.  
+ We strongly recommend you to configure your repository branching scheme following [**_Gitflow_**](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
+ 
+ ```bash
+ main ← dev ← feature 1
+            ↖ feature 2
+ ```
+ with _**Branch Protection Rule**_ enable for the default branch (i.e. `main`) and the `dev` branches.
+
+Go to the `Settings/Branches/Branch Protection Rule` panel and click `Add branch protection rule`
+
+![branch_protection_rule_menu.png](visual/branch_protection_rule_menu.png)
+
+and set the following:
+1. Set _Branch name pattern_ to `main`
+2. Set _Require a pull request before merging_
+3. Set _Require conversation resolution before merging_
+4. Set _Restrict who can push to matching branches_ and add names
+5. If you use a Continuous Integration service such as _**GitHub actions**_ or our **_norlab-teamcity-server_**, set _Require status checks to pass before merging_ and set _Require branches to be up to date before merging_
+6. Repeat for the `dev` branch
     
       
 
 ### Step 4 › Release automation: enable semantic versioning tools  
+**Note:** to disable _semantic-release_, just delete `.github/workflows/semantic_release.yml`
+
 #### Why:
 Assuming your repository is part of a bigger system, 
 - easily identify the repository state currently in use as a dependency;
@@ -92,7 +99,11 @@ Assuming your repository is part of a bigger system,
 #### How
 Any push to the `main` branch will trigger the execution of [_semantic-release_](https://semantic-release.gitbook.io) which will analyse each commits message to determine the version bump following [_semantic versioning_](https://semver.org) scheme `MAJOR.MINOR.PATCH`.
 
-Note: not each commits type trigger a version bump e.g. `fix` trigger a `PATCH` bump, `feat` trigger a `MINOR` bump and `doc` wont trigger anything.  
+**Note:** not each commits type trigger a version bump e.g.
+`<type>!` triggers a `MAJOR` version bump, 
+`fix` triggers a `PATCH` version bump, 
+`feat` triggers a `MINOR` version bump 
+and `doc, style ...` wont triggers anything.
 
 On version bump, 
 - the `CHANGELOG.md` and the `version.txt` files get updated;
@@ -101,8 +112,9 @@ On version bump,
 
 
 #### Configuration
-1. Adopt the [_conventional-commit_](https://www.conventionalcommits.org/) specification. This is a hard requirement for _semantic-release_. See [commit_msg_reference.md](https://github.com/norlab-ulaval/template-norlab-project/tree/main/commit_msg_reference.md) for a quick summary.
-2. Use the _**semantic-release**_ GitHub action configured in the `.github/` directory. 
+1. Delete the content of `CHANGELOG.md` (see it as a quick-hack reset)
+2. Adopt the [_conventional-commit_](https://www.conventionalcommits.org/) specification. This is a hard requirement for _semantic-release_. See [commit_msg_reference.md](https://github.com/norlab-ulaval/template-norlab-project/tree/main/commit_msg_reference.md) for a quick summary.
+3. Use the _**semantic-release**_ GitHub action configured in the `.github/` directory. 
    1. You must generate a [Personal access token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) 
    2. and register it as a _Repository Secrets_ in the tab `Settings/secrets and variables/Actions` and name it `SEMANTIC_RELEASE_GH_TOKEN`.  
      Reference: [semantic-release/GitHub Actions](https://semantic-release.gitbook.io/semantic-release/recipes/ci-configurations/github-actions)  
