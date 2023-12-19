@@ -50,9 +50,9 @@ jobs:
         run: npm install --save-dev semantic-release
       - name: Install semantic-release additional plugins git
         run: npm install @semantic-release/git
-     - name: Install semantic-release additional plugins changelog
+      - name: Install semantic-release additional plugins changelog
         run: npm install @semantic-release/changelog -D
-     - name: Install semantic-release additional plugins semantic-release-replace-plugin
+      - name: Install semantic-release additional plugins semantic-release-replace-plugin
         run: npm install semantic-release-replace-plugin -D
       - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
         run: npm audit signatures
