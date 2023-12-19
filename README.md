@@ -127,11 +127,11 @@ On version bump,
 
 ## Questions: 
 
-**I'm concern using _semantic-release_ and _conventional-commit_ will slow me down:** 
+**I'm concern using _conventional-commit_ will slow me down:** 
 <br> 
-See the following official answer: [Doesn’t this discourage rapid development and fast iteration?](https://www.conventionalcommits.org/en/v1.0.0/#doesnt-this-discourage-rapid-development-and-fast-iteration) 
+It does not discourage moving fats, ["It discourages moving fast in a disorganized way"](https://www.conventionalcommits.org/en/v1.0.0/#doesnt-this-discourage-rapid-development-and-fast-iteration) 
 
-**What if I want the revert a buggy release:**
+**What if I want to revert a buggy release:**
 <br> 
 Either fix the bug and push a `fix` commit or revert the problematic commits and push a `revert` commit.  
 
