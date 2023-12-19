@@ -29,7 +29,8 @@
               },
               {
                 "type": "docs",
-                "section": "Documentation"
+                "section": "Documentation",
+                "hidden": false
               },
               {
                 "type": "style",
