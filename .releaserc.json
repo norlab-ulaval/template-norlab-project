@@ -47,7 +47,7 @@
             },
             {
               "type": "build",
-              "section": "Change affecting the build system",
+              "section": "Build system and dependencies",
               "hidden": false
             },
             {
@@ -61,7 +61,8 @@
             },
             {
               "type": "ci",
-              "hidden": true
+              "section": "Continuous integration",
+              "hidden": false
             },
             {
               "type": "revert",
