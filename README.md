@@ -95,22 +95,22 @@ and set the following:
 
 #### Why:
 Assuming your repository is part of a bigger system, 
-- easily identify the repository state currently in use as a dependency;
+- easily identify the repository state currently in use as a dependency
 - and escape "dependency hell". 
 
 #### How
 Any push to the `main` branch will trigger the execution of [_semantic-release_](https://semantic-release.gitbook.io) which will analyse each commits message to determine the version bump following [_semantic versioning_](https://semver.org) scheme `MAJOR.MINOR.PATCH`.
 
-**Note:** not each commits type trigger a version bump e.g.
+#### On version bump, 
+- a new repository tag gets published with the newest versions number `v<MAJOR>.<MINOR>.<PATCH>`
+- the `CHANGELOG.md` and the `version.txt` files gets updated
+- a new repository release gets published on the _Releases_ page 
+
+**Note:** not each commit type triggers a version bump e.g.
 `<type>!` triggers a `MAJOR` version bump, 
 `feat` triggers a `MINOR` version bump, 
 `fix` and`perf` triggers a `PATCH` version bump
-and all others such as `doc` and ` style` will register but won't a release.
-
-On version bump, 
-- the `CHANGELOG.md` and the `version.txt` files get updated
-- a new repository tag gets published with the newest versions number `v<MAJOR>.<MINOR>.<PATCH>`
-- a new repository release gets published on the _Releases_ page 
+and all others such as `doc` and `style` will register for the next release but won't trigger one.
 
 
 #### Configuration
