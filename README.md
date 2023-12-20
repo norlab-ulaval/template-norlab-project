@@ -58,23 +58,13 @@ Maintainer: [Luc Coupal](https://redleader962.github.io)
 ## How to use this template repository
 
 ### Step 1 › Generate the new repository
-1. Click on the button `Use this template` in green and on `Create a new repository`; 
+1. Click on the buttons `Use this template` > `Create a new repository` 
     <br>
    ![img.png](visual/use_this_template_button.png)
-
-### Step 2 › Make it your own
-
-1. Customize the `README.md`:
-   1. find a meaningful name, don't worry you can change it latter (see BC Gov [Naming Repos](https://github.com/bcgov/BC-Policy-Framework-For-GitHub/blob/master/BC-Gov-Org-HowTo/Naming-Repos.md) recommendation for advice and best-practice);
-   2. change the maintainer name.
-2. Modify the pull request template to fit your workflow needs: [pull_request_template.md](https://github.com/norlab-ulaval/template-norlab-project/tree/main/.github/pull_request_template.md);
-3. Configure the repository directory structure for your project type
-4. Validate the content of [`.gitignore`](https://github.com/norlab-ulaval/template-norlab-project/blob/1bd3db2f6c755bb273f7a23e49bae601123a7435/.gitignore) file.
+2. find a meaningful repository name, don't worry you can change it latter (see BC Gov [Naming Repos](https://github.com/bcgov/BC-Policy-Framework-For-GitHub/blob/master/BC-Gov-Org-HowTo/Naming-Repos.md) recommendation for advice and best-practice)
 
 
-[//]: # (&#40;ToDo&#41; Execute `repository_configuration_script.bash` and follow the instructions. You will be asked what kind of project your planning to undergo &#40;latex, ros, python, c++ ...&#41; and the component you wish to add to your repository.)
-
-### Step 3 › Configure the _GitHub_ repository settings
+### Step 2 › Configure the _GitHub_ repository settings
 
 [//]: # (&#40;ToDo&#41; Follow the `repository_configuration_checklist.md` steps.)
 
@@ -87,7 +77,7 @@ Maintainer: [Luc Coupal](https://redleader962.github.io)
  ```
  with _**Branch Protection Rule**_ enable for the default branch (i.e. `main`) and the `dev` branches.
 
-Go to the `Settings/Branches/Branch Protection Rule` panel and click `Add branch protection rule`
+Go to the `Settings` > `Branches` and click `Add branch protection rule` in the _Branch Protection Rule_ panel 
 
 ![branch_protection_rule_menu.png](visual/branch_protection_rule_menu.png)
 
@@ -101,7 +91,7 @@ and set the following:
    
 
 
-### Step 4 › Release automation: enable semantic versioning tools  
+### Step 3 › Release automation: enable semantic versioning tools  
 
 #### Why:
 Assuming your repository is part of a bigger system, 
@@ -118,20 +108,34 @@ Any push to the `main` branch will trigger the execution of [_semantic-release_]
 and all others such as `doc` and ` style` will register but won't a release.
 
 On version bump, 
-- the `CHANGELOG.md` and the `version.txt` files get updated;
-- a new repository tag gets published with the newest versions number `v<MAJOR>.<MINOR>.<PATCH>`;
+- the `CHANGELOG.md` and the `version.txt` files get updated
+- a new repository tag gets published with the newest versions number `v<MAJOR>.<MINOR>.<PATCH>`
 - a new repository release gets published on the _Releases_ page 
 
 
 #### Configuration
 1. Delete the content of `CHANGELOG.md` (see it as a quick-hack reset)
 2. Adopt the [_conventional-commit_](https://www.conventionalcommits.org/) specification. This is a **hard requirement** for _semantic-release_.  
-  See [commit_msg_reference.md](https://github.com/norlab-ulaval/template-norlab-project/tree/main/commit_msg_reference.md) for a quick summary.
+  See [commit_msg_reference.md](./commit_msg_reference.md) for a quick summary.
 3. Configure the _**semantic-release**_ GitHub action implemented in the `.github/workflows/` directory. 
    1. You must generate a GitHub [personal access token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) 
    2. and register it as a _Repository Secrets_ in the tab `Settings/secrets and variables/Actions` and name it `SEMANTIC_RELEASE_GH_TOKEN`.  
      Reference: [semantic-release/GitHub Actions](https://semantic-release.gitbook.io/semantic-release/recipes/ci-configurations/github-actions)  
-      
+
+### Step 4 › Make it your own
+
+1. Configure the repository directory structure for your project type
+2. Modify the code owner designation file: `.github/CODEOWNERS`
+3. Validate the content of `.gitignore` file
+4. Modify the pull request template to fit your workflow needs: `.github/pull_request_template.md`
+5. Customize the `README.md`
+
+**Note:** `CHANGELOG.md` and `version.txt` are both automatically generated 
+(more on this at step 4)
+
+[//]: # (&#40;ToDo&#41; Execute `repository_configuration_script.bash` and follow the instructions. You will be asked what kind of project your planning to undergo &#40;latex, ros, python, c++ ...&#41; and the component you wish to add to your repository.)
+
+---
 
 ## Questions: 
 

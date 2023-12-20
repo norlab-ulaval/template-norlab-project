@@ -18,8 +18,7 @@
 # Checklist:
 
 ### Code related
-- [ ] I have made corresponding changes to the documentation (i.e.: function, class, script header,
-  README.md)
+- [ ] I have made corresponding changes to the documentation (i.e.: function/class, script header, README.md)
 - [ ] I have commented hard-to-understand code 
 - [ ] I have added tests that prove my fix is effective or that my feature works
 - [ ] All tests pass locally with my changes (Check `tests/README.md` for local testing procedure) 
