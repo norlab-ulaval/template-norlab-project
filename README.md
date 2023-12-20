@@ -18,7 +18,7 @@
 <p>
 <sup>
 <a href="https://http://132.203.26.125:8111">NorLab TeamCity GUI</a>
-(VPN or intranet access) &nbsp; • &nbsp;  
+(VPN/intranet access) &nbsp; • &nbsp;  
 <a href="https://hub.docker.com/repositories/norlabulaval">norlabulaval</a>
 (Docker Hub) &nbsp;
 </sup>
@@ -37,9 +37,10 @@ the basic directory structure.
 [//]: # ( ==== Badges ================================================ ) 
 
 [![semantic-release: conventional commits](https://img.shields.io/badge/semantic--release-conventional_commits-453032?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
+<img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/norlab-ulaval/template-norlab-project">
 
 [//]: # (TODO: Un-comment the next line if your repository has run configuration enable on the norlab-teamcity-server)
-[//]: # (<img src="https://img.shields.io/static/v1?label=powered by JetBrains TeamCity&message=CI/CD&color=green?style=plastic&logo=teamcity" />)
+[//]: # (<img src="https://img.shields.io/static/v1?label=JetBrains TeamCity&message=CI/CD&color=green?style=plastic&logo=teamcity" />)
 
 <br>
 
