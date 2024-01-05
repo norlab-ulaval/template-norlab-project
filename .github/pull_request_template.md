@@ -3,16 +3,6 @@
 
 
 
-
-
-
-### Changes and type of changes (quick overview):
-
-- 
-- 
-- 
-
-
 ---
 
 # Checklist:
