@@ -48,7 +48,6 @@ the basic directory structure.
 (VPN/intranet access) &nbsp; • &nbsp;  
 <a href="https://hub.docker.com/repositories/norlabulaval">norlabulaval</a>
 (Docker Hub) &nbsp;
-<br>
 </sup>
 
 </div>
