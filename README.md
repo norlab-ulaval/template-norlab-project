@@ -37,19 +37,18 @@ the basic directory structure.
 
 <br>
 
-[//]: # ( ==== Maintainer ============================================ )
-[//]: # (Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>)
-
+[//]: # (Maintainer: [Luc Coupal]&#40;https://redleader962.github.io&#41;)
 
 [//]: # ( ==== Hyperlink ============================================= ) 
 <sup>
 <a href="https://http://132.203.26.125:8111">NorLab TeamCity GUI</a>
 (VPN/intranet access) &nbsp; • &nbsp;
 <a href="https://hub.docker.com/repositories/norlabulaval">norlabulaval</a>
-(Docker Hub) &nbsp;
-</sup>
+(Docker Hub) &nbsp; 
 
-Maintainer: [Luc Coupal](https://redleader962.github.io)
+[//]: # ( ==== Maintainer ============================================ )
+Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
+</sup>
 
 <hr style="color:gray;background-color:gray">
 </div>
