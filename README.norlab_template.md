@@ -54,7 +54,12 @@ fermentum.
 [//]: # (TODO: Change "norlabulaval/libpointmatcher" in the url to "your-dockerhub-domain/your-image-name")
 [//]: # (<img alt="Docker Image Version &#40;latest semver&#41;" src="https://img.shields.io/docker/v/norlabulaval/libpointmatcher?logo=docker">)
 
-<img alt="Docker Image Version (latest semver)" src="https://img.shields.io/docker/v/norlabulaval/libpointmatcher?logo=docker&link=https%3A%2F%2Fhub.docker.com%2Frepository%2Fdocker%2Fnorlabulaval%2Flibpointmatcher">
+<img alt="Docker Image Version (latest semver)" src="https://img.shields.io/docker/v/norlabulaval/libpointmatcher?logo=docker">
+
+<a href="https://hub.docker.com/repository/docker/norlabulaval/libpointmatcher/">
+<img alt="Docker Image Version (latest semver)" src="https://img.shields.io/docker/v/norlabulaval/libpointmatcher?logo=docker">
+</a>
+
 
 <br>
 
