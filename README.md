@@ -16,7 +16,6 @@
 
 [//]: # ( ==== Title ================================================= )
 # _NorLab Project Template_
-<br>
 
 [//]: # ( ==== Hyperlink and maintainer=============================== ) 
 <sup>
@@ -24,8 +23,9 @@
     (VPN/intranet access) &nbsp; • &nbsp;
     <a href="https://hub.docker.com/repositories/norlabulaval">norlabulaval</a>
     (Docker Hub) &nbsp;
-    <br>
 </sup>
+<br>
+<br>
 
 [//]: # ( ==== Description =========================================== )
 **A template repository for code-related research projects.
