@@ -1,5 +1,9 @@
-[//]: # ( ==== Logo ================================================== ) 
 <div align="center">
+
+[//]: # ( ==== Title ================================================= ) 
+# _NorLab Project Template_
+
+[//]: # ( ==== Logo ================================================== ) 
 <br>
 <br>
 <a href="https://norlab.ulaval.ca">
@@ -12,8 +16,6 @@
 <br>
 <br>
 
-[//]: # ( ==== Title ================================================= ) 
-# _NorLab Project Template_
 
 [//]: # ( ==== Description =========================================== ) 
 **A template repository for code-related research projects.
