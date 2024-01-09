@@ -6,13 +6,13 @@
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="/visual/norlab_logo_acronym_light.png">
       <source media="(prefers-color-scheme: light)" srcset="/visual/norlab_logo_acronym_dark.png">
-      <img alt="Shows an the dark NorLab logo in light mode and light NorLab logo in dark mode." src="/visual/norlab_logo_acronym_dark.png" width="200">
+      <img alt="Shows an the dark NorLab logo in light mode and light NorLab logo in dark mode." src="/visual/norlab_logo_acronym_dark.png" width="275">
     </picture>
 </a>
 <br>
+<br>
 
 [//]: # ( ==== Title ================================================= ) 
-[//]: # (TODO: change the title)
 # _NorLab Project Template_
 
 </div>
@@ -29,7 +29,6 @@
 </p>  
 
 [//]: # ( ==== Description =========================================== ) 
-[//]: # (TODO: Change the description)
 **A template repository for code-related research projects.
 It’s meant to help kick-start repository creation by enabling software engineering research-oriented best practice.**
 <br>
@@ -39,25 +38,21 @@ code owner designation file and
 the basic directory structure. 
 
 [//]: # ( ==== Badges ================================================ ) 
-[//]: # (TODO: change the url 'https://img.shields.io/github/v/release/norlab-ulaval/template-norlab-project' for https://img.shields.io/github/v/release/norlab-ulaval/<YOUR-REPOSITORY-NAME> ")
 
 [![semantic-release: conventional commits](https://img.shields.io/badge/semantic--release-conventional_commits-453032?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/norlab-ulaval/template-norlab-project">
 
-[//]: # (TODO: Un-comment the next line if your repository has run configuration enable on the norlab-teamcity-server)
 [//]: # (<img src="https://img.shields.io/static/v1?label=JetBrains TeamCity&message=CI/CD&color=green?style=plastic&logo=teamcity" />)
 
 <br>
 
 [//]: # ( ==== Maintainer ============================================ ) 
-[//]: # (TODO: Change the maintainer name)
 Maintainer: [Luc Coupal](https://redleader962.github.io)
 
 </div>
 <br>
 
 [//]: # ( ==== Body ================================================== ) 
-[//]: # (TODO: Delete everything after this line and make it your own)
 
 **Note:** For `latex` project such as writing proposal or conference paper, use a template from the following list of [NorLab `TeX` template repositories](https://github.com/norlab-ulaval?q=template&type=all&language=tex&sort=) instead.  
 
@@ -71,8 +66,6 @@ Maintainer: [Luc Coupal](https://redleader962.github.io)
 
 
 ### Step 2 › Configure the _GitHub_ repository settings
-
-[//]: # (&#40;ToDo&#41; Follow the `repository_configuration_checklist.md` steps.)
 
 ★ The `main` branch is sacred. It must be deployable at any time.  
  We strongly recommend you to configure your repository branching scheme following [**_Gitflow_**](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
@@ -134,12 +127,12 @@ and all others such as `doc` and `style` will register for the next release but 
 2. Modify the code owner designation file: `.github/CODEOWNERS`
 3. Validate the content of `.gitignore` file
 4. Modify the pull request template to fit your workflow needs: `.github/pull_request_template.md`
-5. Customize the `README.md`
+5. Rename `README.md` to something like `README.repo_management.md` or delete it
+6. Rename either `README.norlab_template.md` or `README.vaul_template.md` to `README.md`
+7. Make your new `README.md` file your own
 
 **Note:** `CHANGELOG.md` and `version.txt` are both automatically generated 
 (more on this at step 4)
-
-[//]: # (&#40;ToDo&#41; Execute `repository_configuration_script.bash` and follow the instructions. You will be asked what kind of project your planning to undergo &#40;latex, ros, python, c++ ...&#41; and the component you wish to add to your repository.)
 
 ---
 
