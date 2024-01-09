@@ -6,7 +6,7 @@
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="/visual/norlab_logo_acronym_light.png">
       <source media="(prefers-color-scheme: light)" srcset="/visual/norlab_logo_acronym_dark.png">
-      <img alt="Shows an the dark NorLab logo in light mode and light NorLab logo in dark mode." src="/visual/norlab_logo_acronym_dark.png" width="275">
+      <img alt="Shows an the dark NorLab logo in light mode and light NorLab logo in dark mode." src="/visual/norlab_logo_acronym_dark.png" width="250">
     </picture>
 </a>
 <br>
