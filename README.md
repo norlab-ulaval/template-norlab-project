@@ -25,8 +25,9 @@ It has a few preconfigured tools such as a pull request template, a sematic-rele
 code owner designation file and
 the basic directory structure. 
 
+<hr style="height:1px;border-width:0;color:gray;background-color:gray">
+
 [//]: # ( ==== Badges ================================================ ) 
-<br>
 
 [![semantic-release: conventional commits](https://img.shields.io/badge/semantic--release-conventional_commits-453032?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/norlab-ulaval/template-norlab-project">
@@ -34,7 +35,6 @@ the basic directory structure.
 [//]: # (<img src="https://img.shields.io/static/v1?label=JetBrains TeamCity&message=CI/CD&color=green?style=plastic&logo=teamcity" />)
 
 
----
 [//]: # ( ==== Maintainer ============================================ ) 
 Maintainer: [Luc Coupal](https://redleader962.github.io)
 
