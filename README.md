@@ -14,9 +14,7 @@
 <br>
 
 
-[//]: # ( ==== Title ================================================= ) 
-<hr style="height:0.25px;border-width:0.0px;color:gray;background-color:gray">
-
+[//]: # ( ==== Title ================================================= )
 # _NorLab Project Template_
 
 [//]: # ( ==== Description =========================================== )
@@ -28,11 +26,11 @@ It has a few preconfigured tools such as a pull request template, a sematic-rele
 code owner designation file and
 the basic directory structure. 
 
+
 <br>
 <hr style="height:0.25px;border-width:0.0px;color:gray;background-color:gray">
 
-[//]: # ( ==== Badges ================================================ ) 
-
+[//]: # ( ==== Badges ================================================ )
 [![semantic-release: conventional commits](https://img.shields.io/badge/semantic--release-conventional_commits-453032?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/norlab-ulaval/template-norlab-project">
 
@@ -50,8 +48,8 @@ Maintainer: [Luc Coupal](https://redleader962.github.io)
 <a href="https://hub.docker.com/repositories/norlabulaval">norlabulaval</a>
 (Docker Hub) &nbsp;
 </sup>
-
 </div>
+<hr style="height:0.25px;border-width:0.0px;color:gray;background-color:gray">
 <br>
 
 
