@@ -13,13 +13,12 @@
 <br>
 <br>
 
-
 [//]: # ( ==== Title ================================================= )
 # _NorLab Project Template_
 
 [//]: # ( ==== Hyperlink and maintainer=============================== ) 
 <sup>
-    <a href="https://http://132.203.26.125:8111">NorLab TeamCity GUI</a>
+    <a href="http://132.203.26.125:8111">NorLab TeamCity GUI</a>
     (VPN/intranet access) &nbsp; • &nbsp;
     <a href="https://hub.docker.com/repositories/norlabulaval">norlabulaval</a>
     (Docker Hub) &nbsp;
@@ -29,12 +28,13 @@
 
 [//]: # ( ==== Description =========================================== )
 **A template repository for code-related research projects.
-It’s meant to help kick-start repository creation by enabling software engineering research-oriented best practice.**
+It’s meant to help kick-start repository creation by enabling software engineering 
+research-oriented best practice.**
 <br>
 <br>
-It has a few preconfigured tools such as a pull request template, a sematic-release github action, a standardized readme file with NorLab logo , a git ignore file with common file/directory entries, a
-code owner designation file and
-the basic directory structure. 
+It has a few preconfigured tools such as a pull request template, a sematic-release github action, 
+a standardized readme file with NorLab logo , a git ignore file with common file/directory entries, 
+a code owner designation file and the basic directory structure. 
 
 <br>
 
@@ -42,20 +42,24 @@ the basic directory structure.
 [![semantic-release: conventional commits](https://img.shields.io/badge/semantic--release-conventional_commits-453032?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/norlab-ulaval/template-norlab-project">
 
-[//]: # (<img src="https://img.shields.io/static/v1?label=JetBrains TeamCity&message=CI/CD&color=green?style=plastic&logo=teamcity" />)
+[//]: # (NorLab teamcity)
+[//]: # (<a href="http://132.203.26.125:8111"><img src="https://img.shields.io/static/v1?label=JetBrains TeamCity&message=CI/CD&color=green?style=plastic&logo=teamcity" /></a>)
+
+[//]: # (Dockerhub image badge)
+[//]: # (TODO: Change "norlabulaval/libpointmatcher" in the url to "your-dockerhub-domain/your-image-name")
+[//]: # (<img alt="Docker Image Version &#40;latest semver&#41;" src="https://img.shields.io/docker/v/norlabulaval/libpointmatcher?logo=docker">)
+
 
 <br>
 
 [//]: # ( ==== Maintainer ============================================ )
-[//]: # (Maintainer: [Luc Coupal]&#40;https://redleader962.github.io&#41;)
-
 <sub>
 Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
 </sub>
 
+<br>
 <hr style="color:lightgray;background-color:lightgray">
 </div>
-<br>
 
 
 [//]: # ( ==== Body ================================================== ) 

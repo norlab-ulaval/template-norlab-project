@@ -3,9 +3,9 @@
 [//]: # ( ==== Logo ================================================== )
 <br>
 <br>
-<a href="https://github.com/vaul-ulaval">
-<img src="./visual/VAUL_Logo_patch.png" width="140">
-</a>
+    <a href="https://github.com/vaul-ulaval">
+        <img src="./visual/VAUL_Logo_patch.png" width="140">
+    </a>
 <br>
 <br>
 
@@ -15,14 +15,14 @@
 
 
 [//]: # ( ==== Hyperlink ============================================= )
-<p>
 <sup>
-<a href="https://github.com/vaul-ulaval/vaul-wiki/wiki">VAUL WIKI</a>
-&nbsp; • &nbsp;  
-<a href="https://github.com/f1tenth">F1TENTH GITHUB</a>
-&nbsp;
+    <a href="https://github.com/vaul-ulaval/vaul-wiki/wiki">VAUL WIKI</a>
+    &nbsp; • &nbsp;  
+    <a href="https://github.com/f1tenth">F1TENTH GITHUB</a>
+    &nbsp;
 </sup>
-</p>  
+<br>
+<br>
 
 [//]: # ( ==== Description =========================================== ) 
 [//]: # (TODO: Change the description)
@@ -34,23 +34,35 @@ Sed vehicula felis at felis posuere efficitur quis sit amet arcu. Proin egestas 
 lorem pharetra, in posuere ipsum posuere. Fusce condimentum mi et urna aliquam, non euismod quam
 fermentum. 
 
+<br>
+
 [//]: # ( ==== Badges ================================================ ) 
 [//]: # (TODO: change the url 'https://img.shields.io/github/v/release/norlab-ulaval/template-norlab-project' for https://img.shields.io/github/v/release/norlab-ulaval/<YOUR-REPOSITORY-NAME> ")
 
 [![semantic-release: conventional commits](https://img.shields.io/badge/semantic--release-conventional_commits-453032?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/norlab-ulaval/template-norlab-project">
 
+
+[//]: # (NorLab teamcity)
 [//]: # (TODO: Un-comment the next line if your repository has run configuration enable on the norlab-teamcity-server)
-[//]: # (<img src="https://img.shields.io/static/v1?label=JetBrains TeamCity&message=CI/CD&color=green?style=plastic&logo=teamcity" />)
+[//]: # (<a href="http://132.203.26.125:8111"><img src="https://img.shields.io/static/v1?label=JetBrains TeamCity&message=CI/CD&color=green?style=plastic&logo=teamcity" /></a>)
+
+[//]: # (Dockerhub image badge)
+[//]: # (TODO: Un-comment the next line if you have docker images on dockerhub)
+[//]: # (TODO: Change "norlabulaval/libpointmatcher" in the url to "your-dockerhub-domain/your-image-name")
+[//]: # (<img alt="Docker Image Version &#40;latest semver&#41;" src="https://img.shields.io/docker/v/norlabulaval/libpointmatcher?logo=docker">)
 
 <br>
 
 [//]: # ( ==== Maintainer ============================================ ) 
 [//]: # (TODO: Change the maintainer name)
-Maintainer: [Luc Coupal](https://redleader962.github.io)
+<sub>
+Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
+</sub>
 
-</div>
 <br>
+<hr style="color:lightgray;background-color:lightgray">
+</div>
 
 [//]: # ( ==== Body ================================================== )
 [//]: # (TODO: Make it your own)
