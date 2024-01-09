@@ -35,14 +35,14 @@ the basic directory structure.
 
 [//]: # (<img src="https://img.shields.io/static/v1?label=JetBrains TeamCity&message=CI/CD&color=green?style=plastic&logo=teamcity" />)
 
+<br>
 
+[//]: # ( ==== Maintainer ============================================ )
+[//]: # (Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>)
+
+<hr style="color:gray;background-color:gray">
 
 [//]: # ( ==== Hyperlink ============================================= ) 
-<br>
-<sub style="margin:0px;padding:0px;">
-Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
-</sub>
-<hr style="height:0.25px;border-width:0.0px;margin:0px;padding:0px;line-height:0.0px;color:gray;background-color:gray">
 <sup style="margin:0px;padding:0px;">
 <a href="https://http://132.203.26.125:8111">NorLab TeamCity GUI</a>
 (VPN/intranet access) &nbsp; • &nbsp;  
@@ -51,11 +51,10 @@ Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
 <br>
 </sup>
 
-[//]: # ( ==== Maintainer ============================================ )
-[//]: # (Maintainer: [Luc Coupal]&#40;https://redleader962.github.io&#41;)
-
 </div>
 <br>
+
+Maintainer: [Luc Coupal](https://redleader962.github.io)
 
 [//]: # ( ==== Body ================================================== ) 
 **Note:** For `latex` project such as writing proposal or conference paper, use a template from the following list of [NorLab `TeX` template repositories](https://github.com/norlab-ulaval?q=template&type=all&language=tex&sort=) instead.  
