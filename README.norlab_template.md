@@ -20,7 +20,7 @@
 [//]: # ( ==== Hyperlink ============================================= ) 
 <sup>
     <a href="http://132.203.26.125:8111">NorLab TeamCity GUI</a>
-    (VPN/intranet access) &nbsp; • &nbsp;  
+    (VPN/intranet access) &nbsp; • &nbsp;
     <a href="https://hub.docker.com/repositories/norlabulaval">norlabulaval</a>
     (Docker Hub) &nbsp;
 </sup>

@@ -17,7 +17,7 @@
 [//]: # ( ==== Hyperlink ============================================= )
 <sup>
     <a href="https://github.com/vaul-ulaval/vaul-wiki/wiki">VAUL WIKI</a>
-    &nbsp; • &nbsp;  
+    &nbsp; • &nbsp;
     <a href="https://github.com/f1tenth">F1TENTH GITHUB</a>
     &nbsp;
 </sup>
