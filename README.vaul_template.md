@@ -1,9 +1,10 @@
-[//]: # ( ==== Logo ================================================== )
 <div align="center">
+
+[//]: # ( ==== Logo ================================================== )
 <br>
 <br>
 <a href="https://github.com/vaul-ulaval">
-<img src="./visual/VAUL_Logo_patch.png" width="200">
+<img src="./visual/VAUL_Logo_patch.png" width="140">
 </a>
 <br>
 <br>
@@ -12,10 +13,8 @@
 [//]: # (TODO: change the title)
 # _VAUL › Project Template_
 
-</div>
 
-[//]: # ( ==== Hyperlink ============================================= ) 
-<div align="center">
+[//]: # ( ==== Hyperlink ============================================= )
 <p>
 <sup>
 <a href="https://github.com/vaul-ulaval/vaul-wiki/wiki">VAUL WIKI</a>
