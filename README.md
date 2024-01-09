@@ -51,8 +51,8 @@ Maintainer: [Luc Coupal](https://redleader962.github.io)
 <br>
 </div>
 
+---
 [//]: # ( ==== Body ================================================== ) 
-
 **Note:** For `latex` project such as writing proposal or conference paper, use a template from the following list of [NorLab `TeX` template repositories](https://github.com/norlab-ulaval?q=template&type=all&language=tex&sort=) instead.  
 
 ## How to use this template repository
