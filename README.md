@@ -16,7 +16,6 @@
 [//]: # ( ==== Title ================================================= ) 
 # _NorLab Project Template_
 
----
 [//]: # ( ==== Description =========================================== ) 
 **A template repository for code-related research projects.
 It’s meant to help kick-start repository creation by enabling software engineering research-oriented best practice.**
@@ -36,7 +35,6 @@ the basic directory structure.
 
 <br>
 
----
 [//]: # ( ==== Hyperlink ============================================= ) 
 <p>
 <sup>
