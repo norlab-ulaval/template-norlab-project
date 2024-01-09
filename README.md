@@ -39,15 +39,14 @@ the basic directory structure.
 
 [//]: # (Maintainer: [Luc Coupal]&#40;https://redleader962.github.io&#41;)
 
-[//]: # ( ==== Hyperlink ============================================= ) 
-<sup>
-<a href="https://http://132.203.26.125:8111">NorLab TeamCity GUI</a>
-(VPN/intranet access) &nbsp; • &nbsp;
-<a href="https://hub.docker.com/repositories/norlabulaval">norlabulaval</a>
-(Docker Hub) &nbsp; 
-
-[//]: # ( ==== Maintainer ============================================ )
-Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
+[//]: # ( ==== Hyperlink and maintainer=============================== ) 
+<sup style="color:gray;">
+    Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
+    <br>
+    <a href="https://http://132.203.26.125:8111">NorLab TeamCity GUI</a>
+    (VPN/intranet access) &nbsp; • &nbsp;
+    <a href="https://hub.docker.com/repositories/norlabulaval">norlabulaval</a>
+    (Docker Hub) &nbsp;
 </sup>
 
 <hr style="color:gray;background-color:gray">
