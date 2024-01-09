@@ -16,6 +16,7 @@
 
 [//]: # ( ==== Title ================================================= )
 # _NorLab Project Template_
+<br>
 
 [//]: # ( ==== Description =========================================== )
 **A template repository for code-related research projects.
@@ -26,9 +27,7 @@ It has a few preconfigured tools such as a pull request template, a sematic-rele
 code owner designation file and
 the basic directory structure. 
 
-
 <br>
-<hr style="height:0.25px;border-width:0.0px;color:gray;background-color:gray">
 
 [//]: # ( ==== Badges ================================================ )
 [![semantic-release: conventional commits](https://img.shields.io/badge/semantic--release-conventional_commits-453032?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
