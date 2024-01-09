@@ -39,8 +39,8 @@ the basic directory structure.
 
 [//]: # ( ==== Hyperlink ============================================= ) 
 <br>
-
-<sup>
+<hr style="height:0.25px;border-width:0.0px;margin:0px;padding:0px;line-height:0.0px;color:gray;background-color:gray">
+<sup style="margin:0px;padding:0px;">
 <a href="https://http://132.203.26.125:8111">NorLab TeamCity GUI</a>
 (VPN/intranet access) &nbsp; • &nbsp;  
 <a href="https://hub.docker.com/repositories/norlabulaval">norlabulaval</a>
