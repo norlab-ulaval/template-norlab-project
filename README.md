@@ -40,7 +40,6 @@ the basic directory structure.
 [//]: # ( ==== Maintainer ============================================ )
 [//]: # (Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>)
 
-<hr style="color:gray;background-color:gray">
 
 [//]: # ( ==== Hyperlink ============================================= ) 
 <sup>
@@ -50,10 +49,12 @@ the basic directory structure.
 (Docker Hub) &nbsp;
 </sup>
 
+Maintainer: [Luc Coupal](https://redleader962.github.io)
+
+<hr style="color:gray;background-color:gray">
 </div>
 <br>
 
-Maintainer: [Luc Coupal](https://redleader962.github.io)
 
 [//]: # ( ==== Body ================================================== ) 
 **Note:** For `latex` project such as writing proposal or conference paper, use a template from the following list of [NorLab `TeX` template repositories](https://github.com/norlab-ulaval?q=template&type=all&language=tex&sort=) instead.  
