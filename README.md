@@ -2,13 +2,19 @@
 <div align="center">
 <br>
 <br>
-<a href="https://norlab.ulaval.ca">
 
 [//]: # (<img src="visual/norlab_logo_acronym_dark.png" width="200">)
+
+<a href="https://norlab.ulaval.ca">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="visual/norlab_logo_acronym_light.png">
-  <source media="(prefers-color-scheme: light)" srcset="visual/norlab_logo_acronym_dark.png">
-  <img alt="Shows an the dark NorLab logo in light mode and light NorLab logo in dark mode." src="visual/norlab_logo_acronym_dark.png" width="200">
+  <source media="(prefers-color-scheme: dark)" srcset="/visual/norlab_logo_acronym_light.png">
+  <source media="(prefers-color-scheme: light)" srcset="/visual/norlab_logo_acronym_dark.png">
+  <img alt="Shows an the dark NorLab logo in light mode and light NorLab logo in dark mode." src="/visual/norlab_logo_acronym_dark.png" width="200">
+</picture>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/25423296/163456776-7f95b81a-f1ed-45f7-b7ab-8fa810d529fa.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/25423296/163456779-a8556205-d0a5-45e2-ac17-42d089e3c3f8.png">
+  <img alt="Shows an illustrated sun in light mode and a moon with stars in dark mode." src="https://user-images.githubusercontent.com/25423296/163456779-a8556205-d0a5-45e2-ac17-42d089e3c3f8.png">
 </picture>
 </a>
 <br>
