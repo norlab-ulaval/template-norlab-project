@@ -13,7 +13,10 @@
 <br>
 <br>
 
+
 [//]: # ( ==== Title ================================================= ) 
+<hr style="height:0.25px;border-width:0.0px;color:gray;background-color:gray">
+
 # _NorLab Project Template_
 
 [//]: # ( ==== Description =========================================== )
@@ -25,8 +28,8 @@ It has a few preconfigured tools such as a pull request template, a sematic-rele
 code owner designation file and
 the basic directory structure. 
 
-[//]: # (<hr style="height:0.5px;border-width:0;color:gray;background-color:gray">)
-<hr style="border:0.25px solid gray">
+<br>
+<hr style="height:0.25px;border-width:0.0px;color:gray;background-color:gray">
 
 [//]: # ( ==== Badges ================================================ ) 
 
