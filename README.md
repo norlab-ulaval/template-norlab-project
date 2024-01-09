@@ -1,8 +1,5 @@
 <div align="center">
 
-[//]: # ( ==== Title ================================================= ) 
-# _NorLab Project Template_
-
 [//]: # ( ==== Logo ================================================== ) 
 <br>
 <br>
@@ -10,12 +7,14 @@
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="/visual/norlab_logo_acronym_light.png">
       <source media="(prefers-color-scheme: light)" srcset="/visual/norlab_logo_acronym_dark.png">
-      <img alt="Shows an the dark NorLab logo in light mode and light NorLab logo in dark mode." src="/visual/norlab_logo_acronym_dark.png" width="250">
+      <img alt="Shows an the dark NorLab logo in light mode and light NorLab logo in dark mode." src="/visual/norlab_logo_acronym_dark.png" width="220">
     </picture>
 </a>
 <br>
 <br>
 
+[//]: # ( ==== Title ================================================= ) 
+# _NorLab Project Template_
 
 [//]: # ( ==== Description =========================================== ) 
 **A template repository for code-related research projects.
