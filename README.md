@@ -1,16 +1,5 @@
 <div align="center">
 
-[//]: # ( ==== Hyperlink and maintainer=============================== ) 
-<sup>
-    <a href="https://http://132.203.26.125:8111">NorLab TeamCity GUI</a>
-    (VPN/intranet access) &nbsp; • &nbsp;
-    <a href="https://hub.docker.com/repositories/norlabulaval">norlabulaval</a>
-    (Docker Hub) &nbsp;
-    <br>
-</sup>
-
-[//]: # (    Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>)
-
 [//]: # ( ==== Logo ================================================== ) 
 <br>
 <br>
@@ -28,6 +17,15 @@
 [//]: # ( ==== Title ================================================= )
 # _NorLab Project Template_
 <br>
+
+[//]: # ( ==== Hyperlink and maintainer=============================== ) 
+<sup>
+    <a href="https://http://132.203.26.125:8111">NorLab TeamCity GUI</a>
+    (VPN/intranet access) &nbsp; • &nbsp;
+    <a href="https://hub.docker.com/repositories/norlabulaval">norlabulaval</a>
+    (Docker Hub) &nbsp;
+    <br>
+</sup>
 
 [//]: # ( ==== Description =========================================== )
 **A template repository for code-related research projects.
@@ -49,8 +47,11 @@ the basic directory structure.
 <br>
 
 [//]: # ( ==== Maintainer ============================================ )
-Maintainer: [Luc Coupal](https://redleader962.github.io)
+[//]: # (Maintainer: [Luc Coupal]&#40;https://redleader962.github.io&#41;)
 
+<sub>
+Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
+</sub>
 
 <hr style="color:lightgray;background-color:lightgray">
 </div>
