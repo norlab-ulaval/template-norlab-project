@@ -25,9 +25,8 @@ It has a few preconfigured tools such as a pull request template, a sematic-rele
 code owner designation file and
 the basic directory structure. 
 
-
----
 [//]: # ( ==== Badges ================================================ ) 
+<br>
 
 [![semantic-release: conventional commits](https://img.shields.io/badge/semantic--release-conventional_commits-453032?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/norlab-ulaval/template-norlab-project">
@@ -36,6 +35,7 @@ the basic directory structure.
 
 
 [//]: # ( ==== Hyperlink ============================================= ) 
+<br>
 <p>
 <sup>
 <a href="https://http://132.203.26.125:8111">NorLab TeamCity GUI</a>
@@ -52,6 +52,7 @@ Maintainer: [Luc Coupal](https://redleader962.github.io)
 <br>
 <br>
 
+---
 [//]: # ( ==== Body ================================================== ) 
 
 **Note:** For `latex` project such as writing proposal or conference paper, use a template from the following list of [NorLab `TeX` template repositories](https://github.com/norlab-ulaval?q=template&type=all&language=tex&sort=) instead.  
