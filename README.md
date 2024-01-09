@@ -46,8 +46,9 @@ a code owner designation file and the basic directory structure.
 [//]: # (<a href="http://132.203.26.125:8111"><img src="https://img.shields.io/static/v1?label=JetBrains TeamCity&message=CI/CD&color=green?style=plastic&logo=teamcity" /></a>)
 
 [//]: # (Dockerhub image badge)
-[//]: # (TODO: Change "norlabulaval/libpointmatcher" in the url to "your-dockerhub-domain/your-image-name")
-[//]: # (<img alt="Docker Image Version &#40;latest semver&#41;" src="https://img.shields.io/docker/v/norlabulaval/libpointmatcher?logo=docker">)
+[//]: # (TODO: Change "norlabulaval/libpointmatcher" in both url to "your-dockerhub-domain/your-image-name")
+[//]: # (<a href="https://hub.docker.com/repository/docker/norlabulaval/libpointmatcher/"> <img alt="Docker Image Version &#40;latest semver&#41;" src="https://img.shields.io/docker/v/norlabulaval/libpointmatcher?logo=docker"> </a>)
+
 
 
 <br>
