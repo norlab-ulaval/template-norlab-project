@@ -15,6 +15,7 @@
 
 [//]: # ( ==== Title ================================================= ) 
 # _NorLab Project Template_
+<br>
 
 [//]: # ( ==== Description =========================================== ) 
 **A template repository for code-related research projects.
