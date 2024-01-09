@@ -48,7 +48,7 @@ the basic directory structure.
 </sup>
 
 [//]: # (<hr style="height:0.25px;border-width:0.0px;color:gray;background-color:gray">)
-<hr style="height:0.25px;border-width:0.0px;margin:0 auto;line-height:0.5px;color:gray;background-color:gray">
+<hr style="height:0.25px;border-width:0.0px;margin:0px;padding:0px;line-height:0.0px;color:gray;background-color:gray">
 
 [//]: # ( ==== Maintainer ============================================ ) 
 Maintainer: [Luc Coupal](https://redleader962.github.io)
