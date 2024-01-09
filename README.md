@@ -15,9 +15,10 @@
 
 [//]: # ( ==== Title ================================================= ) 
 # _NorLab Project Template_
-<br>
 
 [//]: # ( ==== Description =========================================== ) 
+<p>
+
 **A template repository for code-related research projects.
 It’s meant to help kick-start repository creation by enabling software engineering research-oriented best practice.**
 <br>
@@ -25,16 +26,17 @@ It’s meant to help kick-start repository creation by enabling software enginee
 It has a few preconfigured tools such as a pull request template, a sematic-release github action, a standardized readme file with NorLab logo , a git ignore file with common file/directory entries, a
 code owner designation file and
 the basic directory structure. 
+</p>
 
 [//]: # ( ==== Badges ================================================ ) 
-<br>
+<p>
 
 [![semantic-release: conventional commits](https://img.shields.io/badge/semantic--release-conventional_commits-453032?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/norlab-ulaval/template-norlab-project">
 
 [//]: # (<img src="https://img.shields.io/static/v1?label=JetBrains TeamCity&message=CI/CD&color=green?style=plastic&logo=teamcity" />)
 
-<br>
+</p>
 
 [//]: # ( ==== Hyperlink ============================================= ) 
 <p>
@@ -44,13 +46,13 @@ the basic directory structure.
 <a href="https://hub.docker.com/repositories/norlabulaval">norlabulaval</a>
 (Docker Hub) &nbsp;
 </sup>
-</p>  
 
 [//]: # ( ==== Maintainer ============================================ ) 
 Maintainer: [Luc Coupal](https://redleader962.github.io)
 
-<br>
+</p>  
 </div>
+<br>
 
 ---
 [//]: # ( ==== Body ================================================== ) 
