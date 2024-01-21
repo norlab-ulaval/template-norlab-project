@@ -65,13 +65,13 @@ setup() {
   TEST_TEMP_DIR="$(temp_make)"
   BATS_DOCKER_WORKDIR="${TEST_TEMP_DIR}/template-norlab-project"
 
-  {
-    # Clone "template-norlab-project/" directory content in tmp directory
-    # -p for preserve time and mode
-    cp -R -p "/code/template-norlab-project/" "${TEST_TEMP_DIR}/"
-    cd "${BATS_DOCKER_WORKDIR}" || exit 1
-    git submodule update --remote --recursive --init
-  }
+
+  # Clone "template-norlab-project/" directory content in tmp directory
+  # -p for preserve time and mode
+  cp -R -p "/code/template-norlab-project/" "${TEST_TEMP_DIR}/"
+  git repack -a -d
+  cd "${BATS_DOCKER_WORKDIR}" || exit 1
+
 #  echo -e "\n› Pre test directory state" >&3 && pwd >&3 && tree -L 1 -a -hug >&3
 }
 
