@@ -90,7 +90,7 @@ function tnp::install_norlab_project_template(){
     echo
   }
 
-  # ....Install N2ST................................................................................
+  # ....Install N2ST...............................................................................
   {
     n2st::print_msg_awaiting_input "Do you want to install Norlab Shell Script Tools (N2ST) submodule?"
     echo
@@ -105,12 +105,43 @@ function tnp::install_norlab_project_template(){
 
     if [[ ${INPUT} == "Y" ]] || [[ ${INPUT} == "y" ]]; then
       # Submodule is already pre-installed
-      n2st::print_msg "Will install N2ST at the end"
+      n2st::print_msg "Installing N2ST"
     else
       n2st::print_msg "Skipping N2ST install"
       INSTALL_N2ST=false
     fi
   }
+
+  # ....Install Semantic-release...................................................................
+  {
+    n2st::print_msg_awaiting_input "Do you want to install Semantic-Release?"
+    echo
+    TMP_MSG="(press 'Y' to install, or press any other key to skip) "
+    n2st::echo_centering_str "${TMP_MSG}" "\033[2m" " "
+    echo
+    unset INPUT
+    read -n 1 -r -a INPUT
+    echo "INPUT=$INPUT" # User input feedback
+
+    if [[ ${INPUT} == "Y" ]] || [[ ${INPUT} == "y" ]]; then
+      # Submodule is already pre-installed
+      n2st::print_msg "Installing Semantic-Release"
+
+      n2st::print_msg "Resetting ${MSG_DIMMED_FORMAT}CHANGELOG.md${MSG_END_FORMAT}"
+      cd "${TNP_ROOT}" || exit 1
+      truncate --size=0 CHANGELOG.md
+
+    else
+      n2st::print_msg "Skipping Semantic-Release install"
+
+      rm -R version.txt
+      rm -R CHANGELOG.md
+      rm -R .releaserc.json
+      rm -R .github/workflows/semantic_release.yml
+
+    fi
+  }
+
 
 
   # ....Modify .env project environment variable prefix............................................
@@ -136,14 +167,6 @@ function tnp::install_norlab_project_template(){
 
     mv .env.template-norlab-project.template ".env.${NEW_PROJECT_GIT_NAME}"
 
-  }
-
-  # ....Reset CHANGELOG.md ........................................................................
-  {
-    n2st::print_msg "Resetting ${MSG_DIMMED_FORMAT}CHANGELOG.md${MSG_END_FORMAT}"
-    cd "${TNP_ROOT}" || exit 1
-#    true > CHANGELOG.md
-    truncate --size=0 CHANGELOG.md
   }
 
   # ....Set main readme file.......................................................................
@@ -189,10 +212,9 @@ function tnp::install_norlab_project_template(){
       git rm utilities/norlab-shell-script-tools
 
       n2st::seek_and_modify_string_in_file "N2ST_PATH=.*" " " ".env.${NEW_PROJECT_GIT_NAME}"
-      # (Priority) ToDo: delete "tests/tests_bats"
-      # (Priority) ToDo: delete "tests/run_bats_core_test_in_n2st.bash"
       rm -R tests/tests_bats
       rm -R tests/run_bats_core_test_in_n2st.bash
+      rm -R ".run/runBatsTests_tests_all.run.xml"
 
       git commit -m 'build: Deleted norlab-shell-script-tools submodule from repository'
 
