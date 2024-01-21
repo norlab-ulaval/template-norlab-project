@@ -104,199 +104,199 @@ teardown() {
 
 }
 
-#@test "execute from wrong directory › expect fail" {
-#  # Note:
-#  #  - "echo 'Y'" is for sending an keyboard input to the 'read' command which expect a single character
-#  #    run bash -c "echo 'Y' | source ./function_library/$TESTED_FILE"
-#  #  - Alt: Use the 'yes [n]' command which optionaly send n time
-#
-#  cd .. || exit 1
-#  assert_file_exist template-norlab-project/README.norlab_template.md
-#
-#  run bash ./template-norlab-project/$TESTED_FILE
-#
-#  assert_failure 1
-#  assert_output --regexp .*"\[ERROR\]".*"'initialize_norlab_project_template.bash' script should be executed from the project root".*
-#
-#}
-#
-#@test "source file › expect fail" {
-#  #  - Alt: Use the 'yes [n]' command which optionaly send n time
-#
-#  run bash -c "yes 1 | source ./$TESTED_FILE"
-#  assert_failure 1
-#  assert_output --regexp .*"\[ERROR\]".*"This script must be run with bash i.e.".*"bash initialize_norlab_project_template.bash"
-#}
-#
-#@test "Default case › NBS N2ST Semantic-Release and NorLab readme  › expect pass" {
-#
-#  # Note: \n is to simulate the return key
-#  # Install NBS › Y
-#  # Install N2ST › Y
-#  # Semantic-Release › Y
-#  # Project env var prefix › TMP1
-#  # Install NorLab readme › Y
-#  local TEST_CASE="yyyTMP1\ny"
-#
-#  norlab_project_template_directory_reset_check
-#
-#  # ....Execute initialize_norlab_project_template.bash............................................
-#  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
-#  assert_success
-#
-#  # ....Check submodule cloning....................................................................
-#  cd "${BATS_DOCKER_WORKDIR}" || exit 1
-#  assert_dir_exist .git
-#  assert_file_exist .gitmodules
-#
-#  # ....Check NBS install..........................................................................
-#  check_NBS_is_installed
-#
-#  # ....Check N2ST install.........................................................................
-#  check_N2ST_is_installed
-#
-#  # ....Check Semantic-Release install.............................................................
-#  check_semantic_release_is_installed
-#
-#  # ....Modify .env project environment variable prefix............................................
-#  cd "${BATS_DOCKER_WORKDIR}" || exit 1
-#  assert_file_contains .env.template-norlab-project "^TMP1_PROMPT_NAME.*"
-#  assert_file_contains .env.template-norlab-project "^TMP1_GIT_REMOTE_URL.*"
-#  assert_file_contains .env.template-norlab-project "^TMP1_GIT_NAME.*"
-#  assert_file_contains .env.template-norlab-project "^TMP1_PATH.*"
-#  assert_file_contains .env.template-norlab-project "^TMP1_SRC_NAME.*"
-#  assert_file_contains .env.template-norlab-project "^PROJECT_PROMPT_NAME='TMP1'"
-#
-#  # ....Set main readme file to NorLab.............................................................
-#  assert_file_exist NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
-#  assert_file_exist README.md
-#  assert_file_not_exist README.norlab_template.md
-#  assert_file_exist README.vaul_template.md
-#
-#  assert_file_contains README.md "src=\"/visual/norlab_logo_acronym_dark.png"
-#
-#  # .....env file manual assessment ...............................................................
-##  more .env.template-norlab-project  >&3
-#  set -o allexport
-#  source .env.template-norlab-project
-#  set +o allexport
-#
-#}
-#
-#@test "env prefix substitution and changelog reset › expect pass" {
-#
-#  # Note: \n is to simulate the return key
-#  # Install NBS › Y
-#  # Install N2ST › Y
-#  # Semantic-Release › Y
-#  # Project env var prefix › my_project
-#  # Install NorLab readme › Y
-#  local TEST_CASE="yyymy_project\ny"
-#
-#  norlab_project_template_directory_reset_check
-#
-#  # ....Execute initialize_norlab_project_template.bash............................................
-#  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
-#  assert_success
-#
-#  # ....Modify .env project environment variable prefix............................................
-#  cd "${BATS_DOCKER_WORKDIR}" || exit 1
-#  assert_file_contains .env.template-norlab-project "^MY_PROJECT_PROMPT_NAME.*"
-#  assert_file_contains .env.template-norlab-project "^MY_PROJECT_GIT_REMOTE_URL.*"
-#  assert_file_contains .env.template-norlab-project "^MY_PROJECT_GIT_NAME.*"
-#  assert_file_contains .env.template-norlab-project "^MY_PROJECT_PATH.*"
-#  assert_file_contains .env.template-norlab-project "^MY_PROJECT_SRC_NAME.*"
-#  assert_file_contains .env.template-norlab-project "^PROJECT_PROMPT_NAME='MY_PROJECT'"
-#
-#  # ....Check Semantic-Release install.............................................................
-#  check_semantic_release_is_installed
-#
-#}
-#
-#@test "Case no submodule › expect pass" {
-#
-#  # Note: \n is to simulate the return key
-#  # Install NBS › N
-#  # Install N2ST › N
-#  # Semantic-Release › Y
-#  # Project env var prefix › no_sub
-#  # Install NorLab readme › Y
-#  local TEST_CASE="nnyno_sub\ny"
-#
-#  norlab_project_template_directory_reset_check
-#
-#  # ....Execute initialize_norlab_project_template.bash............................................
-#  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
-#  assert_success
-#
-#  # ....Check submodule cloning....................................................................
-#  cd "${BATS_DOCKER_WORKDIR}" || exit 1
-#  assert_dir_exist .git
-#  assert_file_exist .gitmodules
-#  assert_file_empty .gitmodules
-#
-#  # ....Check NBS install..........................................................................
-#  check_NBS_not_installed
-#
-#  # ....Check N2ST install.........................................................................
-#  check_N2ST_not_installed
-#}
-#
-#@test "Case install NBS but skip N2ST › expect pass" {
-#
-#  # Note: \n is to simulate the return key
-#  # Install NBS › Y
-#  # Install N2ST › N
-#  # Semantic-Release › Y
-#  # Project env var prefix › NBS
-#  # Install NorLab readme › Y
-#  local TEST_CASE="ynyNBS\ny"
-#
-#  norlab_project_template_directory_reset_check
-#
-#  # ....Execute initialize_norlab_project_template.bash............................................
-#  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
-#  assert_success
-#
-#  # ....Check submodule cloning....................................................................
-#  cd "${BATS_DOCKER_WORKDIR}" || exit 1
-#  assert_dir_exist .git
-#  assert_file_exist .gitmodules
-#
-#  # ....Check NBS install..........................................................................
-#  check_NBS_is_installed
-#
-#  # ....Check N2ST install.........................................................................
-#  check_N2ST_not_installed
-#}
-#
-#@test "Case install N2ST but skip NBS › expect pass" {
-#
-#  # Note: \n is to simulate the return key
-#  # Install NBS › N
-#  # Install N2ST › Y
-#  # Semantic-Release › Y
-#  # Project env var prefix ›N2ST
-#  # Install NorLab readme › Y
-#  local TEST_CASE="nyyN2ST\ny"
-#
-#  norlab_project_template_directory_reset_check
-#
-#  # ....Execute initialize_norlab_project_template.bash............................................
-#  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
-#  assert_success
-#
-#  # ....Check submodule cloning....................................................................
-#  cd "${BATS_DOCKER_WORKDIR}" || exit 1
-#  assert_dir_exist .git
-#  assert_file_exist .gitmodules
-#
-#  # ....Check NBS install..........................................................................
-#  check_NBS_not_installed
-#
-#  # ....Check N2ST install.........................................................................
-#  check_N2ST_is_installed
-#}
+@test "execute from wrong directory › expect fail" {
+  # Note:
+  #  - "echo 'Y'" is for sending an keyboard input to the 'read' command which expect a single character
+  #    run bash -c "echo 'Y' | source ./function_library/$TESTED_FILE"
+  #  - Alt: Use the 'yes [n]' command which optionaly send n time
+
+  cd .. || exit 1
+  assert_file_exist template-norlab-project/README.norlab_template.md
+
+  run bash ./template-norlab-project/$TESTED_FILE
+
+  assert_failure 1
+  assert_output --regexp .*"\[ERROR\]".*"'initialize_norlab_project_template.bash' script should be executed from the project root".*
+
+}
+
+@test "source file › expect fail" {
+  #  - Alt: Use the 'yes [n]' command which optionaly send n time
+
+  run bash -c "yes 1 | source ./$TESTED_FILE"
+  assert_failure 1
+  assert_output --regexp .*"\[ERROR\]".*"This script must be run with bash i.e.".*"bash initialize_norlab_project_template.bash"
+}
+
+@test "Default case › NBS N2ST Semantic-Release and NorLab readme  › expect pass" {
+
+  # Note: \n is to simulate the return key
+  # Install NBS › Y
+  # Install N2ST › Y
+  # Semantic-Release › Y
+  # Project env var prefix › TMP1
+  # Install NorLab readme › Y
+  local TEST_CASE="yyyTMP1\ny"
+
+  norlab_project_template_directory_reset_check
+
+  # ....Execute initialize_norlab_project_template.bash............................................
+  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
+  assert_success
+
+  # ....Check submodule cloning....................................................................
+  cd "${BATS_DOCKER_WORKDIR}" || exit 1
+  assert_dir_exist .git
+  assert_file_exist .gitmodules
+
+  # ....Check NBS install..........................................................................
+  check_NBS_is_installed
+
+  # ....Check N2ST install.........................................................................
+  check_N2ST_is_installed
+
+  # ....Check Semantic-Release install.............................................................
+  check_semantic_release_is_installed
+
+  # ....Modify .env project environment variable prefix............................................
+  cd "${BATS_DOCKER_WORKDIR}" || exit 1
+  assert_file_contains .env.template-norlab-project "^TMP1_PROMPT_NAME.*"
+  assert_file_contains .env.template-norlab-project "^TMP1_GIT_REMOTE_URL.*"
+  assert_file_contains .env.template-norlab-project "^TMP1_GIT_NAME.*"
+  assert_file_contains .env.template-norlab-project "^TMP1_PATH.*"
+  assert_file_contains .env.template-norlab-project "^TMP1_SRC_NAME.*"
+  assert_file_contains .env.template-norlab-project "^PROJECT_PROMPT_NAME='TMP1'"
+
+  # ....Set main readme file to NorLab.............................................................
+  assert_file_exist NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
+  assert_file_exist README.md
+  assert_file_not_exist README.norlab_template.md
+  assert_file_exist README.vaul_template.md
+
+  assert_file_contains README.md "src=\"/visual/norlab_logo_acronym_dark.png"
+
+  # .....env file manual assessment ...............................................................
+#  more .env.template-norlab-project  >&3
+  set -o allexport
+  source .env.template-norlab-project
+  set +o allexport
+
+}
+
+@test "env prefix substitution and changelog reset › expect pass" {
+
+  # Note: \n is to simulate the return key
+  # Install NBS › Y
+  # Install N2ST › Y
+  # Semantic-Release › Y
+  # Project env var prefix › my_project
+  # Install NorLab readme › Y
+  local TEST_CASE="yyymy_project\ny"
+
+  norlab_project_template_directory_reset_check
+
+  # ....Execute initialize_norlab_project_template.bash............................................
+  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
+  assert_success
+
+  # ....Modify .env project environment variable prefix............................................
+  cd "${BATS_DOCKER_WORKDIR}" || exit 1
+  assert_file_contains .env.template-norlab-project "^MY_PROJECT_PROMPT_NAME.*"
+  assert_file_contains .env.template-norlab-project "^MY_PROJECT_GIT_REMOTE_URL.*"
+  assert_file_contains .env.template-norlab-project "^MY_PROJECT_GIT_NAME.*"
+  assert_file_contains .env.template-norlab-project "^MY_PROJECT_PATH.*"
+  assert_file_contains .env.template-norlab-project "^MY_PROJECT_SRC_NAME.*"
+  assert_file_contains .env.template-norlab-project "^PROJECT_PROMPT_NAME='MY_PROJECT'"
+
+  # ....Check Semantic-Release install.............................................................
+  check_semantic_release_is_installed
+
+}
+
+@test "Case no submodule › expect pass" {
+
+  # Note: \n is to simulate the return key
+  # Install NBS › N
+  # Install N2ST › N
+  # Semantic-Release › Y
+  # Project env var prefix › no_sub
+  # Install NorLab readme › Y
+  local TEST_CASE="nnyno_sub\ny"
+
+  norlab_project_template_directory_reset_check
+
+  # ....Execute initialize_norlab_project_template.bash............................................
+  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
+  assert_success
+
+  # ....Check submodule cloning....................................................................
+  cd "${BATS_DOCKER_WORKDIR}" || exit 1
+  assert_dir_exist .git
+  assert_file_exist .gitmodules
+  assert_file_empty .gitmodules
+
+  # ....Check NBS install..........................................................................
+  check_NBS_not_installed
+
+  # ....Check N2ST install.........................................................................
+  check_N2ST_not_installed
+}
+
+@test "Case install NBS but skip N2ST › expect pass" {
+
+  # Note: \n is to simulate the return key
+  # Install NBS › Y
+  # Install N2ST › N
+  # Semantic-Release › Y
+  # Project env var prefix › NBS
+  # Install NorLab readme › Y
+  local TEST_CASE="ynyNBS\ny"
+
+  norlab_project_template_directory_reset_check
+
+  # ....Execute initialize_norlab_project_template.bash............................................
+  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
+  assert_success
+
+  # ....Check submodule cloning....................................................................
+  cd "${BATS_DOCKER_WORKDIR}" || exit 1
+  assert_dir_exist .git
+  assert_file_exist .gitmodules
+
+  # ....Check NBS install..........................................................................
+  check_NBS_is_installed
+
+  # ....Check N2ST install.........................................................................
+  check_N2ST_not_installed
+}
+
+@test "Case install N2ST but skip NBS › expect pass" {
+
+  # Note: \n is to simulate the return key
+  # Install NBS › N
+  # Install N2ST › Y
+  # Semantic-Release › Y
+  # Project env var prefix ›N2ST
+  # Install NorLab readme › Y
+  local TEST_CASE="nyyN2ST\ny"
+
+  norlab_project_template_directory_reset_check
+
+  # ....Execute initialize_norlab_project_template.bash............................................
+  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
+  assert_success
+
+  # ....Check submodule cloning....................................................................
+  cd "${BATS_DOCKER_WORKDIR}" || exit 1
+  assert_dir_exist .git
+  assert_file_exist .gitmodules
+
+  # ....Check NBS install..........................................................................
+  check_NBS_not_installed
+
+  # ....Check N2ST install.........................................................................
+  check_N2ST_is_installed
+}
 
 @test "Case skip semantic-release › expect pass" {
 
@@ -330,7 +330,7 @@ teardown() {
 }
 
 @test "Case install NorLab readme  › expect pass" {
-  skip "tmp dev" # ToDo: on task end >> delete this line ←
+#  skip "tmp dev" # ToDo: on task end >> delete this line ←
 
   # Note: \n is to simulate the return key
   # Install NBS › Y
@@ -361,7 +361,7 @@ teardown() {
 }
 
 @test "Case install VAUL readme  › expect pass" {
-  skip "tmp dev" # ToDo: on task end >> delete this line ←
+#  skip "tmp dev" # ToDo: on task end >> delete this line ←
 
   # Note: \n is to simulate the return key
   # Install NBS › Y
