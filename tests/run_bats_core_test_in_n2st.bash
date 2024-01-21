@@ -25,10 +25,8 @@ function n2st::run_n2st_testsing_tools(){
   TMP_CWD=$(pwd)
 
   # ....Project root logic.........................................................................
-  # Note: can handle both sourcing cases
-  #   i.e. from within a script or from an interactive terminal session
-  _PATH_TO_SCRIPT="$(realpath "${BASH_SOURCE[0]:-'.'}")"
-  TNP_ROOT="$(realpath $(dirname "${_PATH_TO_SCRIPT}"))"
+  TNP_ROOT=$(git rev-parse --show-toplevel)
+#  N2ST_PATH=${N2ST_PATH:-"./utilities/norlab-shell-script-tools"}
 
   # ....Load environment variables from file.......................................................
   cd "${TNP_ROOT}" || exit 1
