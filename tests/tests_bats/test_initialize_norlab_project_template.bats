@@ -67,7 +67,8 @@ setup() {
 
   # Clone "template-norlab-project/" directory content in tmp directory
   # -p for preserve time and mode
-  cp -R -p "/code/template-norlab-project/" "${TEST_TEMP_DIR}/"
+  # -a for archive mode
+  cp -R -p -a "/code/template-norlab-project/" "${TEST_TEMP_DIR}/"
 
   cd "${BATS_DOCKER_WORKDIR}" || exit 1
 
