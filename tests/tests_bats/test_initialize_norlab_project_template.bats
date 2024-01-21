@@ -25,6 +25,7 @@ if [[ -d ${BATS_HELPER_PATH} ]]; then
   load "${BATS_HELPER_PATH}/bats-file/load"
   load "${SRC_CODE_PATH}/${N2ST_BATS_TESTING_TOOLS_RELATIVE_PATH}/bats_helper_functions"
   load "${SRC_CODE_PATH}/tests/tests_bats/bats_testing_tools/bats_helper_functions_local"
+  load "${SRC_CODE_PATH}/tests/tests_bats/bats_testing_tools/norlab_project_template_helper_functions.bash"
   #load "${BATS_HELPER_PATH}/bats-detik/load" # << Kubernetes support
 else
   echo -e "\n[\033[1;31mERROR\033[0m] $0 path to bats-core helper library unreachable at \"${BATS_HELPER_PATH}\"!" 1>&2
@@ -175,6 +176,9 @@ teardown() {
 
   assert_file_contains README.md "src=\"/visual/norlab_logo_acronym_dark.png"
 
+  # ....Check teardown.............................................................................
+  check_norlab_project_template_teardown
+
   # .....env file manual assessment ...............................................................
 #  more .env.template-norlab-project  >&3
   set -o allexport
@@ -211,6 +215,9 @@ teardown() {
   # ....Check Semantic-Release install.............................................................
   check_semantic_release_is_installed
 
+  # ....Check teardown.............................................................................
+  check_norlab_project_template_teardown
+
 }
 
 @test "Case no submodule › expect pass" {
@@ -240,6 +247,10 @@ teardown() {
 
   # ....Check N2ST install.........................................................................
   check_N2ST_not_installed
+
+  # ....Check teardown.............................................................................
+  check_norlab_project_template_teardown
+
 }
 
 @test "Case install NBS but skip N2ST › expect pass" {
@@ -268,6 +279,10 @@ teardown() {
 
   # ....Check N2ST install.........................................................................
   check_N2ST_not_installed
+
+  # ....Check teardown.............................................................................
+  check_norlab_project_template_teardown
+
 }
 
 @test "Case install N2ST but skip NBS › expect pass" {
@@ -296,6 +311,10 @@ teardown() {
 
   # ....Check N2ST install.........................................................................
   check_N2ST_is_installed
+
+  # ....Check teardown.............................................................................
+  check_norlab_project_template_teardown
+
 }
 
 @test "Case skip semantic-release › expect pass" {

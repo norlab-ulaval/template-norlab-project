@@ -197,12 +197,13 @@ function tnp::install_norlab_project_template(){
   }
 
   # ....Commit project configuration steps.........................................................
-  cd "${TNP_ROOT}" || exit 1
-  n2st::print_msg "Commit changes"
-  git add .
-  git commit -m 'refactor: NorLab project template configuration'
+  {
+    n2st::print_msg "Commit changes"
+    cd "${TNP_ROOT}" || exit 1
+    git add .
+    git commit -m 'refactor: NorLab project template configuration'
+  }
 
-  # ====Teardown===================================================================================
   # ....Delayed N2ST deletion step.................................................................
   {
     cd "${TNP_ROOT}" || exit 1
@@ -218,6 +219,18 @@ function tnp::install_norlab_project_template(){
 
       git commit -m 'build: Deleted norlab-shell-script-tools submodule from repository'
 
+    fi
+  }
+
+  # ====Teardown===================================================================================
+  {
+    n2st::print_msg "Teardown clean-up"
+    cd "${TNP_ROOT}" || exit 1
+    rm "src/dummy.bash"
+    if [[ -d tests/tests_bats ]]; then
+      rm "tests/tests_bats/bats_testing_tools/norlab_project_template_helper_functions.bash"
+      rm "tests/tests_bats/test_dotenv_files.bats"
+      rm "tests/tests_bats/test_initialize_norlab_project_template.bats"
     fi
   }
 
