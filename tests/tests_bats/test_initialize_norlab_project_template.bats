@@ -70,7 +70,7 @@ setup() {
     # -p for preserve time and mode
     cp -R -p "/code/template-norlab-project/" "${TEST_TEMP_DIR}/"
     cd "${BATS_DOCKER_WORKDIR}" || exit 1
-    git repack -a -d
+    git submodule update --remote --recursive --init
   }
 #  echo -e "\n› Pre test directory state" >&3 && pwd >&3 && tree -L 1 -a -hug >&3
 }
