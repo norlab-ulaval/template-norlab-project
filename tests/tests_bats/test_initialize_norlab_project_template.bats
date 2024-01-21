@@ -69,8 +69,11 @@ setup() {
   # Clone "template-norlab-project/" directory content in tmp directory
   # -p for preserve time and mode
   cp -R -p "/code/template-norlab-project/" "${TEST_TEMP_DIR}/"
-  git repack -a -d
   cd "${BATS_DOCKER_WORKDIR}" || exit 1
+  git repack -a
+  git submodule foreach git repack -a
+  rm .git/objects/info/alternates
+
 
 #  echo -e "\n› Pre test directory state" >&3 && pwd >&3 && tree -L 1 -a -hug >&3
 }
