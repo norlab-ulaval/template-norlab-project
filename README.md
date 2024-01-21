@@ -73,7 +73,10 @@ Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
     <br>
    ![img.png](visual/use_this_template_button.png)
 2. find a meaningful repository name, don't worry you can change it latter (see BC Gov [Naming Repos](https://github.com/bcgov/BC-Policy-Framework-For-GitHub/blob/master/BC-Gov-Org-HowTo/Naming-Repos.md) recommendation for advice and best-practice)
-
+3. Clone your new repository using the following command line
+```shell
+$ git clone --recurse-submodule https://github.com/<your-git-repository-url>
+```
 
 ### Step 2 › Configure the _GitHub_ repository settings
 
@@ -123,26 +126,36 @@ and all others such as `doc` and `style` will register for the next release but 
 
 
 #### Configuration
-1. Delete the content of `CHANGELOG.md` (see it as a quick-hack reset)
-2. Adopt the [_conventional-commit_](https://www.conventionalcommits.org/) specification. This is a **hard requirement** for _semantic-release_.  
+1. Adopt the [_conventional-commit_](https://www.conventionalcommits.org/) specification. This is a **hard requirement** for _semantic-release_.  
   See [commit_msg_reference.md](./commit_msg_reference.md) for a quick summary.
-3. Configure the _**semantic-release**_ GitHub action implemented in the `.github/workflows/` directory. 
+2. Configure the _**semantic-release**_ GitHub action implemented in the `.github/workflows/` directory. 
    1. You must generate a GitHub [personal access token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) 
    2. and register it as a _Repository Secrets_ in the tab `Settings/secrets and variables/Actions` and name it `SEMANTIC_RELEASE_GH_TOKEN`.  
      Reference: [semantic-release/GitHub Actions](https://semantic-release.gitbook.io/semantic-release/recipes/ci-configurations/github-actions)  
 
-### Step 4 › Make it your own
+
+### Step 4 › Execute `initialize_norlab_project_template.bash` 
+It will execute the following steps:
+
+1. Install resources (or skip): 
+   1. (optional) [Norlab Build System (NBS)](https://github.com/norlab-ulaval/norlab-build-system) submodule 
+   2. (optional) [NorLab Shell Script Tools (N2ST)](https://github.com/norlab-ulaval/norlab-shell-script-tools)
+      submodule
+2. Reset the content of `CHANGELOG.md`
+3. Configure project wide environment variable prefix in `.env.<your-project-name>`
+4. Rename `README.md` to `NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md`
+5. Rename either `README.norlab_template.md` or `README.vaul_template.md` to `README.md`
+    
+### Step 5 › Make it your own
 
 1. Configure the repository directory structure for your project type
 2. Modify the code owner designation file: `.github/CODEOWNERS`
 3. Validate the content of `.gitignore` file
 4. Modify the pull request template to fit your workflow needs: `.github/pull_request_template.md`
-5. Rename `README.md` to something like `README.repo_management.md` or delete it
-6. Rename either `README.norlab_template.md` or `README.vaul_template.md` to `README.md`
-7. Make your new `README.md` file your own
+5. Make your new `README.md` file your own
 
 **Note:** `CHANGELOG.md` and `version.txt` are both automatically generated 
-(more on this at step 4)
+by _semantic-release_
 
 ---
 
