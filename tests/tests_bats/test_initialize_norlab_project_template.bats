@@ -65,15 +65,22 @@ setup() {
   TEST_TEMP_DIR="$(temp_make)"
   BATS_DOCKER_WORKDIR="${TEST_TEMP_DIR}/template-norlab-project"
 
-  git repack -a -d
-  git submodule foreach git repack -a -d
-  rm .git/objects/info/alternates
+  # Note: quick hack to solve the TeamCity server "error: object directory ... does not exist;
+  #       check .git/objects/info/alternates". The idea is to clone when the script is run on a TC
+  #       server as we know the code was committed to a branch and copy when when locally as the
+  #       code might not be committed yet.
+  if [[ ${TEAMCITY_VERSION} ]] ; then
+    TNP_GIT_REMOTE_URL=$( git remote get-url origin )
+    git clone --recurse-submodules "$TNP_GIT_REMOTE_URL"
+    TNP_GIT_CURRENT_BRANCH=$(git symbolic-ref -q --short HEAD || git describe --all --exact-match)
+    git checkout --recurse-submodules "${TNP_GIT_CURRENT_BRANCH}"
+  else
+    # Clone "template-norlab-project/" directory content in tmp directory
+    # -p for preserve time and mode
+    cp -R -p "/code/template-norlab-project/" "${TEST_TEMP_DIR}/"
+  fi
 
-  # Clone "template-norlab-project/" directory content in tmp directory
-  # -p for preserve time and mode
-  cp -R -p "/code/template-norlab-project/" "${TEST_TEMP_DIR}/"
   cd "${BATS_DOCKER_WORKDIR}" || exit 1
-
 
 #  echo -e "\n› Pre test directory state" >&3 && pwd >&3 && tree -L 1 -a -hug >&3
 }
