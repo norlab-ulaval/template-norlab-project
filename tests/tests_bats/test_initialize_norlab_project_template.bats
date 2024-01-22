@@ -70,9 +70,12 @@ setup() {
   #       server as we know the code was committed to a branch and copy when when locally as the
   #       code might not be committed yet.
   if [[ ${TEAMCITY_VERSION} ]] ; then
-    TNP_GIT_REMOTE_URL=$( git remote get-url origin )
-    git clone --recurse-submodules "$TNP_GIT_REMOTE_URL"
+#    TNP_GIT_REMOTE_URL="https://github.com/norlab-ulaval/template-norlab-project.git"
+    TNP_GIT_REMOTE_URL="https://github.com/norlab-ulaval/template-norlab-project.git"
+#    git clone --recurse-submodules "$TNP_GIT_REMOTE_URL"
+    git clone --recurse-submodules --dissociate "$TNP_GIT_REMOTE_URL"
     TNP_GIT_CURRENT_BRANCH=$(git symbolic-ref -q --short HEAD || git describe --all --exact-match)
+    echo -e "Git checkout branch ${TNP_GIT_CURRENT_BRANCH}"
     git checkout --recurse-submodules "${TNP_GIT_CURRENT_BRANCH}"
   else
     # Clone "template-norlab-project/" directory content in tmp directory
