@@ -80,7 +80,7 @@ setup() {
     git clone --recurse-submodules --dissociate "$TNP_GIT_REMOTE_URL"
 
 #    TNP_GIT_CURRENT_BRANCH=$(git symbolic-ref -q --short HEAD || git describe --all --exact-match)
-    TNP_GIT_CURRENT_BRANCH="%teamcity.pullRequest.source.branch%"
+    TNP_GIT_CURRENT_BRANCH=$(cd /code/template-norlab-project && git symbolic-ref -q --short HEAD)
     echo -e "Git checkout branch ${TNP_GIT_CURRENT_BRANCH}"  >&3
     git checkout --recurse-submodules "${TNP_GIT_CURRENT_BRANCH}"
   else
