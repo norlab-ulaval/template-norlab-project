@@ -43,10 +43,10 @@ TESTED_FILE="initialize_norlab_project_template.bash"
 # executed once before starting the first test (valide for all test in that file)
 setup_file() {
   BATS_DOCKER_WORKDIR=$(pwd) && export BATS_DOCKER_WORKDIR
+  TNP_PATH_PARENT=${BATS_DOCKER_WORKDIR}
 
   ## Uncomment the following for debug, the ">&3" is for printing bats msg to stdin
 #  pwd >&3 && tree -L 1 -a -hug >&3
-  printenv >&3
 
   # Setup git for testing commit logic
   git config user.email "bats_tester@example.com"
@@ -71,15 +71,20 @@ setup() {
   #       code might not be committed yet.
   if [[ ${TEAMCITY_VERSION} ]]; then
     echo -e "::Case TC run"  >&3
+
+    cd "${TNP_PATH_PARENT:?err}" || exit 1
+    set -o allexport
+    source .env.tnp_test_values
+    set +o allexport
+
+    printenv >&3
+
     cd "${TEST_TEMP_DIR}" || exit 1
-
 #    git clone --recurse-submodules "$TNP_GIT_REMOTE_URL"
-    echo -e ":: Git clone ${TNP_GIT_REMOTE_URL}"  >&3
-    TNP_GIT_REMOTE_URL="https://github.com/norlab-ulaval/template-norlab-project.git"
+    echo -e ":: Git clone ${TNP_GIT_REMOTE_URL:?err}"  >&3
     git clone --recurse-submodules --dissociate "$TNP_GIT_REMOTE_URL"
-    TNP_GIT_CURRENT_BRANCH=$(cd ${BATS_DOCKER_WORKDIR} && git symbolic-ref -q --short HEAD)
 
-    echo -e "Git checkout branch ${TNP_GIT_CURRENT_BRANCH}"  >&3
+    echo -e "Git checkout branch ${TNP_GIT_CURRENT_BRANCH:?err}"  >&3
     git checkout --recurse-submodules "${TNP_GIT_CURRENT_BRANCH}"
   else
     echo -e ":: Copy \"template-norlab-project/\" to ${TEST_TEMP_DIR}"  >&3
