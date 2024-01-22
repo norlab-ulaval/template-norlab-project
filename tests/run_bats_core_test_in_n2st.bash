@@ -36,27 +36,37 @@ function n2st::run_n2st_testsing_tools(){
 
   TNP_PATH=${PROJECT_PATH}
   TNP_GIT_CURRENT_BRANCH=$(git symbolic-ref -q --short HEAD || git describe --all --exact-match)
-#  TNP_GIT_CURRENT_BRANCH=${TNP_GIT_CURRENT_BRANCH/\/head/}
+
+  if [[ ${TEAMCITY_VERSION} ]] ; then
+    TNP_TEAMCITY_PR_SOURCE=${TNP_TEAMCITY_PR_SOURCE:?'Variable must be set manually by TC run configuration using
+TNP_TEAMCITY_PR_SOURCE=%teamcity.pullRequest.source.branch%
+export TNP_TEAMCITY_PR_SOURCE
+'}
+  else
+    # (CRITICAL) ToDo: on task end >> delete next line ↓↓
+    TNP_TEAMCITY_PR_SOURCE="dev-feat-implement-install-norlab-submodule-logic-NMO-504"
+  fi
 
 
   # (CRITICAL) ToDo: on task end >> delete next bloc ↓↓
   echo -e "
+------------------------------------------------------------------------------
 $ git symbolic-ref -q --short HEAD
 $(git symbolic-ref -q --short HEAD)
-
+------------------------------------------------------------------------------
 $ git describe --all --exact-match
 $(git describe --all --exact-match)
-
+------------------------------------------------------------------------------
 printenv
 $(printenv)
-
+------------------------------------------------------------------------------\n
 "
-
 
   ( \
     echo "TNP_GIT_REMOTE_URL=${PROJECT_GIT_REMOTE_URL}"; \
     echo "TNP_GIT_NAME=${PROJECT_GIT_NAME}"; \
     echo "TNP_GIT_CURRENT_BRANCH=${TNP_GIT_CURRENT_BRANCH}"; \
+    echo "TNP_TEAMCITY_PR_SOURCE=${TNP_TEAMCITY_PR_SOURCE}"; \
   ) > "${TNP_PATH}/tests/.env.tnp_test_values"
 
   # ....Execute N2ST run_bats_tests_in_docker.bash.................................................

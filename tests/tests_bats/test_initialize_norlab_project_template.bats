@@ -74,8 +74,8 @@ setup() {
   #       check .git/objects/info/alternates". The idea is to clone when the script is run on a TC
   #       server as we know the code was committed to a branch and copy when when locally as the
   #       code might not be committed yet.
-  if [[ true ]]; then # (CRITICAL) ToDo: on task end >> delete this line ←
-#  if [[ ${TEAMCITY_VERSION} ]]; then
+  if [[ ${TEAMCITY_VERSION} ]]; then
+#  if [[ true ]]; then # (CRITICAL) ToDo: on task end >> delete this line ←
     echo -e "     [\033[1mN2ST bats container\033[0m] Case TC run" >&3
 
     cd "${TEST_TEMP_DIR}" || exit 1
@@ -83,7 +83,7 @@ setup() {
 
 #    git clone --recurse-submodules --branch "${TNP_GIT_CURRENT_BRANCH}" "$TNP_GIT_REMOTE_URL"
 #    git clone --recurse-submodules "$TNP_GIT_REMOTE_URL"
-    git clone  --branch "${TNP_GIT_CURRENT_BRANCH}" "$TNP_GIT_REMOTE_URL"
+    git clone  --branch "${TNP_TEAMCITY_PR_SOURCE}" "$TNP_GIT_REMOTE_URL"
 
     cd "${TNP_GIT_NAME}"
     pwd >&3 && tree -L 1 -a >&3
@@ -96,9 +96,9 @@ setup() {
     pwd >&3 && tree -L 1 -a >&3
 #    git checkout main
 
-    echo -e "     [\033[1mN2ST bats container\033[0m] Git checkout ${TNP_GIT_CURRENT_BRANCH}" >&3
+    echo -e "     [\033[1mN2ST bats container\033[0m] Git checkout ${TNP_TEAMCITY_PR_SOURCE}" >&3
     cd ../..
-    git checkout --recurse-submodules "${TNP_GIT_CURRENT_BRANCH}"
+    git checkout --recurse-submodules "${TNP_TEAMCITY_PR_SOURCE}"
 
   else
     echo -e "     [\033[1mN2ST bats container\033[0m] Copy \"template-norlab-project/\" to ${TEST_TEMP_DIR}"
@@ -144,24 +144,24 @@ teardown() {
 
 }
 
-## (CRITICAL) ToDo: on task end >> unmute next bloc ↓↓
-#@test "execute from wrong directory › expect fail" {
-##  # Note:
-##  #  - "echo 'Y'" is for sending an keyboard input to the 'read' command which expect a single character
-##  #    run bash -c "echo 'Y' | source ./function_library/$TESTED_FILE"
-##  #  - Alt: Use the 'yes [n]' command which optionaly send n time
-#
-##  skip "tmp dev" # ToDo: on task end >> delete this line ←
-#
-#  cd .. || exit 1
-#  assert_file_exist template-norlab-project/README.norlab_template.md
-#
-#  run bash ./template-norlab-project/$TESTED_FILE
-#
-#  assert_failure 1
-#  assert_output --regexp .*"\[ERROR\]".*"'initialize_norlab_project_template.bash' script should be executed from the project root".*
-#
-#}
+# (CRITICAL) ToDo: on task end >> unmute next bloc ↓↓
+@test "execute from wrong directory › expect fail" {
+#  # Note:
+#  #  - "echo 'Y'" is for sending an keyboard input to the 'read' command which expect a single character
+#  #    run bash -c "echo 'Y' | source ./function_library/$TESTED_FILE"
+#  #  - Alt: Use the 'yes [n]' command which optionaly send n time
+
+#  skip "tmp dev" # ToDo: on task end >> delete this line ←
+
+  cd .. || exit 1
+  assert_file_exist template-norlab-project/README.norlab_template.md
+
+  run bash ./template-norlab-project/$TESTED_FILE
+
+  assert_failure 1
+  assert_output --regexp .*"\[ERROR\]".*"'initialize_norlab_project_template.bash' script should be executed from the project root".*
+
+}
 
 @test "source file › expect fail" {
 #  skip "tmp dev" # ToDo: on task end >> delete this line ←
@@ -231,232 +231,232 @@ teardown() {
 
 }
 
-## (CRITICAL) ToDo: on task end >> unmute next bloc ↓↓
-#@test "env prefix substitution and changelog reset › expect pass" {
-##  skip "tmp dev" # ToDo: on task end >> delete this line ←
-#
-#  # Note: \n is to simulate the return key
-#  # Install NBS › Y
-#  # Install N2ST › Y
-#  # Semantic-Release › Y
-#  # Project env var prefix › my_project
-#  # Install NorLab readme › Y
-#  local TEST_CASE="yyymy_project\ny"
-#
-#  norlab_project_template_directory_reset_check
-#
-#  # ....Execute initialize_norlab_project_template.bash............................................
-#  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
-#  assert_success
-#
-#  # ....Modify .env project environment variable prefix............................................
-#  cd "${BATS_DOCKER_WORKDIR}" || exit 1
-#  assert_file_contains .env.template-norlab-project "^MY_PROJECT_PROMPT_NAME.*"
-#  assert_file_contains .env.template-norlab-project "^MY_PROJECT_GIT_REMOTE_URL.*"
-#  assert_file_contains .env.template-norlab-project "^MY_PROJECT_GIT_NAME.*"
-#  assert_file_contains .env.template-norlab-project "^MY_PROJECT_PATH.*"
-#  assert_file_contains .env.template-norlab-project "^MY_PROJECT_SRC_NAME.*"
-#  assert_file_contains .env.template-norlab-project "^PROJECT_PROMPT_NAME='MY_PROJECT'"
-#
-#  # ....Check Semantic-Release install.............................................................
-#  check_semantic_release_is_installed
-#
-#  # ....Check teardown.............................................................................
-#  check_norlab_project_template_teardown
-#
-#}
-#
-#@test "Case no submodule › expect pass" {
-##  skip "tmp dev" # ToDo: on task end >> delete this line ←
-#
-#  # Note: \n is to simulate the return key
-#  # Install NBS › N
-#  # Install N2ST › N
-#  # Semantic-Release › Y
-#  # Project env var prefix › no_sub
-#  # Install NorLab readme › Y
-#  local TEST_CASE="nnyno_sub\ny"
-#
-#  norlab_project_template_directory_reset_check
-#
-#  # ....Execute initialize_norlab_project_template.bash............................................
-#  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
-#  assert_success
-#
-#  # ....Check submodule cloning....................................................................
-#  cd "${BATS_DOCKER_WORKDIR}" || exit 1
-#  assert_dir_exist .git
-#  assert_file_exist .gitmodules
-#  assert_file_empty .gitmodules
-#
-#  # ....Check NBS install..........................................................................
-#  check_NBS_not_installed
-#
-#  # ....Check N2ST install.........................................................................
-#  check_N2ST_not_installed
-#
-#  # ....Check teardown.............................................................................
-#  check_norlab_project_template_teardown
-#
-#}
-#
-#@test "Case install NBS but skip N2ST › expect pass" {
-##  skip "tmp dev" # ToDo: on task end >> delete this line ←
-#
-#  # Note: \n is to simulate the return key
-#  # Install NBS › Y
-#  # Install N2ST › N
-#  # Semantic-Release › Y
-#  # Project env var prefix › NBS
-#  # Install NorLab readme › Y
-#  local TEST_CASE="ynyNBS\ny"
-#
-#  norlab_project_template_directory_reset_check
-#
-#  # ....Execute initialize_norlab_project_template.bash............................................
-#  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
-#  assert_success
-#
-#  # ....Check submodule cloning....................................................................
-#  cd "${BATS_DOCKER_WORKDIR}" || exit 1
-#  assert_dir_exist .git
-#  assert_file_exist .gitmodules
-#
-#  # ....Check NBS install..........................................................................
-#  check_NBS_is_installed
-#
-#  # ....Check N2ST install.........................................................................
-#  check_N2ST_not_installed
-#
-#  # ....Check teardown.............................................................................
-#  check_norlab_project_template_teardown
-#
-#}
-#
-#@test "Case install N2ST but skip NBS › expect pass" {
-##  skip "tmp dev" # ToDo: on task end >> delete this line ←
-#
-#  # Note: \n is to simulate the return key
-#  # Install NBS › N
-#  # Install N2ST › Y
-#  # Semantic-Release › Y
-#  # Project env var prefix ›N2ST
-#  # Install NorLab readme › Y
-#  local TEST_CASE="nyyN2ST\ny"
-#
-#  norlab_project_template_directory_reset_check
-#
-#  # ....Execute initialize_norlab_project_template.bash............................................
-#  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
-#  assert_success
-#
-#  # ....Check submodule cloning....................................................................
-#  cd "${BATS_DOCKER_WORKDIR}" || exit 1
-#  assert_dir_exist .git
-#  assert_file_exist .gitmodules
-#
-#  # ....Check NBS install..........................................................................
-#  check_NBS_not_installed
-#
-#  # ....Check N2ST install.........................................................................
-#  check_N2ST_is_installed
-#
-#  # ....Check teardown.............................................................................
-#  check_norlab_project_template_teardown
-#
-#}
-#
-#@test "Case skip semantic-release › expect pass" {
-##  skip "tmp dev" # ToDo: on task end >> delete this line ←
-#
-#  # Note: \n is to simulate the return key
-#  # Install NBS › Y
-#  # Install N2ST › Y
-#  # Semantic-Release › N
-#  # Project env var prefix › NOSEMANTIC
-#  # Install NorLab readme › Y
-#  local TEST_CASE="yynNOSEMANTIC\ny"
-#
-#  norlab_project_template_directory_reset_check
-#
-#  # ....Execute initialize_norlab_project_template.bash............................................
-#  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
-#  assert_success
-#
-#  # ....Check submodule cloning....................................................................
-#  cd "${BATS_DOCKER_WORKDIR}" || exit 1
-#  assert_dir_exist .git
-#  assert_file_exist .gitmodules
-#
-#  # ....Check NBS install..........................................................................
-#  check_NBS_is_installed
-#
-#  # ....Check N2ST install.........................................................................
-#  check_N2ST_is_installed
-#
-#  # ....Check Semantic-Release install.............................................................
-#  check_semantic_release_not_installed
-#}
-#
-#@test "Case install NorLab readme  › expect pass" {
-##  skip "tmp dev" # ToDo: on task end >> delete this line ←
-#
-#  # Note: \n is to simulate the return key
-#  # Install NBS › Y
-#  # Install N2ST › Y
-#  # Semantic-Release › Y
-#  # Project env var prefix › TMP1
-#  # Install NorLab readme › Y
-#  local TEST_CASE="YYYTMP1\nY"
-#
-#  norlab_project_template_directory_reset_check
-#
-#  # ....Execute initialize_norlab_project_template.bash............................................
-#  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
-#  assert_success
-#
-#  # ....Set main readme file to NorLab.............................................................
-#  cd "${BATS_DOCKER_WORKDIR}" || exit 1
-#
-#  assert_file_exist NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
-#  assert_file_exist README.md
-#  assert_file_not_exist README.norlab_template.md
-#  assert_file_exist README.vaul_template.md
-#
-#  assert_file_contains README.md "src=\"/visual/norlab_logo_acronym_dark.png"
-#  assert_file_exist visual/norlab_logo_acronym_dark.png
-#  assert_file_exist visual/norlab_logo_acronym_light.png
-#
-#}
-#
-#@test "Case install VAUL readme  › expect pass" {
-##  skip "tmp dev" # ToDo: on task end >> delete this line ←
-#
-#  # Note: \n is to simulate the return key
-#  # Install NBS › Y
-#  # Install N2ST › Y
-#  # Semantic-Release › Y
-#  # Project env var prefix › TMP1
-#  # Install VAUL readme › V
-#  local TEST_CASE="YYYTMP1\nV"
-#
-#  norlab_project_template_directory_reset_check
-#
-#  # ....Execute initialize_norlab_project_template.bash............................................
-#  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
-#  assert_success
-#
-#  # ....Set main readme file to VAUL...............................................................
-#
-#  cd "${BATS_DOCKER_WORKDIR}" || exit 1
-#  assert_file_exist NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
-#  assert_file_exist README.md
-#  assert_file_exist README.norlab_template.md
-#  assert_file_not_exist README.vaul_template.md
-#
-#  assert_file_contains README.md "img src=\"./visual/VAUL_Logo_patch.png"
-#  assert_file_exist visual/VAUL_Logo_patch.png
-#}
-#
-#
-#
+# (CRITICAL) ToDo: on task end >> unmute next bloc ↓↓
+@test "env prefix substitution and changelog reset › expect pass" {
+#  skip "tmp dev" # ToDo: on task end >> delete this line ←
+
+  # Note: \n is to simulate the return key
+  # Install NBS › Y
+  # Install N2ST › Y
+  # Semantic-Release › Y
+  # Project env var prefix › my_project
+  # Install NorLab readme › Y
+  local TEST_CASE="yyymy_project\ny"
+
+  norlab_project_template_directory_reset_check
+
+  # ....Execute initialize_norlab_project_template.bash............................................
+  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
+  assert_success
+
+  # ....Modify .env project environment variable prefix............................................
+  cd "${BATS_DOCKER_WORKDIR}" || exit 1
+  assert_file_contains .env.template-norlab-project "^MY_PROJECT_PROMPT_NAME.*"
+  assert_file_contains .env.template-norlab-project "^MY_PROJECT_GIT_REMOTE_URL.*"
+  assert_file_contains .env.template-norlab-project "^MY_PROJECT_GIT_NAME.*"
+  assert_file_contains .env.template-norlab-project "^MY_PROJECT_PATH.*"
+  assert_file_contains .env.template-norlab-project "^MY_PROJECT_SRC_NAME.*"
+  assert_file_contains .env.template-norlab-project "^PROJECT_PROMPT_NAME='MY_PROJECT'"
+
+  # ....Check Semantic-Release install.............................................................
+  check_semantic_release_is_installed
+
+  # ....Check teardown.............................................................................
+  check_norlab_project_template_teardown
+
+}
+
+@test "Case no submodule › expect pass" {
+#  skip "tmp dev" # ToDo: on task end >> delete this line ←
+
+  # Note: \n is to simulate the return key
+  # Install NBS › N
+  # Install N2ST › N
+  # Semantic-Release › Y
+  # Project env var prefix › no_sub
+  # Install NorLab readme › Y
+  local TEST_CASE="nnyno_sub\ny"
+
+  norlab_project_template_directory_reset_check
+
+  # ....Execute initialize_norlab_project_template.bash............................................
+  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
+  assert_success
+
+  # ....Check submodule cloning....................................................................
+  cd "${BATS_DOCKER_WORKDIR}" || exit 1
+  assert_dir_exist .git
+  assert_file_exist .gitmodules
+  assert_file_empty .gitmodules
+
+  # ....Check NBS install..........................................................................
+  check_NBS_not_installed
+
+  # ....Check N2ST install.........................................................................
+  check_N2ST_not_installed
+
+  # ....Check teardown.............................................................................
+  check_norlab_project_template_teardown
+
+}
+
+@test "Case install NBS but skip N2ST › expect pass" {
+#  skip "tmp dev" # ToDo: on task end >> delete this line ←
+
+  # Note: \n is to simulate the return key
+  # Install NBS › Y
+  # Install N2ST › N
+  # Semantic-Release › Y
+  # Project env var prefix › NBS
+  # Install NorLab readme › Y
+  local TEST_CASE="ynyNBS\ny"
+
+  norlab_project_template_directory_reset_check
+
+  # ....Execute initialize_norlab_project_template.bash............................................
+  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
+  assert_success
+
+  # ....Check submodule cloning....................................................................
+  cd "${BATS_DOCKER_WORKDIR}" || exit 1
+  assert_dir_exist .git
+  assert_file_exist .gitmodules
+
+  # ....Check NBS install..........................................................................
+  check_NBS_is_installed
+
+  # ....Check N2ST install.........................................................................
+  check_N2ST_not_installed
+
+  # ....Check teardown.............................................................................
+  check_norlab_project_template_teardown
+
+}
+
+@test "Case install N2ST but skip NBS › expect pass" {
+#  skip "tmp dev" # ToDo: on task end >> delete this line ←
+
+  # Note: \n is to simulate the return key
+  # Install NBS › N
+  # Install N2ST › Y
+  # Semantic-Release › Y
+  # Project env var prefix ›N2ST
+  # Install NorLab readme › Y
+  local TEST_CASE="nyyN2ST\ny"
+
+  norlab_project_template_directory_reset_check
+
+  # ....Execute initialize_norlab_project_template.bash............................................
+  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
+  assert_success
+
+  # ....Check submodule cloning....................................................................
+  cd "${BATS_DOCKER_WORKDIR}" || exit 1
+  assert_dir_exist .git
+  assert_file_exist .gitmodules
+
+  # ....Check NBS install..........................................................................
+  check_NBS_not_installed
+
+  # ....Check N2ST install.........................................................................
+  check_N2ST_is_installed
+
+  # ....Check teardown.............................................................................
+  check_norlab_project_template_teardown
+
+}
+
+@test "Case skip semantic-release › expect pass" {
+#  skip "tmp dev" # ToDo: on task end >> delete this line ←
+
+  # Note: \n is to simulate the return key
+  # Install NBS › Y
+  # Install N2ST › Y
+  # Semantic-Release › N
+  # Project env var prefix › NOSEMANTIC
+  # Install NorLab readme › Y
+  local TEST_CASE="yynNOSEMANTIC\ny"
+
+  norlab_project_template_directory_reset_check
+
+  # ....Execute initialize_norlab_project_template.bash............................................
+  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
+  assert_success
+
+  # ....Check submodule cloning....................................................................
+  cd "${BATS_DOCKER_WORKDIR}" || exit 1
+  assert_dir_exist .git
+  assert_file_exist .gitmodules
+
+  # ....Check NBS install..........................................................................
+  check_NBS_is_installed
+
+  # ....Check N2ST install.........................................................................
+  check_N2ST_is_installed
+
+  # ....Check Semantic-Release install.............................................................
+  check_semantic_release_not_installed
+}
+
+@test "Case install NorLab readme  › expect pass" {
+#  skip "tmp dev" # ToDo: on task end >> delete this line ←
+
+  # Note: \n is to simulate the return key
+  # Install NBS › Y
+  # Install N2ST › Y
+  # Semantic-Release › Y
+  # Project env var prefix › TMP1
+  # Install NorLab readme › Y
+  local TEST_CASE="YYYTMP1\nY"
+
+  norlab_project_template_directory_reset_check
+
+  # ....Execute initialize_norlab_project_template.bash............................................
+  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
+  assert_success
+
+  # ....Set main readme file to NorLab.............................................................
+  cd "${BATS_DOCKER_WORKDIR}" || exit 1
+
+  assert_file_exist NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
+  assert_file_exist README.md
+  assert_file_not_exist README.norlab_template.md
+  assert_file_exist README.vaul_template.md
+
+  assert_file_contains README.md "src=\"/visual/norlab_logo_acronym_dark.png"
+  assert_file_exist visual/norlab_logo_acronym_dark.png
+  assert_file_exist visual/norlab_logo_acronym_light.png
+
+}
+
+@test "Case install VAUL readme  › expect pass" {
+#  skip "tmp dev" # ToDo: on task end >> delete this line ←
+
+  # Note: \n is to simulate the return key
+  # Install NBS › Y
+  # Install N2ST › Y
+  # Semantic-Release › Y
+  # Project env var prefix › TMP1
+  # Install VAUL readme › V
+  local TEST_CASE="YYYTMP1\nV"
+
+  norlab_project_template_directory_reset_check
+
+  # ....Execute initialize_norlab_project_template.bash............................................
+  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
+  assert_success
+
+  # ....Set main readme file to VAUL...............................................................
+
+  cd "${BATS_DOCKER_WORKDIR}" || exit 1
+  assert_file_exist NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
+  assert_file_exist README.md
+  assert_file_exist README.norlab_template.md
+  assert_file_not_exist README.vaul_template.md
+
+  assert_file_contains README.md "img src=\"./visual/VAUL_Logo_patch.png"
+  assert_file_exist visual/VAUL_Logo_patch.png
+}
+
+
+
