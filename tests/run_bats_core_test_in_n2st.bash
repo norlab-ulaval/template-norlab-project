@@ -36,6 +36,7 @@ function n2st::run_n2st_testsing_tools(){
 
   TNP_PATH=${PROJECT_PATH}
   TNP_GIT_CURRENT_BRANCH=$(git symbolic-ref -q --short HEAD || git describe --all --exact-match)
+  TNP_GIT_CURRENT_BRANCH=${TNP_GIT_CURRENT_BRANCH/\/head/}
 
   ( \
     echo "TNP_GIT_REMOTE_URL=${PROJECT_GIT_REMOTE_URL}"; \
