@@ -35,10 +35,12 @@ function n2st::run_n2st_testsing_tools(){
   set +o allexport
 
   TNP_PATH=${PROJECT_PATH}
+  TNP_GIT_CURRENT_BRANCH=$(git symbolic-ref -q --short HEAD || git describe --all --exact-match)
 
   ( \
     echo "TNP_GIT_REMOTE_URL=${PROJECT_GIT_REMOTE_URL}"; \
-    echo "TNP_GIT_CURRENT_BRANCH=$(git symbolic-ref -q --short HEAD)"; \
+    echo "TNP_GIT_NAME=${PROJECT_GIT_NAME}"; \
+    echo "TNP_GIT_CURRENT_BRANCH=${TNP_GIT_CURRENT_BRANCH}"; \
   ) > "${TNP_PATH}/tests/.env.tnp_test_values"
 
   # ....Execute N2ST run_bats_tests_in_docker.bash.................................................
