@@ -74,17 +74,25 @@ setup() {
   #       check .git/objects/info/alternates". The idea is to clone when the script is run on a TC
   #       server as we know the code was committed to a branch and copy when when locally as the
   #       code might not be committed yet.
-#  if [[ ${TEAMCITY_VERSION} ]]; then # (CRITICAL) ToDo: on task end >> delete this line ←
-  if [[ true ]]; then
+  if [[ true ]]; then # (CRITICAL) ToDo: on task end >> delete this line ←
+#  if [[ ${TEAMCITY_VERSION} ]]; then
     echo -e "     [\033[1mN2ST bats container\033[0m] Case TC run" >&3
 
     cd "${TEST_TEMP_DIR}" || exit 1
     echo -e "     [\033[1mN2ST bats container\033[0m] Git clone ${TNP_GIT_REMOTE_URL:?err}" >&3
 
     git clone --recurse-submodules --branch "${TNP_GIT_CURRENT_BRANCH}" "$TNP_GIT_REMOTE_URL"
+#    git clone --recurse-submodules "$TNP_GIT_REMOTE_URL"
 
     cd "${TNP_GIT_NAME}"
     echo -e "     [\033[1mN2ST bats container\033[0m] cwd=$(pwd)" >&3
+
+
+    git fetch --all
+#    echo -e "     [\033[1mN2ST bats container\033[0m] Git checkout ${TNP_GIT_CURRENT_BRANCH}" >&3
+#    git checkout --recurse-submodules "${TNP_GIT_CURRENT_BRANCH}"
+#    git checkout --recurse-submodules "${TNP_GIT_CURRENT_BRANCH}"
+    git submodule update --init --recursive
 
   else
     echo -e "     [\033[1mN2ST bats container\033[0m] Copy \"template-norlab-project/\" to ${TEST_TEMP_DIR}"

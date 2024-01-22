@@ -36,7 +36,7 @@ function n2st::run_n2st_testsing_tools(){
 
   TNP_PATH=${PROJECT_PATH}
   TNP_GIT_CURRENT_BRANCH=$(git symbolic-ref -q --short HEAD || git describe --all --exact-match)
-  TNP_GIT_CURRENT_BRANCH=${TNP_GIT_CURRENT_BRANCH/\/head/}
+#  TNP_GIT_CURRENT_BRANCH=${TNP_GIT_CURRENT_BRANCH/\/head/}
 
 
   # (CRITICAL) ToDo: on task end >> delete next bloc ↓↓
