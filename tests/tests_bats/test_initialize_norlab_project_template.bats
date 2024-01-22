@@ -46,7 +46,7 @@ setup_file() {
 
   ## Uncomment the following for debug, the ">&3" is for printing bats msg to stdin
 #  pwd >&3 && tree -L 1 -a -hug >&3
-#  printenv >&3
+  printenv >&3
 
   # Setup git for testing commit logic
   git config user.email "bats_tester@example.com"
@@ -65,15 +65,13 @@ setup() {
   TEST_TEMP_DIR="$(temp_make)"
   BATS_DOCKER_WORKDIR="${TEST_TEMP_DIR}/template-norlab-project"
 
-   prinmtenv >&3
-
   # Note: quick hack to solve the TeamCity server "error: object directory ... does not exist;
   #       check .git/objects/info/alternates". The idea is to clone when the script is run on a TC
   #       server as we know the code was committed to a branch and copy when when locally as the
   #       code might not be committed yet.
-  if [[ -n ${TEAMCITY_VERSION} ]] || [[ -n $(echo "%env.TEAMCITY_VERSION%") ]] ; then
+  if [[ ${TEAMCITY_VERSION} ]]; then
     echo -e "::Case TC run"  >&3
-    cd "${BATS_DOCKER_WORKDIR}" || exit 1
+    cd "${TEST_TEMP_DIR}" || exit 1
 
     TNP_GIT_REMOTE_URL="https://github.com/norlab-ulaval/template-norlab-project.git"
 
