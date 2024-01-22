@@ -43,7 +43,7 @@ TESTED_FILE="initialize_norlab_project_template.bash"
 # executed once before starting the first test (valide for all test in that file)
 setup_file() {
   BATS_DOCKER_WORKDIR=$(pwd) && export BATS_DOCKER_WORKDIR
-  TNP_PATH_PARENT=${BATS_DOCKER_WORKDIR}
+  export TNP_PATH_PARENT=${BATS_DOCKER_WORKDIR}
 
   ## Uncomment the following for debug, the ">&3" is for printing bats msg to stdin
 #  pwd >&3 && tree -L 1 -a -hug >&3
