@@ -71,14 +71,13 @@ setup() {
   #       code might not be committed yet.
   if [[ ${TEAMCITY_VERSION} ]]; then
     echo -e "::Case TC run"  >&3
-    TNP_GIT_REMOTE_URL="https://github.com/norlab-ulaval/template-norlab-project.git"
-    TNP_GIT_CURRENT_BRANCH=$(cd /code/template-norlab-project && git symbolic-ref -q --short HEAD)
-
     cd "${TEST_TEMP_DIR}" || exit 1
 
 #    git clone --recurse-submodules "$TNP_GIT_REMOTE_URL"
     echo -e ":: Git clone ${TNP_GIT_REMOTE_URL}"  >&3
+    TNP_GIT_REMOTE_URL="https://github.com/norlab-ulaval/template-norlab-project.git"
     git clone --recurse-submodules --dissociate "$TNP_GIT_REMOTE_URL"
+    TNP_GIT_CURRENT_BRANCH=$(cd ${BATS_DOCKER_WORKDIR} && git symbolic-ref -q --short HEAD)
 
     echo -e "Git checkout branch ${TNP_GIT_CURRENT_BRANCH}"  >&3
     git checkout --recurse-submodules "${TNP_GIT_CURRENT_BRANCH}"
