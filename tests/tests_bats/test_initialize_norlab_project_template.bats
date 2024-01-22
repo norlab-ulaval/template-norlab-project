@@ -75,29 +75,26 @@ setup() {
   #       server as we know the code was committed to a branch and copy when when locally as the
   #       code might not be committed yet.
   if [[ ${TEAMCITY_VERSION} ]]; then
-#  if [[ true ]]; then # (CRITICAL) ToDo: on task end >> delete this line ←
-    echo -e "     [\033[1mN2ST bats container\033[0m] Case TC run" >&3
+#  if [[ true ]]; then # (CRITICAL) ToDo: on task end >> delete this bloc <-
+    echo -e "     [\033[1mN2ST bats container\033[0m] Case TC run" # >&3
 
     cd "${TEST_TEMP_DIR}" || exit 1
-    echo -e "     [\033[1mN2ST bats container\033[0m] Git clone ${TNP_GIT_REMOTE_URL:?err}" >&3
+    echo -e "     [\033[1mN2ST bats container\033[0m] Git clone ${TNP_GIT_REMOTE_URL:?err}" # >&3
 
-#    git clone --recurse-submodules --branch "${TNP_GIT_CURRENT_BRANCH}" "$TNP_GIT_REMOTE_URL"
-#    git clone --recurse-submodules "$TNP_GIT_REMOTE_URL"
     git clone  --branch "${TNP_TEAMCITY_PR_SOURCE}" "$TNP_GIT_REMOTE_URL"
 
     cd "${TNP_GIT_NAME}"
-    pwd >&3 && tree -L 1 -a >&3
-    echo -e "     [\033[1mN2ST bats container\033[0m] cwd=$(pwd)" >&3
+    echo -e "     [\033[1mN2ST bats container\033[0m] cwd=$(pwd)" # >&3
 
     git fetch --all
     git submodule update --remote --recursive --init
 
-    cd utilities/norlab-shell-script-tools
-    pwd >&3 && tree -L 1 -a >&3
-#    git checkout main
+#    cd utilities/norlab-shell-script-tools
+#    pwd >&3 && tree -L 1 -a >&3
+##    git checkout main
 
-    echo -e "     [\033[1mN2ST bats container\033[0m] Git checkout ${TNP_TEAMCITY_PR_SOURCE}" >&3
-    cd ../..
+    echo -e "     [\033[1mN2ST bats container\033[0m] Git checkout ${TNP_TEAMCITY_PR_SOURCE}" # >&3
+#    cd ../..
     git checkout --recurse-submodules "${TNP_TEAMCITY_PR_SOURCE}"
 
   else

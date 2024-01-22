@@ -42,25 +42,25 @@ function n2st::run_n2st_testsing_tools(){
 TNP_TEAMCITY_PR_SOURCE=%teamcity.pullRequest.source.branch%
 export TNP_TEAMCITY_PR_SOURCE
 '}
-  else
-    # (CRITICAL) ToDo: on task end >> delete next line ↓↓
-    TNP_TEAMCITY_PR_SOURCE="dev-feat-implement-install-norlab-submodule-logic-NMO-504"
+#  else
+#    # (CRITICAL) ToDo: on task end >> delete next line ↓↓
+#    TNP_TEAMCITY_PR_SOURCE="dev-feat-implement-install-norlab-submodule-logic-NMO-504"
   fi
 
 
-  # (CRITICAL) ToDo: on task end >> delete next bloc ↓↓
-  echo -e "
-------------------------------------------------------------------------------
-$ git symbolic-ref -q --short HEAD
-$(git symbolic-ref -q --short HEAD)
-------------------------------------------------------------------------------
-$ git describe --all --exact-match
-$(git describe --all --exact-match)
-------------------------------------------------------------------------------
-printenv
-$(printenv)
-------------------------------------------------------------------------------\n
-"
+#  # (CRITICAL) ToDo: on task end >> delete next bloc ↓↓
+#  echo -e "
+#------------------------------------------------------------------------------
+#$ git symbolic-ref -q --short HEAD
+#$(git symbolic-ref -q --short HEAD)
+#------------------------------------------------------------------------------
+#$ git describe --all --exact-match
+#$(git describe --all --exact-match)
+#------------------------------------------------------------------------------
+#printenv
+#$(printenv)
+#------------------------------------------------------------------------------\n
+#"
 
   ( \
     echo "TNP_GIT_REMOTE_URL=${PROJECT_GIT_REMOTE_URL}"; \
