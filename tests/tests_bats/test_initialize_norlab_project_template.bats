@@ -70,23 +70,26 @@ setup() {
   #       server as we know the code was committed to a branch and copy when when locally as the
   #       code might not be committed yet.
   if [[ ${TEAMCITY_VERSION} ]] ; then
+    echo -e "::Case TC run"  >&3
+    cd "${BATS_DOCKER_WORKDIR}" || exit 1
+
     TNP_GIT_REMOTE_URL="https://github.com/norlab-ulaval/template-norlab-project.git"
 
 #    git clone --recurse-submodules "$TNP_GIT_REMOTE_URL"
-    echo -e "Git clone ${$TNP_GIT_REMOTE_URL}"  >&3
-    git clone --recurse-submodules "$TNP_GIT_REMOTE_URL"
+    echo -e ":: Git clone ${TNP_GIT_REMOTE_URL}"  >&3
+    git clone --recurse-submodules --dissociate "$TNP_GIT_REMOTE_URL"
 
     TNP_GIT_CURRENT_BRANCH=$(git symbolic-ref -q --short HEAD || git describe --all --exact-match)
     echo -e "Git checkout branch ${TNP_GIT_CURRENT_BRANCH}"  >&3
     git checkout --recurse-submodules "${TNP_GIT_CURRENT_BRANCH}"
   else
-    echo -e "Copy "template-norlab-project/" to ${TEST_TEMP_DIR}"  >&3
+    echo -e ":: Copy \"template-norlab-project/\" to ${TEST_TEMP_DIR}"  >&3
     # Clone "template-norlab-project/" directory content in tmp directory
     # -p for preserve time and mode
     cp -R -p "/code/template-norlab-project/" "${TEST_TEMP_DIR}/"
+    cd "${BATS_DOCKER_WORKDIR}" || exit 1
   fi
 
-  cd "${BATS_DOCKER_WORKDIR}" || exit 1
 
 #  echo -e "\n› Pre test directory state" >&3 && pwd >&3 && tree -L 1 -a -hug >&3
 }
