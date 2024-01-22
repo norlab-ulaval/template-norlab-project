@@ -65,11 +65,13 @@ setup() {
   TEST_TEMP_DIR="$(temp_make)"
   BATS_DOCKER_WORKDIR="${TEST_TEMP_DIR}/template-norlab-project"
 
+   prinmtenv >&3
+
   # Note: quick hack to solve the TeamCity server "error: object directory ... does not exist;
   #       check .git/objects/info/alternates". The idea is to clone when the script is run on a TC
   #       server as we know the code was committed to a branch and copy when when locally as the
   #       code might not be committed yet.
-  if [[ ${TEAMCITY_VERSION} ]] ; then
+  if [[ -n ${TEAMCITY_VERSION} ]] || [[ -n $(echo "%env.TEAMCITY_VERSION%") ]] ; then
     echo -e "::Case TC run"  >&3
     cd "${BATS_DOCKER_WORKDIR}" || exit 1
 
@@ -79,7 +81,8 @@ setup() {
     echo -e ":: Git clone ${TNP_GIT_REMOTE_URL}"  >&3
     git clone --recurse-submodules --dissociate "$TNP_GIT_REMOTE_URL"
 
-    TNP_GIT_CURRENT_BRANCH=$(git symbolic-ref -q --short HEAD || git describe --all --exact-match)
+#    TNP_GIT_CURRENT_BRANCH=$(git symbolic-ref -q --short HEAD || git describe --all --exact-match)
+    TNP_GIT_CURRENT_BRANCH="%teamcity.pullRequest.source.branch%"
     echo -e "Git checkout branch ${TNP_GIT_CURRENT_BRANCH}"  >&3
     git checkout --recurse-submodules "${TNP_GIT_CURRENT_BRANCH}"
   else
