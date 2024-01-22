@@ -43,7 +43,12 @@ TESTED_FILE="initialize_norlab_project_template.bash"
 # executed once before starting the first test (valide for all test in that file)
 setup_file() {
   BATS_DOCKER_WORKDIR=$(pwd) && export BATS_DOCKER_WORKDIR
-  export TNP_PATH_PARENT=${BATS_DOCKER_WORKDIR}
+  TNP_PATH_PARENT=${BATS_DOCKER_WORKDIR}
+
+  cd "${TNP_PATH_PARENT:?err}" || exit 1
+  set -o allexport
+  source tests/.env.tnp_test_values || exit 1
+  set +o allexport
 
   ## Uncomment the following for debug, the ">&3" is for printing bats msg to stdin
 #  pwd >&3 && tree -L 1 -a -hug >&3
@@ -71,11 +76,6 @@ setup() {
   #       code might not be committed yet.
   if [[ ${TEAMCITY_VERSION} ]]; then
     echo -e "::Case TC run"  >&3
-
-    cd "${TNP_PATH_PARENT:?err}" || exit 1
-    set -o allexport
-    source .env.tnp_test_values
-    set +o allexport
 
     printenv >&3
 

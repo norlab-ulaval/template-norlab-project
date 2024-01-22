@@ -34,10 +34,12 @@ function n2st::run_n2st_testsing_tools(){
   source .env.template-norlab-project.template
   set +o allexport
 
+  TNP_PATH=${PROJECT_PATH}
+
   ( \
     echo "TNP_GIT_REMOTE_URL=${PROJECT_GIT_REMOTE_URL}"; \
     echo "TNP_GIT_CURRENT_BRANCH=$(git symbolic-ref -q --short HEAD)"; \
-  ) >> .env.tnp_test_values
+  ) > "${TNP_PATH}/tests/.env.tnp_test_values"
 
   # ....Execute N2ST run_bats_tests_in_docker.bash.................................................
   # shellcheck disable=SC2086
