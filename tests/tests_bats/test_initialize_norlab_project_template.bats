@@ -75,7 +75,6 @@ setup() {
   #       server as we know the code was committed to a branch and copy when when locally as the
   #       code might not be committed yet.
   if [[ ${TEAMCITY_VERSION} ]]; then
-#  if [[ true ]]; then # (CRITICAL) ToDo: on task end >> delete this bloc <-
     echo -e "     [\033[1mN2ST bats container\033[0m] Case TC run" # >&3
 
     cd "${TEST_TEMP_DIR}" || exit 1
@@ -89,12 +88,7 @@ setup() {
     git fetch --all
     git submodule update --remote --recursive --init
 
-#    cd utilities/norlab-shell-script-tools
-#    pwd >&3 && tree -L 1 -a >&3
-##    git checkout main
-
     echo -e "     [\033[1mN2ST bats container\033[0m] Git checkout ${TNP_TEAMCITY_PR_SOURCE}" # >&3
-#    cd ../..
     git checkout --recurse-submodules "${TNP_TEAMCITY_PR_SOURCE}"
 
   else
@@ -141,14 +135,12 @@ teardown() {
 
 }
 
-# (CRITICAL) ToDo: on task end >> unmute next bloc ↓↓
 @test "execute from wrong directory › expect fail" {
 #  # Note:
 #  #  - "echo 'Y'" is for sending an keyboard input to the 'read' command which expect a single character
 #  #    run bash -c "echo 'Y' | source ./function_library/$TESTED_FILE"
 #  #  - Alt: Use the 'yes [n]' command which optionaly send n time
 
-#  skip "tmp dev" # ToDo: on task end >> delete this line ←
 
   cd .. || exit 1
   assert_file_exist template-norlab-project/README.norlab_template.md
@@ -161,7 +153,6 @@ teardown() {
 }
 
 @test "source file › expect fail" {
-#  skip "tmp dev" # ToDo: on task end >> delete this line ←
   #  - Alt: Use the 'yes [n]' command which optionaly send n time
 
   run bash -c "yes 1 | source ./$TESTED_FILE"
@@ -170,7 +161,6 @@ teardown() {
 }
 
 @test "Default case › NBS N2ST Semantic-Release and NorLab readme  › expect pass" {
-#  skip "tmp dev" # ToDo: on task end >> delete this line ←
 
   # Note: \n is to simulate the return key
   # Install NBS › Y
@@ -228,9 +218,7 @@ teardown() {
 
 }
 
-# (CRITICAL) ToDo: on task end >> unmute next bloc ↓↓
 @test "env prefix substitution and changelog reset › expect pass" {
-#  skip "tmp dev" # ToDo: on task end >> delete this line ←
 
   # Note: \n is to simulate the return key
   # Install NBS › Y
@@ -264,7 +252,6 @@ teardown() {
 }
 
 @test "Case no submodule › expect pass" {
-#  skip "tmp dev" # ToDo: on task end >> delete this line ←
 
   # Note: \n is to simulate the return key
   # Install NBS › N
@@ -298,7 +285,6 @@ teardown() {
 }
 
 @test "Case install NBS but skip N2ST › expect pass" {
-#  skip "tmp dev" # ToDo: on task end >> delete this line ←
 
   # Note: \n is to simulate the return key
   # Install NBS › Y
@@ -331,7 +317,6 @@ teardown() {
 }
 
 @test "Case install N2ST but skip NBS › expect pass" {
-#  skip "tmp dev" # ToDo: on task end >> delete this line ←
 
   # Note: \n is to simulate the return key
   # Install NBS › N
@@ -364,7 +349,6 @@ teardown() {
 }
 
 @test "Case skip semantic-release › expect pass" {
-#  skip "tmp dev" # ToDo: on task end >> delete this line ←
 
   # Note: \n is to simulate the return key
   # Install NBS › Y
@@ -396,7 +380,6 @@ teardown() {
 }
 
 @test "Case install NorLab readme  › expect pass" {
-#  skip "tmp dev" # ToDo: on task end >> delete this line ←
 
   # Note: \n is to simulate the return key
   # Install NBS › Y
@@ -427,7 +410,6 @@ teardown() {
 }
 
 @test "Case install VAUL readme  › expect pass" {
-#  skip "tmp dev" # ToDo: on task end >> delete this line ←
 
   # Note: \n is to simulate the return key
   # Install NBS › Y
