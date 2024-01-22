@@ -38,6 +38,21 @@ function n2st::run_n2st_testsing_tools(){
   TNP_GIT_CURRENT_BRANCH=$(git symbolic-ref -q --short HEAD || git describe --all --exact-match)
   TNP_GIT_CURRENT_BRANCH=${TNP_GIT_CURRENT_BRANCH/\/head/}
 
+
+  # (CRITICAL) ToDo: on task end >> delete next bloc ↓↓
+  echo -e "
+$ git symbolic-ref -q --short HEAD
+$(git symbolic-ref -q --short HEAD)
+
+$ git describe --all --exact-match
+$(git describe --all --exact-match)
+
+printenv
+$(printenv)
+
+"
+
+
   ( \
     echo "TNP_GIT_REMOTE_URL=${PROJECT_GIT_REMOTE_URL}"; \
     echo "TNP_GIT_NAME=${PROJECT_GIT_NAME}"; \
