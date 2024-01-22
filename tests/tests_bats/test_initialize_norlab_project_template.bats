@@ -81,18 +81,24 @@ setup() {
     cd "${TEST_TEMP_DIR}" || exit 1
     echo -e "     [\033[1mN2ST bats container\033[0m] Git clone ${TNP_GIT_REMOTE_URL:?err}" >&3
 
-    git clone --recurse-submodules --branch "${TNP_GIT_CURRENT_BRANCH}" "$TNP_GIT_REMOTE_URL"
+#    git clone --recurse-submodules --branch "${TNP_GIT_CURRENT_BRANCH}" "$TNP_GIT_REMOTE_URL"
 #    git clone --recurse-submodules "$TNP_GIT_REMOTE_URL"
+    git clone  --branch "${TNP_GIT_CURRENT_BRANCH}" "$TNP_GIT_REMOTE_URL"
 
     cd "${TNP_GIT_NAME}"
+    pwd >&3 && tree -L 1 -a >&3
     echo -e "     [\033[1mN2ST bats container\033[0m] cwd=$(pwd)" >&3
 
-
     git fetch --all
-#    echo -e "     [\033[1mN2ST bats container\033[0m] Git checkout ${TNP_GIT_CURRENT_BRANCH}" >&3
-#    git checkout --recurse-submodules "${TNP_GIT_CURRENT_BRANCH}"
-#    git checkout --recurse-submodules "${TNP_GIT_CURRENT_BRANCH}"
-    git submodule update --init --recursive
+    git submodule update --remote --recursive --init
+
+    cd utilities/norlab-shell-script-tools
+    pwd >&3 && tree -L 1 -a >&3
+#    git checkout main
+
+    echo -e "     [\033[1mN2ST bats container\033[0m] Git checkout ${TNP_GIT_CURRENT_BRANCH}" >&3
+    cd ../..
+    git checkout --recurse-submodules "${TNP_GIT_CURRENT_BRANCH}"
 
   else
     echo -e "     [\033[1mN2ST bats container\033[0m] Copy \"template-norlab-project/\" to ${TEST_TEMP_DIR}"
