@@ -1,1 +1,2 @@
-# Add project source code here
+### `src/` directory
+Add project source code in this directory
