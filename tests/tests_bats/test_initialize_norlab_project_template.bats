@@ -202,6 +202,7 @@ teardown() {
   assert_file_contains README.md "src=\"/visual/norlab_logo_acronym_dark.png"
 
   assert_file_contains README.md "img.shields.io/github/v/release/norlab-ulaval/template-norlab-project"
+  assert_file_contains README.md "/template-norlab-project.git"
 
   # ....Check teardown.............................................................................
   check_norlab_project_template_teardown

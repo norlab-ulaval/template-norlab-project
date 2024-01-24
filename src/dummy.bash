@@ -2,8 +2,8 @@
 # =================================================================================================
 #
 # This is script is used by tests/tests_bats/test_template.bats as a test case example.
-# It can be deleted as long as test_template.bats does not refer to it.
-# See TESTED_FILE="dummy.bash" near line 29.
+# It can be deleted as long as `TESTED_FILE="dummy.bash"` in test_template.bats near line 29 does
+# not refer to it.
 #
 # =================================================================================================
 
