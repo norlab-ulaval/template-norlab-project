@@ -36,7 +36,6 @@ fi
 
 # ====Setup========================================================================================
 
-#TODO: setup the following variable
 TESTED_FILE="initialize_norlab_project_template.bash"
 #TESTED_FILE_PATH="."
 
@@ -255,8 +254,13 @@ teardown() {
   assert_file_not_contains src/dummy.bash "^function n2st::.*"
   assert_file_contains src/dummy.bash "^function my_project::.*"
 
+  assert_file_not_contains tests/run_bats_core_test_in_n2st.bash "Execute 'template-norlab-project.template' repo"
+  assert_file_contains tests/run_bats_core_test_in_n2st.bash "Execute 'template-norlab-project' repo"
   assert_file_not_contains tests/run_bats_core_test_in_n2st.bash "source .env.template-norlab-project.template"
   assert_file_contains tests/run_bats_core_test_in_n2st.bash "source .env.template-norlab-project"
+
+  assert_file_not_contains tests/run_bats_core_test_in_n2st.bash "TNP_"
+  assert_file_contains tests/run_bats_core_test_in_n2st.bash "MY_PROJECT_"
 
   # ....Modify run config related files............................................................
   assert_file_not_contains .run/openATerminalInUbuntuContainer.run.xml "folderName=\"\[TNP\]"
@@ -265,6 +269,9 @@ teardown() {
   assert_file_not_contains .run/runBatsTestsAll.run.xml "folderName=\"\[TNP\]"
   assert_file_contains .run/runBatsTestsAll.run.xml "folderName=\"\[MY_PROJECT\]"
 
+  assert_file_not_contains .run/runBatsTestsAll.run.xml "tests/run_bats_core_test_in_n2st.tnp.bash"
+  assert_file_contains .run/runBatsTestsAll.run.xml "tests/run_bats_core_test_in_n2st.bash"
+
   # ....Check Semantic-Release install.............................................................
   check_semantic_release_is_installed
 
@@ -272,6 +279,7 @@ teardown() {
   check_norlab_project_template_teardown
 
 }
+
 
 @test "Case no submodule › expect pass" {
 ##  skip "tmp dev" # ToDo: on task end >> delete this line ←
