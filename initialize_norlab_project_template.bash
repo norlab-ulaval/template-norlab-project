@@ -60,7 +60,7 @@ function tnp::install_norlab_project_template(){
     echo
     unset INPUT
     read -n 1 -r -a INPUT
-    echo "INPUT=$INPUT" # User input feedback
+#    echo "INPUT=$INPUT" # User input feedback
 
     cd "${TNP_ROOT}" || exit 1
     if [[ ${INPUT} == "Y" ]] || [[ ${INPUT} == "y" ]]; then
@@ -79,6 +79,7 @@ function tnp::install_norlab_project_template(){
       # Commit the submodule to your repository
       git add .gitmodules
       git add utilities/norlab-build-system
+      git add .env.template-norlab-project.template
       git commit -m 'build: Added norlab-build-system submodule to repository'
 
     else
@@ -99,7 +100,7 @@ function tnp::install_norlab_project_template(){
     echo
     unset INPUT
     read -n 1 -r -a INPUT
-    echo "INPUT=$INPUT" # User input feedback
+#    echo "INPUT=$INPUT" # User input feedback
 
     INSTALL_N2ST=true
 
@@ -121,7 +122,7 @@ function tnp::install_norlab_project_template(){
     echo
     unset INPUT
     read -n 1 -r -a INPUT
-    echo "INPUT=$INPUT" # User input feedback
+#    echo "INPUT=$INPUT" # User input feedback
 
     if [[ ${INPUT} == "Y" ]] || [[ ${INPUT} == "y" ]]; then
       # Submodule is already pre-installed
@@ -153,7 +154,7 @@ function tnp::install_norlab_project_template(){
     echo
     unset INPUT
     read -r -a INPUT
-    echo "INPUT=$INPUT" # User input feedback
+#    echo "INPUT=$INPUT" # User input feedback
     echo
 
     # Capitalise new prefix
@@ -178,7 +179,7 @@ function tnp::install_norlab_project_template(){
     echo
     unset INPUT
     read -n 1 -r -a INPUT
-    echo "INPUT=$INPUT" # User input feedback
+#    echo "INPUT=$INPUT" # User input feedback
 
     cd "${TNP_ROOT}" || exit 1
     if [[ ${INPUT} == "V" ]] || [[ ${INPUT} == "v" ]]; then
@@ -198,7 +199,7 @@ function tnp::install_norlab_project_template(){
 
   # ....Commit project configuration steps.........................................................
   {
-    n2st::print_msg "Commit changes"
+    n2st::print_msg "Commit project configuration changes"
     cd "${TNP_ROOT}" || exit 1
     git add .
     git commit -m 'refactor: NorLab project template configuration'
@@ -213,10 +214,16 @@ function tnp::install_norlab_project_template(){
       git rm utilities/norlab-shell-script-tools
 
       n2st::seek_and_modify_string_in_file "N2ST_PATH=.*" " " ".env.${NEW_PROJECT_GIT_NAME}"
+
       rm -R tests/tests_bats
       rm -R tests/run_bats_core_test_in_n2st.bash
       rm -R ".run/runBatsTests_tests_all.run.xml"
 
+      n2st::print_msg "Commit N2ST lib deletion"
+      git add ".env.${NEW_PROJECT_GIT_NAME}"
+      git add tests/tests_bats
+      git add tests/run_bats_core_test_in_n2st.bash
+      git add ".run/runBatsTests_tests_all.run.xml"
       git commit -m 'build: Deleted norlab-shell-script-tools submodule from repository'
 
     fi
@@ -226,12 +233,21 @@ function tnp::install_norlab_project_template(){
   {
     n2st::print_msg "Teardown clean-up"
     cd "${TNP_ROOT}" || exit 1
+
     rm "src/dummy.bash"
+    git add "src/dummy.bash"
     if [[ -d tests/tests_bats ]]; then
       rm "tests/tests_bats/bats_testing_tools/norlab_project_template_helper_functions.bash"
       rm "tests/tests_bats/test_dotenv_files.bats"
       rm "tests/tests_bats/test_initialize_norlab_project_template.bats"
+      git add "tests/tests_bats/bats_testing_tools/norlab_project_template_helper_functions.bash"
+      git add "tests/tests_bats/test_dotenv_files.bats"
+      git add "tests/tests_bats/test_initialize_norlab_project_template.bats"
     fi
+
+    n2st::print_msg "Commit template-norlab-project files/dir clean-up"
+    git commit -m 'build: Clean-up template-norlab-project from repository'
+
   }
 
   n2st::print_formated_script_footer 'initialize_norlab_project_template.bash' '='
