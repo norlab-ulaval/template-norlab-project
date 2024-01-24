@@ -1,4 +1,11 @@
 #!/bin/bash
+# =================================================================================================
+#
+# This is script is used by tests/tests_bats/test_template.bats as a test case example.
+# It can be deleted as long as test_template.bats does not refer to it.
+# See TESTED_FILE="dummy.bash" near line 29.
+#
+# =================================================================================================
 
 function n2st::talk_to_me_or_not() {
   echo -e "Hey $(whoami), hit me when you are ready"

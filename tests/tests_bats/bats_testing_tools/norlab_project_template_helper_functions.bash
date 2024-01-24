@@ -30,7 +30,8 @@ function norlab_project_template_directory_reset_check() {
     # ....Check tests related files/directory....................................................................
     assert_dir_exist tests/tests_bats/bats_testing_tools
     assert_file_exist tests/tests_bats/bats_testing_tools/bats_helper_functions_local.bash
-    assert_file_exist tests/run_bats_core_test_in_n2st.bash
+    assert_file_exist tests/run_bats_core_test_in_n2st.template.bash
+    assert_file_exist tests/run_bats_core_test_in_n2st.tnp.bash
     assert_file_exist tests/tests_bats/test_template.bats
     assert_file_exist src/dummy.bash
     assert_file_exist tests/tests_bats/bats_testing_tools/norlab_project_template_helper_functions.bash
@@ -86,9 +87,11 @@ function check_N2ST_is_installed() {
   assert_output --regexp .*"\[Norlab-Project-Template\]".*"Installing N2ST"
   assert_dir_exist utilities/norlab-shell-script-tools
   assert_file_contains .env.template-norlab-project "^N2ST_PATH=\${PROJECT_PATH}/utilities/norlab-shell-script-tools"
+  assert_file_exist src/dummy.bash
   assert_file_exist tests/run_bats_core_test_in_n2st.bash
   assert_file_exist tests/tests_bats/bats_testing_tools/bats_helper_functions_local.bash
   assert_file_exist tests/tests_bats/test_template.bats
+
 }
 
 function check_N2ST_not_installed() {
@@ -97,6 +100,7 @@ function check_N2ST_not_installed() {
   assert_dir_not_exist utilities/norlab-shell-script-tools
   assert_file_not_contains .env.template-norlab-project "^N2ST_PATH=\${PROJECT_PATH}/utilities/norlab-shell-script-tools"
 
+  assert_file_not_exist src/dummy.bash
   assert_dir_not_exist tests/tests_bats
   assert_file_not_exist tests/run_bats_core_test_in_n2st.bash
 }
@@ -124,7 +128,8 @@ function check_semantic_release_not_installed() {
 function check_norlab_project_template_teardown() {
   assert_output --regexp .*"\[Norlab-Project-Template\]".*"Teardown clean-up"
   cd "${BATS_DOCKER_WORKDIR}" || exit 1
-  assert_file_not_exist src/dummy.bash
+
+  assert_file_not_exist tests/run_bats_core_test_in_n2st.tnp.bash
   assert_file_not_exist tests/tests_bats/bats_testing_tools/norlab_project_template_helper_functions.bash
   assert_file_not_exist tests/tests_bats/test_dotenv_files.bats
   assert_file_not_exist tests/tests_bats/test_initialize_norlab_project_template.bats

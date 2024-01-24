@@ -36,7 +36,6 @@ fi
 
 # ====Setup========================================================================================
 
-#TODO: setup the following variable
 TESTED_FILE="initialize_norlab_project_template.bash"
 #TESTED_FILE_PATH="."
 
@@ -125,6 +124,7 @@ teardown() {
 
 # ====Test cases===================================================================================
 @test "test directory backup › ok" {
+#  skip "tmp dev" # ToDo: on task end >> delete this line ←
 
   assert_dir_exist "/code/template-norlab-project"
   assert_dir_exist "${TEST_TEMP_DIR}/template-norlab-project"
@@ -136,6 +136,7 @@ teardown() {
 }
 
 @test "execute from wrong directory › expect fail" {
+#  skip "tmp dev" # ToDo: on task end >> delete this line ←
 #  # Note:
 #  #  - "echo 'Y'" is for sending an keyboard input to the 'read' command which expect a single character
 #  #    run bash -c "echo 'Y' | source ./function_library/$TESTED_FILE"
@@ -153,6 +154,7 @@ teardown() {
 }
 
 @test "source file › expect fail" {
+#  skip "tmp dev" # ToDo: on task end >> delete this line ←
   #  - Alt: Use the 'yes [n]' command which optionaly send n time
 
   run bash -c "yes 1 | source ./$TESTED_FILE"
@@ -161,6 +163,7 @@ teardown() {
 }
 
 @test "Default case › NBS N2ST Semantic-Release and NorLab readme  › expect pass" {
+#  skip "tmp dev" # ToDo: on task end >> delete this line ←
 
   # Note: \n is to simulate the return key
   # Install NBS › Y
@@ -190,14 +193,14 @@ teardown() {
   # ....Check Semantic-Release install.............................................................
   check_semantic_release_is_installed
 
-  # ....Modify .env project environment variable prefix............................................
-  cd "${BATS_DOCKER_WORKDIR}" || exit 1
-  assert_file_contains .env.template-norlab-project "^TMP1_PROMPT_NAME.*"
-  assert_file_contains .env.template-norlab-project "^TMP1_GIT_REMOTE_URL.*"
-  assert_file_contains .env.template-norlab-project "^TMP1_GIT_NAME.*"
-  assert_file_contains .env.template-norlab-project "^TMP1_PATH.*"
-  assert_file_contains .env.template-norlab-project "^TMP1_SRC_NAME.*"
-  assert_file_contains .env.template-norlab-project "^PROJECT_PROMPT_NAME='TMP1'"
+#  # ....Modify .env project environment variable prefix............................................
+#  cd "${BATS_DOCKER_WORKDIR}" || exit 1
+#  assert_file_contains .env.template-norlab-project "^TMP1_PROMPT_NAME.*"
+#  assert_file_contains .env.template-norlab-project "^TMP1_GIT_REMOTE_URL.*"
+#  assert_file_contains .env.template-norlab-project "^TMP1_GIT_NAME.*"
+#  assert_file_contains .env.template-norlab-project "^TMP1_PATH.*"
+#  assert_file_contains .env.template-norlab-project "^TMP1_SRC_NAME.*"
+#  assert_file_contains .env.template-norlab-project "^PROJECT_PROMPT_NAME='TMP1'"
 
   # ....Set main readme file to NorLab.............................................................
   assert_file_exist NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
@@ -218,7 +221,8 @@ teardown() {
 
 }
 
-@test "env prefix substitution and changelog reset › expect pass" {
+@test "prefix substitution and changelog reset › expect pass" {
+##  skip "tmp dev" # ToDo: on task end >> delete this line ←
 
   # Note: \n is to simulate the return key
   # Install NBS › Y
@@ -243,6 +247,31 @@ teardown() {
   assert_file_contains .env.template-norlab-project "^MY_PROJECT_SRC_NAME.*"
   assert_file_contains .env.template-norlab-project "^PROJECT_PROMPT_NAME='MY_PROJECT'"
 
+  # ....Modify bats test related files.............................................................
+  assert_file_not_contains tests/tests_bats/test_template.bats "^@test \"n2st::.*"
+  assert_file_contains tests/tests_bats/test_template.bats "^@test \"my_project::.*"
+
+  assert_file_not_contains src/dummy.bash "^function n2st::.*"
+  assert_file_contains src/dummy.bash "^function my_project::.*"
+
+  assert_file_not_contains tests/run_bats_core_test_in_n2st.bash "Execute 'template-norlab-project.template' repo"
+  assert_file_contains tests/run_bats_core_test_in_n2st.bash "Execute 'template-norlab-project' repo"
+  assert_file_not_contains tests/run_bats_core_test_in_n2st.bash "source .env.template-norlab-project.template"
+  assert_file_contains tests/run_bats_core_test_in_n2st.bash "source .env.template-norlab-project"
+
+  assert_file_not_contains tests/run_bats_core_test_in_n2st.bash "TNP_"
+  assert_file_contains tests/run_bats_core_test_in_n2st.bash "MY_PROJECT_"
+
+  # ....Modify run config related files............................................................
+  assert_file_not_contains .run/openATerminalInUbuntuContainer.run.xml "folderName=\"\[TNP\]"
+  assert_file_contains .run/openATerminalInUbuntuContainer.run.xml "folderName=\"\[MY_PROJECT\]"
+
+  assert_file_not_contains .run/runBatsTestsAll.run.xml "folderName=\"\[TNP\]"
+  assert_file_contains .run/runBatsTestsAll.run.xml "folderName=\"\[MY_PROJECT\]"
+
+  assert_file_not_contains .run/runBatsTestsAll.run.xml "tests/run_bats_core_test_in_n2st.tnp.bash"
+  assert_file_contains .run/runBatsTestsAll.run.xml "tests/run_bats_core_test_in_n2st.bash"
+
   # ....Check Semantic-Release install.............................................................
   check_semantic_release_is_installed
 
@@ -251,7 +280,9 @@ teardown() {
 
 }
 
+
 @test "Case no submodule › expect pass" {
+##  skip "tmp dev" # ToDo: on task end >> delete this line ←
 
   # Note: \n is to simulate the return key
   # Install NBS › N
@@ -285,6 +316,7 @@ teardown() {
 }
 
 @test "Case install NBS but skip N2ST › expect pass" {
+#  skip "tmp dev" # ToDo: on task end >> delete this line ←
 
   # Note: \n is to simulate the return key
   # Install NBS › Y
@@ -317,6 +349,7 @@ teardown() {
 }
 
 @test "Case install N2ST but skip NBS › expect pass" {
+#  skip "tmp dev" # ToDo: on task end >> delete this line ←
 
   # Note: \n is to simulate the return key
   # Install NBS › N
@@ -349,6 +382,7 @@ teardown() {
 }
 
 @test "Case skip semantic-release › expect pass" {
+#  skip "tmp dev" # ToDo: on task end >> delete this line ←
 
   # Note: \n is to simulate the return key
   # Install NBS › Y
@@ -380,6 +414,7 @@ teardown() {
 }
 
 @test "Case install NorLab readme  › expect pass" {
+#  skip "tmp dev" # ToDo: on task end >> delete this line ←
 
   # Note: \n is to simulate the return key
   # Install NBS › Y
@@ -410,6 +445,7 @@ teardown() {
 }
 
 @test "Case install VAUL readme  › expect pass" {
+#  skip "tmp dev" # ToDo: on task end >> delete this line ←
 
   # Note: \n is to simulate the return key
   # Install NBS › Y

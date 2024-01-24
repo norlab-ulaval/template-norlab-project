@@ -3,7 +3,7 @@
 # Execute 'template-norlab-project' repo shell script tests via 'norlab-shell-script-tools' library
 #
 # Usage:
-#   $ bash run_bats_core_test_in_n2st.bash ['<test-directory>[/<this-bats-test-file.bats>]' ['<image-distro>']]
+#   $ bash run_bats_core_test_in_n2st.tnp.bash ['<test-directory>[/<this-bats-test-file.bats>]' ['<image-distro>']]
 #
 # Arguments:
 #   - ['<test-directory>']     The directory from which to start test, default to 'tests'
@@ -20,7 +20,7 @@ if [[ -z $PARAMS ]]; then
   PARAMS="tests/tests_bats/"
 fi
 
-function n2st::run_n2st_testsing_tools(){
+function tnp::run_n2st_testing_tools(){
   local TMP_CWD
   TMP_CWD=$(pwd)
 
@@ -58,5 +58,5 @@ export TNP_TEAMCITY_PR_SOURCE
   cd "$TMP_CWD"
   }
 
-n2st::run_n2st_testsing_tools
+tnp::run_n2st_testing_tools
 

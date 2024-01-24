@@ -104,9 +104,16 @@ function tnp::install_norlab_project_template(){
 
     INSTALL_N2ST=true
 
+    cd "${TNP_ROOT}" || exit 1
     if [[ ${INPUT} == "Y" ]] || [[ ${INPUT} == "y" ]]; then
       # Submodule is already pre-installed
       n2st::print_msg "Installing N2ST"
+
+      mv tests/run_bats_core_test_in_n2st.template.bash tests/run_bats_core_test_in_n2st.bash
+
+      n2st::seek_and_modify_string_in_file "Execute 'template-norlab-project.template' repo" "Execute '${NEW_PROJECT_GIT_NAME}' repo" tests/run_bats_core_test_in_n2st.bash
+      n2st::seek_and_modify_string_in_file "source .env.template-norlab-project.template.*" "source .env.${NEW_PROJECT_GIT_NAME}" tests/run_bats_core_test_in_n2st.bash
+
     else
       n2st::print_msg "Skipping N2ST install"
       INSTALL_N2ST=false
@@ -145,7 +152,7 @@ function tnp::install_norlab_project_template(){
 
 
 
-  # ....Modify .env project environment variable prefix............................................
+  # ....Modify project prefix......................................................................
   {
     n2st::print_msg_awaiting_input "Choose a project wide environment variable prefix? (keep it short, two to four letters, alpha numeric only and no spacing)"
     echo
@@ -158,15 +165,28 @@ function tnp::install_norlab_project_template(){
     echo
 
     # Capitalise new prefix
-    INPUT="$(echo "${INPUT}" | tr '[:lower:]' '[:upper:]')"
+    ENV_PREFIX="$(echo "${INPUT}" | tr '[:lower:]' '[:upper:]')"
+    FCT_PREFIX="$(echo "${INPUT}" | tr '[:upper:]' '[:lower:]')"
 
-    n2st::print_msg "Using environment variable prefix ${MSG_DIMMED_FORMAT}${INPUT}${MSG_END_FORMAT} e.g.: ${MSG_DIMMED_FORMAT}${INPUT}_PATH${MSG_END_FORMAT}"
+    n2st::print_msg "Using environment variable prefix ${MSG_DIMMED_FORMAT}${ENV_PREFIX}${MSG_END_FORMAT} e.g.: ${MSG_DIMMED_FORMAT}${ENV_PREFIX}_PATH${MSG_END_FORMAT}"
 
     cd "${TNP_ROOT}" || exit 1
-    n2st::seek_and_modify_string_in_file "PLACEHOLDER_" "${INPUT}_" .env.template-norlab-project.template
-    n2st::seek_and_modify_string_in_file "PROJECT_PROMPT_NAME='Norlab-Project-Template'" "PROJECT_PROMPT_NAME='${INPUT}'" .env.template-norlab-project.template
+    n2st::seek_and_modify_string_in_file "PLACEHOLDER_" "${ENV_PREFIX}_" .env.template-norlab-project.template
+    n2st::seek_and_modify_string_in_file "PROJECT_PROMPT_NAME='Norlab-Project-Template'" "PROJECT_PROMPT_NAME='${ENV_PREFIX}'" .env.template-norlab-project.template
 
     mv .env.template-norlab-project.template ".env.${NEW_PROJECT_GIT_NAME}"
+
+
+    n2st::seek_and_modify_string_in_file "folderName=\"\[TNP\]" "folderName=\"\[${ENV_PREFIX}\]" .run/openATerminalInUbuntuContainer.run.xml
+    n2st::seek_and_modify_string_in_file "folderName=\"\[TNP\]" "folderName=\"\[${ENV_PREFIX}\]" .run/runBatsTestsAll.run.xml
+
+    n2st::seek_and_modify_string_in_file "tests/run_bats_core_test_in_n2st.tnp.bash" "tests/run_bats_core_test_in_n2st.bash" .run/runBatsTestsAll.run.xml
+
+    if [[ ${INSTALL_N2ST} == true ]]; then
+      n2st::seek_and_modify_string_in_file "function n2st::" "function ${FCT_PREFIX}::" src/dummy.bash
+      n2st::seek_and_modify_string_in_file "n2st::" "${FCT_PREFIX}::" tests/tests_bats/test_template.bats
+      n2st::seek_and_modify_string_in_file "TNP_" "${ENV_PREFIX}_" tests/run_bats_core_test_in_n2st.bash
+    fi
 
   }
 
@@ -215,15 +235,17 @@ function tnp::install_norlab_project_template(){
 
       n2st::seek_and_modify_string_in_file "N2ST_PATH=.*" " " ".env.${NEW_PROJECT_GIT_NAME}"
 
+      rm -R src/dummy.bash
       rm -R tests/tests_bats
-      rm -R tests/run_bats_core_test_in_n2st.bash
-      rm -R ".run/runBatsTests_tests_all.run.xml"
+      rm -R tests/run_bats_core_test_in_n2st.template.bash
+      rm -R ".run/runBatsTestsAll.run.xml"
 
       n2st::print_msg "Commit N2ST lib deletion"
+      git add src/dummy.bash
       git add ".env.${NEW_PROJECT_GIT_NAME}"
       git add tests/tests_bats
-      git add tests/run_bats_core_test_in_n2st.bash
-      git add ".run/runBatsTests_tests_all.run.xml"
+      git add tests/run_bats_core_test_in_n2st.template.bash
+      git add ".run/runBatsTestsAll.run.xml"
       git commit -m 'build: Deleted norlab-shell-script-tools submodule from repository'
 
     fi
@@ -234,8 +256,6 @@ function tnp::install_norlab_project_template(){
     n2st::print_msg "Teardown clean-up"
     cd "${TNP_ROOT}" || exit 1
 
-    rm "src/dummy.bash"
-    git add "src/dummy.bash"
     if [[ -d tests/tests_bats ]]; then
       rm "tests/tests_bats/bats_testing_tools/norlab_project_template_helper_functions.bash"
       rm "tests/tests_bats/test_dotenv_files.bats"
@@ -244,6 +264,9 @@ function tnp::install_norlab_project_template(){
       git add "tests/tests_bats/test_dotenv_files.bats"
       git add "tests/tests_bats/test_initialize_norlab_project_template.bats"
     fi
+
+    rm -R tests/run_bats_core_test_in_n2st.tnp.bash
+    git add tests/run_bats_core_test_in_n2st.tnp.bash
 
     n2st::print_msg "Commit template-norlab-project files/dir clean-up"
     git commit -m 'build: Clean-up template-norlab-project from repository'
