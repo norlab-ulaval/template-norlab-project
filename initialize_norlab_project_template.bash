@@ -208,16 +208,18 @@ function tnp::install_norlab_project_template(){
       mv README.md NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
       mv README.vaul_template.md README.md
 
+      n2st::seek_and_modify_string_in_file "img.shields.io/github/v/release/vaul-ulaval/template-norlab-project" "img.shields.io/github/v/release/vaul-ulaval/${NEW_PROJECT_GIT_NAME}" README.md
+      n2st::seek_and_modify_string_in_file "vaul-ulaval/template-norlab-project.git" "vaul-ulaval/${NEW_PROJECT_GIT_NAME}.git" README.md
     else
 
       n2st::print_msg "Setting up the NorLab README.md"
       mv README.md NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
       mv README.norlab_template.md README.md
 
+      n2st::seek_and_modify_string_in_file "img.shields.io/github/v/release/norlab-ulaval/template-norlab-project" "img.shields.io/github/v/release/norlab-ulaval/${NEW_PROJECT_GIT_NAME}" README.md
+      n2st::seek_and_modify_string_in_file "norlab-ulaval/template-norlab-project.git" "norlab-ulaval/${NEW_PROJECT_GIT_NAME}.git" README.md
     fi
 
-    n2st::seek_and_modify_string_in_file "img.shields.io/github/v/release/norlab-ulaval/template-norlab-project" "img.shields.io/github/v/release/norlab-ulaval/${NEW_PROJECT_GIT_NAME}" README.md
-    n2st::seek_and_modify_string_in_file "/template-norlab-project.git" "/${NEW_PROJECT_GIT_NAME}.git" README.md
   }
 
   # ....Commit project configuration steps.........................................................
