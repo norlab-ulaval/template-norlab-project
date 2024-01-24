@@ -201,9 +201,6 @@ teardown() {
 
   assert_file_contains README.md "src=\"/visual/norlab_logo_acronym_dark.png"
 
-  assert_file_contains README.md "img.shields.io/github/v/release/norlab-ulaval/template-norlab-project"
-  assert_file_contains README.md "/template-norlab-project.git"
-
   # ....Check teardown.............................................................................
   check_norlab_project_template_teardown
 
@@ -436,6 +433,9 @@ teardown() {
   assert_file_exist visual/norlab_logo_acronym_dark.png
   assert_file_exist visual/norlab_logo_acronym_light.png
 
+  assert_file_contains README.md "img.shields.io/github/v/release/norlab-ulaval/template-norlab-project"
+  assert_file_contains README.md "norlab-ulaval/template-norlab-project.git"
+
 }
 
 @test "Case install VAUL readme  › expect pass" {
@@ -465,6 +465,10 @@ teardown() {
 
   assert_file_contains README.md "img src=\"./visual/VAUL_Logo_patch.png"
   assert_file_exist visual/VAUL_Logo_patch.png
+
+  assert_file_contains README.md "img.shields.io/github/v/release/vaul-ulaval/template-norlab-project"
+  assert_file_contains README.md "vaul-ulaval/template-norlab-project.git"
+
 }
 
 
