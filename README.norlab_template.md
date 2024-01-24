@@ -70,6 +70,12 @@ Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
 [//]: # ( ==== Body ================================================== ) 
 [//]: # (TODO: Make it your own)
 
+### Clone repository
+
+```shell
+git clone --recurse-submodule https://github.com/norlab-ulaval/template-norlab-project.git
+```
+
 #### Execute configuration steps from [template-norlab-project/README.md](https://github.com/norlab-ulaval/template-norlab-project/tree/main/README.md)
 - [ ] Step 1 › Generate the new repository
 - [ ] Step 2 › Configure the _GitHub_ repository settings

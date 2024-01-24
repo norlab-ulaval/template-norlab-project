@@ -193,15 +193,6 @@ teardown() {
   # ....Check Semantic-Release install.............................................................
   check_semantic_release_is_installed
 
-#  # ....Modify .env project environment variable prefix............................................
-#  cd "${BATS_DOCKER_WORKDIR}" || exit 1
-#  assert_file_contains .env.template-norlab-project "^TMP1_PROMPT_NAME.*"
-#  assert_file_contains .env.template-norlab-project "^TMP1_GIT_REMOTE_URL.*"
-#  assert_file_contains .env.template-norlab-project "^TMP1_GIT_NAME.*"
-#  assert_file_contains .env.template-norlab-project "^TMP1_PATH.*"
-#  assert_file_contains .env.template-norlab-project "^TMP1_SRC_NAME.*"
-#  assert_file_contains .env.template-norlab-project "^PROJECT_PROMPT_NAME='TMP1'"
-
   # ....Set main readme file to NorLab.............................................................
   assert_file_exist NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
   assert_file_exist README.md
@@ -209,6 +200,9 @@ teardown() {
   assert_file_exist README.vaul_template.md
 
   assert_file_contains README.md "src=\"/visual/norlab_logo_acronym_dark.png"
+
+  assert_file_contains README.md "img.shields.io/github/v/release/norlab-ulaval/template-norlab-project"
+  assert_file_contains README.md "/template-norlab-project.git"
 
   # ....Check teardown.............................................................................
   check_norlab_project_template_teardown
