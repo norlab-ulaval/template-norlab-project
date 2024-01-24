@@ -34,7 +34,7 @@ research-oriented best practice.**
 <br>
 It has a few preconfigured tools such as an initialization script to speed up the repository 
 customization process, a pull request template, a sematic-release github action, a standardized 
-readme file with NorLab logo , a git ignore file with common file/directory entries, a code owner 
+readme file with _NorLab_ or _VAUL_ logo, a git ignore file with common file/directory entries, a code owner 
 designation file and the basic directory structure. 
 
 <br>
