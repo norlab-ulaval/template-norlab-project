@@ -215,6 +215,8 @@ function tnp::install_norlab_project_template(){
       mv README.norlab_template.md README.md
 
     fi
+
+    n2st::seek_and_modify_string_in_file "img.shields.io/github/v/release/norlab-ulaval/template-norlab-project" "img.shields.io/github/v/release/norlab-ulaval/${NEW_PROJECT_GIT_NAME}" README.md
   }
 
   # ....Commit project configuration steps.........................................................
