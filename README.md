@@ -67,16 +67,16 @@ Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
 [//]: # ( ==== Body ================================================== ) 
 **Note:** For `latex` project such as writing proposal or conference paper, use a template from the following list of [NorLab `TeX` template repositories](https://github.com/norlab-ulaval?q=template&type=all&language=tex&sort=) instead.  
 
-## How to use this template repository
+# How to use this template repository
 
-- [Step 1 › Generate the new repository](#step-1--generate-the-new-repository)
-- [Step 2 › Execute `initialize_norlab_project_template.bash` (Support Ubuntu and Mac OsX)](#step-4--execute-initialize_norlab_project_templatebash)
-- [Step 3 › Make it your own](#step-5--make-it-your-own)
-- [Step 4 › Configure the _GitHub_ repository settings](#step-2--configure-the-github-repository-settings)
-- [Step 5 › Release automation: enable semantic versioning tools](#step-3--release-automation-enable-semantic-versioning-tools)
+- [ ] [Step 1 › Generate the new repository](#step-1--generate-the-new-repository)
+- [ ] [Step 2 › Execute `initialize_norlab_project_template.bash` (Support Ubuntu and Mac OsX)](#step-2--execute-initialize_norlab_project_templatebash)
+- [ ] [Step 3 › Make it your own](#step-3--make-it-your-own)
+- [ ] [Step 4 › Configure the _GitHub_ repository settings](#step-4--configure-the-github-repository-settings)
+- [ ] [Step 5 › Release automation: enable semantic versioning tools](#step-5--enable-release-automation-tools-semantic-versioning)
 
-## Instructions
-### Step 1 › Generate the new repository
+# Instructions
+## Step 1 › Generate the new repository
 1. Click on the buttons `Use this template` > `Create a new repository` 
     <br>
    ![img.png](visual/use_this_template_button.png)
@@ -86,7 +86,7 @@ Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
 $ git clone --recurse-submodule https://github.com/<your-git-repository-url>
 ```
 
-### Step 2 › Execute `initialize_norlab_project_template.bash`
+## Step 2 › Execute `initialize_norlab_project_template.bash`
 
 (Support Ubuntu and Mac OsX)
 
@@ -108,7 +108,7 @@ It will execute the following steps:
    3. customize url references 
 4. Reset the content of `CHANGELOG.md`
 
-### Step 3 › Make it your own
+## Step 3 › Make it your own
 
 1. Configure the repository directory structure for your project type
 2. Modify the code owner designation file: `.github/CODEOWNERS`
@@ -119,7 +119,7 @@ It will execute the following steps:
 **Note:** `CHANGELOG.md` and `version.txt` are both automatically generated
 by _semantic-release_
 
-### Step 4 › Configure the _GitHub_ repository settings
+## Step 4 › Configure the _GitHub_ repository settings
 
 ★ The `main` branch is sacred. It must be deployable at any time.  
  We strongly recommend you to configure your repository branching scheme following [**_Gitflow_**](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
@@ -144,7 +144,7 @@ and set the following:
    
 
 
-### Step 5 › Enable release automation tools (semantic versioning)  
+## Step 5 › Enable release automation tools (semantic versioning)  
 
 #### Why:
 Assuming your repository is part of a bigger system, 
