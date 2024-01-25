@@ -288,7 +288,19 @@ function tnp::install_norlab_project_template(){
 
   }
 
-  n2st::print_msg_done "Configuration steps completed, tou can delete ${MSG_DIMMED_FORMAT}initialize_norlab_project_template.bash${MSG_END_FORMAT} and ${MSG_DIMMED_FORMAT}NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md${MSG_END_FORMAT} when you are ready."
+  n2st::print_msg_done "You can delete ${MSG_DIMMED_FORMAT}initialize_norlab_project_template.bash${MSG_END_FORMAT} and ${MSG_DIMMED_FORMAT}NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md${MSG_END_FORMAT} when you are ready.
+
+   NorLab project remaining configuration steps:
+   - ${MSG_DONE_FORMAT}✔ Step 1 › Generate the new repository${MSG_END_FORMAT}
+   - ${MSG_DONE_FORMAT}✔ Step 2 › Execute initialize_norlab_project_template.bash${MSG_END_FORMAT}
+   -   Step 3 › Make it your own
+       https://github.com/norlab-ulaval/template-norlab-project/tree/main#step-3--make-it-your-own
+   -   Step 4 › Configure the GitHub repository settings
+       https://github.com/norlab-ulaval/template-norlab-project/tree/main#step-4--configure-the-github-repository-settings
+   -   Step 5 › Release automation: enable semantic versioning tools
+       https://github.com/norlab-ulaval/template-norlab-project/tree/main#step-5--enable-release-automation-tools-semantic-versioning
+
+Happy coding!"
   n2st::print_formated_script_footer 'initialize_norlab_project_template.bash' '='
 
 
