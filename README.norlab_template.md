@@ -41,9 +41,11 @@ fermentum.
 
 [//]: # ( ==== Badges ================================================ ) 
 [//]: # (TODO: change the url 'https://img.shields.io/github/v/release/norlab-ulaval/template-norlab-project' for https://img.shields.io/github/v/release/norlab-ulaval/<YOUR-REPOSITORY-NAME> ")
+[//]: # (Note on shield.io release badge: it works only for public repository)
 
 [![semantic-release: conventional commits](https://img.shields.io/badge/semantic--release-conventional_commits-453032?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/norlab-ulaval/template-norlab-project">
+
 
 [//]: # (NorLab teamcity)
 [//]: # (TODO: Un-comment the next line if your repository has run configuration enable on the norlab-teamcity-server)
