@@ -197,7 +197,7 @@ teardown() {
   assert_file_exist NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
   assert_file_exist README.md
   assert_file_not_exist README.norlab_template.md
-  assert_file_exist README.vaul_template.md
+  assert_file_not_exist README.vaul_template.md
 
   assert_file_contains README.md "src=\"/visual/norlab_logo_acronym_dark.png"
 
@@ -427,7 +427,7 @@ teardown() {
   assert_file_exist NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
   assert_file_exist README.md
   assert_file_not_exist README.norlab_template.md
-  assert_file_exist README.vaul_template.md
+  assert_file_not_exist README.vaul_template.md
 
   assert_file_contains README.md "src=\"/visual/norlab_logo_acronym_dark.png"
   assert_file_exist visual/norlab_logo_acronym_dark.png
@@ -460,7 +460,7 @@ teardown() {
   cd "${BATS_DOCKER_WORKDIR}" || exit 1
   assert_file_exist NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
   assert_file_exist README.md
-  assert_file_exist README.norlab_template.md
+  assert_file_not_exist README.norlab_template.md
   assert_file_not_exist README.vaul_template.md
 
   assert_file_contains README.md "img src=\"./visual/VAUL_Logo_patch.png"
