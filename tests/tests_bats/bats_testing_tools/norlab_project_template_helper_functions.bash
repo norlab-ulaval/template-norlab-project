@@ -127,8 +127,10 @@ function check_semantic_release_not_installed() {
 
 function check_norlab_project_template_teardown() {
   assert_output --regexp .*"\[Norlab-Project-Template\]".*"Teardown clean-up"
-  cd "${BATS_DOCKER_WORKDIR}" || exit 1
 
+  assert_output --regexp .*"\[Norlab-Project-Template done\]".*"You can delete ".*"initialize_norlab_project_template.bash".*"and ".*"NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md".*"when you are ready.".*"NorLab project remaining configuration steps:".*"-".*"✔ Step 1 › Generate the new repository".*"-".*"✔ Step 2 › Execute initialize_norlab_project_template.bash".*"-   Step 3 › Make it your own".*"https://github.com/norlab-ulaval/template-norlab-project/tree/main#step-3--make-it-your-own".*"-   Step 4 › Configure the GitHub repository settings".*"https://github.com/norlab-ulaval/template-norlab-project/tree/main#step-4--configure-the-github-repository-settings".*"-   Step 5 › Release automation: enable semantic versioning tools".*"https://github.com/norlab-ulaval/template-norlab-project/tree/main#step-5--enable-release-automation-tools-semantic-versioning".*"Completed"
+
+  cd "${BATS_DOCKER_WORKDIR}" || exit 1
   assert_file_not_exist tests/run_bats_core_test_in_n2st.tnp.bash
   assert_file_not_exist tests/tests_bats/bats_testing_tools/norlab_project_template_helper_functions.bash
   assert_file_not_exist tests/tests_bats/test_dotenv_files.bats
