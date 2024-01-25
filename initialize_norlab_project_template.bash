@@ -288,7 +288,9 @@ function tnp::install_norlab_project_template(){
 
   }
 
+  n2st::print_msg_done "Configuration steps completed, tou can delete ${MSG_DIMMED_FORMAT}initialize_norlab_project_template.bash${MSG_END_FORMAT} and ${MSG_DIMMED_FORMAT}NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md${MSG_END_FORMAT} when you are ready."
   n2st::print_formated_script_footer 'initialize_norlab_project_template.bash' '='
+
 
   exit 0
   cd "${TNP_ROOT}" || exit 1
