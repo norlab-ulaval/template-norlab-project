@@ -61,6 +61,7 @@ function tnp::install_norlab_project_template(){
     unset INPUT
     read -n 1 -r -a INPUT
 #    echo "INPUT=$INPUT" # User input feedback
+    echo
 
     cd "${TNP_ROOT}" || exit 1
     if [[ ${INPUT} == "Y" ]] || [[ ${INPUT} == "y" ]]; then
@@ -101,6 +102,7 @@ function tnp::install_norlab_project_template(){
     unset INPUT
     read -n 1 -r -a INPUT
 #    echo "INPUT=$INPUT" # User input feedback
+    echo
 
     INSTALL_N2ST=true
 
@@ -130,6 +132,7 @@ function tnp::install_norlab_project_template(){
     unset INPUT
     read -n 1 -r -a INPUT
 #    echo "INPUT=$INPUT" # User input feedback
+    echo
 
     if [[ ${INPUT} == "Y" ]] || [[ ${INPUT} == "y" ]]; then
       # Submodule is already pre-installed
@@ -200,6 +203,7 @@ function tnp::install_norlab_project_template(){
     unset INPUT
     read -n 1 -r -a INPUT
 #    echo "INPUT=$INPUT" # User input feedback
+    echo
 
     cd "${TNP_ROOT}" || exit 1
     if [[ ${INPUT} == "V" ]] || [[ ${INPUT} == "v" ]]; then
@@ -210,6 +214,9 @@ function tnp::install_norlab_project_template(){
 
       n2st::seek_and_modify_string_in_file "img.shields.io/github/v/release/vaul-ulaval/template-norlab-project" "img.shields.io/github/v/release/vaul-ulaval/${NEW_PROJECT_GIT_NAME}" README.md
       n2st::seek_and_modify_string_in_file "vaul-ulaval/template-norlab-project.git" "vaul-ulaval/${NEW_PROJECT_GIT_NAME}.git" README.md
+
+      rm README.norlab_template.md
+
     else
 
       n2st::print_msg "Setting up the NorLab README.md"
@@ -218,6 +225,9 @@ function tnp::install_norlab_project_template(){
 
       n2st::seek_and_modify_string_in_file "img.shields.io/github/v/release/norlab-ulaval/template-norlab-project" "img.shields.io/github/v/release/norlab-ulaval/${NEW_PROJECT_GIT_NAME}" README.md
       n2st::seek_and_modify_string_in_file "norlab-ulaval/template-norlab-project.git" "norlab-ulaval/${NEW_PROJECT_GIT_NAME}.git" README.md
+
+      rm README.vaul_template.md
+
     fi
 
   }

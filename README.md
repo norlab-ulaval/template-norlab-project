@@ -35,7 +35,7 @@ research-oriented best practice.**
 It has a few preconfigured tools such as an initialization script to speed up the repository 
 customization process, a pull request template, a sematic-release github action, a standardized 
 readme file with _NorLab_ or _VAUL_ logo, a git ignore file with common file/directory entries, a code owner 
-designation file and the basic directory structure. 
+designation file, JetBranins IDE run configurations and the basic directory structure. 
 
 <br>
 
@@ -67,16 +67,16 @@ Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
 [//]: # ( ==== Body ================================================== ) 
 **Note:** For `latex` project such as writing proposal or conference paper, use a template from the following list of [NorLab `TeX` template repositories](https://github.com/norlab-ulaval?q=template&type=all&language=tex&sort=) instead.  
 
-## How to use this template repository
+# How to use this template repository
 
-- [Step 1 › Generate the new repository](#step-1--generate-the-new-repository)
-- [Step 2 › Configure the _GitHub_ repository settings](#step-2--configure-the-github-repository-settings)
-- [Step 3 › Release automation: enable semantic versioning tools](#step-3--release-automation-enable-semantic-versioning-tools)
-- [Step 4 › Execute `initialize_norlab_project_template.bash` (Support Ubuntu and Mac OsX)](#step-4--execute-initialize_norlab_project_templatebash)
-- [Step 5 › Make it your own](#step-5--make-it-your-own)
+- [ ] [Step 1 › Generate the new repository](#step-1--generate-the-new-repository)
+- [ ] [Step 2 › Execute `initialize_norlab_project_template.bash` (Support Ubuntu and Mac OsX)](#step-2--execute-initialize_norlab_project_templatebash)
+- [ ] [Step 3 › Make it your own](#step-3--make-it-your-own)
+- [ ] [Step 4 › Configure the _GitHub_ repository settings](#step-4--configure-the-github-repository-settings)
+- [ ] [Step 5 › Release automation: enable semantic versioning tools](#step-5--enable-release-automation-tools-semantic-versioning)
 
-## Instructions
-### Step 1 › Generate the new repository
+# Instructions
+## Step 1 › Generate the new repository
 1. Click on the buttons `Use this template` > `Create a new repository` 
     <br>
    ![img.png](visual/use_this_template_button.png)
@@ -86,7 +86,40 @@ Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
 $ git clone --recurse-submodule https://github.com/<your-git-repository-url>
 ```
 
-### Step 2 › Configure the _GitHub_ repository settings
+## Step 2 › Execute `initialize_norlab_project_template.bash`
+
+(Support Ubuntu and Mac OsX)
+
+It will execute the following steps:
+
+1. Install resources (or skip):
+    1. (optional) [Norlab Build System (NBS)](https://github.com/norlab-ulaval/norlab-build-system)
+       submodule
+    2. (optional) [NorLab Shell Script Tools (N2ST)](https://github.com/norlab-ulaval/norlab-shell-script-tools)
+       submodule
+    3. (optional) [_semantic-release_](https://semantic-release.gitbook.io) 
+2. Customize 
+   1. environment variable prefixes and shell functions project wide
+   2. repository name references project wide
+3. Manage readme files
+   1. rename `README.md` to `NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md`
+   2. rename either `README.norlab_template.md` or `README.vaul_template.md` 
+       to `README.md` and delete the other one
+   3. customize url references 
+4. Reset the content of `CHANGELOG.md`
+
+## Step 3 › Make it your own
+
+1. Configure the repository directory structure for your project type
+2. Modify the code owner designation file: `.github/CODEOWNERS`
+3. Validate the content of `.gitignore` file
+4. Modify the pull request template to fit your workflow needs: `.github/pull_request_template.md`
+5. Make your new `README.md` file your own
+
+**Note:** `CHANGELOG.md` and `version.txt` are both automatically generated
+by _semantic-release_
+
+## Step 4 › Configure the _GitHub_ repository settings
 
 ★ The `main` branch is sacred. It must be deployable at any time.  
  We strongly recommend you to configure your repository branching scheme following [**_Gitflow_**](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
@@ -111,17 +144,17 @@ and set the following:
    
 
 
-### Step 3 › Release automation: enable semantic versioning tools  
+## Step 5 › Enable release automation tools (semantic versioning)  
 
-#### Why:
+### Why:
 Assuming your repository is part of a bigger system, 
 - easily identify the repository state currently in use as a dependency
 - and escape "dependency hell". 
 
-#### How
+### How
 Any push to the `main` branch will trigger the execution of [_semantic-release_](https://semantic-release.gitbook.io) which will analyse each commits message to determine the version bump following [_semantic versioning_](https://semver.org) scheme `MAJOR.MINOR.PATCH`.
 
-#### On version bump, 
+### On version bump, 
 - a new repository tag gets published with the newest versions number `v<MAJOR>.<MINOR>.<PATCH>`
 - the `CHANGELOG.md` and the `version.txt` files gets updated
 - a new repository release gets published on the _Releases_ page 
@@ -133,7 +166,7 @@ Any push to the `main` branch will trigger the execution of [_semantic-release_]
 and all others such as `doc` and `style` will register for the next release but won't trigger one.
 
 
-#### Configuration
+### Configuration
 1. Adopt the [_conventional-commit_](https://www.conventionalcommits.org/) specification. This is a **hard requirement** for _semantic-release_.  
   See [commit_msg_reference.md](./commit_msg_reference.md) for a quick summary.
 2. Configure the _**semantic-release**_ GitHub action implemented in the `.github/workflows/` directory. 
@@ -142,34 +175,9 @@ and all others such as `doc` and `style` will register for the next release but 
      Reference: [semantic-release/GitHub Actions](https://semantic-release.gitbook.io/semantic-release/recipes/ci-configurations/github-actions)  
 
 
-### Step 4 › Execute `initialize_norlab_project_template.bash` 
-(Support Ubuntu and Mac OsX)
-
-It will execute the following steps:
-
-1. Install resources (or skip): 
-   1. (optional) [Norlab Build System (NBS)](https://github.com/norlab-ulaval/norlab-build-system) submodule 
-   2. (optional) [NorLab Shell Script Tools (N2ST)](https://github.com/norlab-ulaval/norlab-shell-script-tools)
-      submodule
-2. Reset the content of `CHANGELOG.md`
-3. Configure project wide environment variable prefix in `.env.<your-project-name>`
-4. Rename `README.md` to `NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md`
-5. Rename either `README.norlab_template.md` or `README.vaul_template.md` to `README.md`
-    
-### Step 5 › Make it your own
-
-1. Configure the repository directory structure for your project type
-2. Modify the code owner designation file: `.github/CODEOWNERS`
-3. Validate the content of `.gitignore` file
-4. Modify the pull request template to fit your workflow needs: `.github/pull_request_template.md`
-5. Make your new `README.md` file your own
-
-**Note:** `CHANGELOG.md` and `version.txt` are both automatically generated 
-by _semantic-release_
-
 ---
 
-## Questions: 
+# Questions: 
 
 **I'm concern using _conventional-commit_ will slow me down:** 
 <br> 
