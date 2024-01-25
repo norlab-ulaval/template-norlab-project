@@ -163,7 +163,7 @@ teardown() {
 }
 
 @test "Default case › NBS N2ST Semantic-Release and NorLab readme  › expect pass" {
-#  skip "tmp dev" # ToDo: on task end >> delete this line ←
+##  skip "tmp dev" # ToDo: on task end >> delete this line ←
 
   # Note: \n is to simulate the return key
   # Install NBS › Y
@@ -212,8 +212,34 @@ teardown() {
 
 }
 
-@test "prefix substitution and changelog reset › expect pass" {
+@test "Validate git add steps and gitignore configuration › expect pass" {
 ##  skip "tmp dev" # ToDo: on task end >> delete this line ←
+
+  # Note: \n is to simulate the return key
+  # Install NBS › Y
+  # Install N2ST › Y
+  # Semantic-Release › Y
+  # Project env var prefix › TMP1
+  # Install NorLab readme › Y
+  local TEST_CASE="yyyTMP2\ny"
+
+  norlab_project_template_directory_reset_check
+
+  # ....Execute initialize_norlab_project_template.bash............................................
+  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
+  assert_success
+
+  # ....Check submodule cloning....................................................................
+  cd "${BATS_DOCKER_WORKDIR}" || exit 1
+  assert_dir_exist .git
+  assert_file_exist .gitmodules
+
+  # ....Check git commit feedback..................................................................
+  refute_output --regexp "Commit".*"create mode".*".idea/".*
+}
+
+@test "Prefix substitution and changelog reset › expect pass" {
+#  skip "tmp dev" # ToDo: on task end >> delete this line ←
 
   # Note: \n is to simulate the return key
   # Install NBS › Y
@@ -271,9 +297,8 @@ teardown() {
 
 }
 
-
 @test "Case no submodule › expect pass" {
-##  skip "tmp dev" # ToDo: on task end >> delete this line ←
+#  skip "tmp dev" # ToDo: on task end >> delete this line ←
 
   # Note: \n is to simulate the return key
   # Install NBS › N
