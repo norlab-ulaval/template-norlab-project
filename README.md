@@ -146,15 +146,15 @@ and set the following:
 
 ## Step 5 › Enable release automation tools (semantic versioning)  
 
-#### Why:
+### Why:
 Assuming your repository is part of a bigger system, 
 - easily identify the repository state currently in use as a dependency
 - and escape "dependency hell". 
 
-#### How
+### How
 Any push to the `main` branch will trigger the execution of [_semantic-release_](https://semantic-release.gitbook.io) which will analyse each commits message to determine the version bump following [_semantic versioning_](https://semver.org) scheme `MAJOR.MINOR.PATCH`.
 
-#### On version bump, 
+### On version bump, 
 - a new repository tag gets published with the newest versions number `v<MAJOR>.<MINOR>.<PATCH>`
 - the `CHANGELOG.md` and the `version.txt` files gets updated
 - a new repository release gets published on the _Releases_ page 
@@ -166,7 +166,7 @@ Any push to the `main` branch will trigger the execution of [_semantic-release_]
 and all others such as `doc` and `style` will register for the next release but won't trigger one.
 
 
-#### Configuration
+### Configuration
 1. Adopt the [_conventional-commit_](https://www.conventionalcommits.org/) specification. This is a **hard requirement** for _semantic-release_.  
   See [commit_msg_reference.md](./commit_msg_reference.md) for a quick summary.
 2. Configure the _**semantic-release**_ GitHub action implemented in the `.github/workflows/` directory. 
@@ -177,7 +177,7 @@ and all others such as `doc` and `style` will register for the next release but 
 
 ---
 
-## Questions: 
+# Questions: 
 
 **I'm concern using _conventional-commit_ will slow me down:** 
 <br> 
