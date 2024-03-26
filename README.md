@@ -181,7 +181,7 @@ and all others such as `doc` and `style` will register for the next release but 
 
 **I'm concern using _conventional-commit_ will slow me down:** 
 <br> 
-It does not discourage moving fats, ["It discourages moving fast in a disorganized way"](https://www.conventionalcommits.org/en/v1.0.0/#doesnt-this-discourage-rapid-development-and-fast-iteration) 
+It does not discourage moving fast, ["It discourages moving fast in a disorganized way"](https://www.conventionalcommits.org/en/v1.0.0/#doesnt-this-discourage-rapid-development-and-fast-iteration) 
 
 **What if I want to revert a buggy release:**
 <br> 
