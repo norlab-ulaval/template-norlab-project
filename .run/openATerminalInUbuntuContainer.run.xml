@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Open a terminal in a Ubuntu 20.04 container" type="ShConfigurationType" folderName="[TNP] B | docker utilities">
+  <configuration default="false" name="openATerminalInUbuntuContainer" type="ShConfigurationType" folderName="[TNP] B | docker utilities">
     <option name="SCRIPT_TEXT" value="docker run --privileged --name IamUbuntu-focal -it --rm ubuntu:20.04 bash" />
     <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
     <option name="SCRIPT_PATH" value="" />
