@@ -70,7 +70,7 @@ Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
 # How to use this template repository
 
 - [ ] [Step 1 › Generate the new repository](#step-1--generate-the-new-repository)
-- [ ] [Step 2 › Execute `initialize_norlab_project_template.bash` (Support Ubuntu and Mac OsX)](#step-2--execute-initialize_norlab_project_templatebash)
+- [ ] [Step 2 › Execute initialization script](#step-2--execute-initialization-script)
 - [ ] [Step 3 › Make it your own](#step-3--make-it-your-own)
 - [ ] [Step 4 › Configure the _GitHub_ repository settings](#step-4--configure-the-github-repository-settings)
 - [ ] [Step 5 › Release automation: enable semantic versioning tools](#step-5--enable-release-automation-tools-semantic-versioning)
@@ -86,9 +86,13 @@ Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
 $ git clone --recurse-submodule https://github.com/<your-git-repository-url>
 ```
 
-## Step 2 › Execute `initialize_norlab_project_template.bash`
+## Step 2 › Execute initialization script
+(Support Unix system: Ubuntu and Mac OsX)
 
-(Support Ubuntu and Mac OsX)
+```shell
+# From repository root, execute the following line
+$ bash initialize_norlab_project_template.bash
+```
 
 It will execute the following steps:
 
