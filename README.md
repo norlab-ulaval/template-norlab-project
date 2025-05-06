@@ -92,6 +92,7 @@ $ git clone --recurse-submodule https://github.com/<your-git-repository-url>
 ```shell
 # From repository root, execute the following line
 $ bash initialize_norlab_project_template.bash
+# Follow the instruction on the console
 ```
 
 It will execute the following steps:
@@ -111,6 +112,43 @@ It will execute the following steps:
        to `README.md` and delete the other one
    3. customize url references 
 4. Reset the content of `CHANGELOG.md`
+
+When the script execution is done, you will end up with the following repository structure:
+```markdown
+my_new_cool_repo
+├── README.md
+├── CHANGELOG.md
+├── commit_msg_reference.md
+├── version.txt
+├── .env.my_new_cool_repo
+├── data
+│   └── README.md
+├── src
+│   ├── README.md
+│   └── dummy.bash
+├── tests
+│   ├── README.md
+│   ├── run_bats_core_test_in_n2st.bash (optional)
+│   └── tests_bats (optional)
+├── utilities
+│   ├── norlab-build-system (optional)
+│   └── norlab-shell-script-tools (optional)
+├── visual
+│   └── ...
+├── .github
+│   ├── CODEOWNERS
+│   ├── pull_request_template.md
+│   └── workflows
+│       └── semantic_release.yml (optional)
+├── .gitignore
+├── .gitmodules
+├── .releaserc.json (optional)
+├── .run
+│   ├── openATerminalInUbuntuContainer.run.xml
+│   └── runBatsTestsAll.run.xml (optional)
+├── NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md (to delete when done)
+└── initialize_norlab_project_template.bash (to delete when done)
+```
 
 ## Step 3 › Make it your own
 
