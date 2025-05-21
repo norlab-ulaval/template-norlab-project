@@ -210,6 +210,8 @@ teardown() {
   source .env.template-norlab-project
   set +o allexport
 
+  # ....Check CODEOWNER file.......................................................................
+  assert_file_not_contains .github/CODEOWNERS "TNP_GIT_USER_NAME_PLACEHOLDER"
 }
 
 @test "Validate git add steps and gitignore configuration › expect pass" {
@@ -280,14 +282,14 @@ teardown() {
   assert_file_contains tests/run_bats_core_test_in_n2st.bash "MY_PROJECT_"
 
   # ....Modify run config related files............................................................
-  assert_file_not_contains .run/openATerminalInUbuntuContainer.run.xml "folderName=\"\[TNP\]"
-  assert_file_contains .run/openATerminalInUbuntuContainer.run.xml "folderName=\"\[MY_PROJECT\]"
+  assert_file_not_contains .run/open-a-terminal-in-ubuntu-container.run.xml "folderName=\"\[TNP\]"
+  assert_file_contains .run/open-a-terminal-in-ubuntu-container.run.xml "folderName=\"\[MY_PROJECT\]"
 
-  assert_file_not_contains .run/runBatsTestsAll.run.xml "folderName=\"\[TNP\]"
-  assert_file_contains .run/runBatsTestsAll.run.xml "folderName=\"\[MY_PROJECT\]"
+  assert_file_not_contains .run/run-Bats-Tests-All.run.xml "folderName=\"\[TNP\]"
+  assert_file_contains .run/run-Bats-Tests-All.run.xml "folderName=\"\[MY_PROJECT\]"
 
-  assert_file_not_contains .run/runBatsTestsAll.run.xml "tests/run_bats_core_test_in_n2st.tnp.bash"
-  assert_file_contains .run/runBatsTestsAll.run.xml "tests/run_bats_core_test_in_n2st.bash"
+  assert_file_not_contains .run/run-Bats-Tests-All.run.xml "tests/run_bats_core_test_in_n2st.tnp.bash"
+  assert_file_contains .run/run-Bats-Tests-All.run.xml "tests/run_bats_core_test_in_n2st.bash"
 
   # ....Check Semantic-Release install.............................................................
   check_semantic_release_is_installed
@@ -461,6 +463,9 @@ teardown() {
   assert_file_contains README.md "img.shields.io/github/v/release/norlab-ulaval/template-norlab-project"
   assert_file_contains README.md "norlab-ulaval/template-norlab-project.git"
 
+  assert_file_not_contains README.md "TNP_GIT_USER_NAME_PLACEHOLDER"
+  assert_file_not_contains README.md "TNP_PROJECT_NAME_PLACEHOLDER"
+
 }
 
 @test "Case install VAUL readme  › expect pass" {
@@ -493,6 +498,9 @@ teardown() {
 
   assert_file_contains README.md "img.shields.io/github/v/release/vaul-ulaval/template-norlab-project"
   assert_file_contains README.md "vaul-ulaval/template-norlab-project.git"
+
+  assert_file_not_contains README.md "TNP_GIT_USER_NAME_PLACEHOLDER"
+  assert_file_not_contains README.md "TNP_PROJECT_NAME_PLACEHOLDER"
 
 }
 

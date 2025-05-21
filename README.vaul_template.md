@@ -11,7 +11,7 @@
 
 [//]: # ( ==== Title ================================================= ) 
 [//]: # (TODO: change the title)
-# _VAUL › Project Template_
+# _TNP_PROJECT_NAME_PLACEHOLDER_
 
 
 [//]: # ( ==== Hyperlink ============================================= )
@@ -59,7 +59,7 @@ fermentum.
 [//]: # ( ==== Maintainer ============================================ ) 
 [//]: # (TODO: Change the maintainer name)
 <sub>
-Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
+Maintainer <a href="https://github.com/TNP_GIT_USER_NAME_PLACEHOLDER">TNP_GIT_USER_NAME_PLACEHOLDER</a>
 </sub>
 
 <br>

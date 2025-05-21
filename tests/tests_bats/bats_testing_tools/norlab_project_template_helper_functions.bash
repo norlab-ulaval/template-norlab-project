@@ -63,6 +63,8 @@ function norlab_project_template_directory_reset_check() {
     assert_file_contains .env.template-norlab-project.template "^PLACEHOLDER_PATH.*"
     assert_file_contains .env.template-norlab-project.template "^PLACEHOLDER_SRC_NAME.*"
     assert_file_contains .env.template-norlab-project.template "^PROJECT_PROMPT_NAME='Norlab-Project-Template'"
+
+
 }
 
 function check_NBS_is_installed() {
