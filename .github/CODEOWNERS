@@ -12,17 +12,17 @@
 
 # ....Repository wide code owner...................................................................
 # These owners will be the default owners for everything in the repo.
-#*       @RedLeader962
+*       @TNP_GIT_USER_NAME_PLACEHOLDER
 
 # ....Core directories and files...................................................................
-#/src/ @RedLeader962
-#/tests/ @RedLeader962
-#/README.md @RedLeader962
-#/.env* @RedLeader962
+#/src/ @TNP_GIT_USER_NAME_PLACEHOLDER
+#/tests/ @TNP_GIT_USER_NAME_PLACEHOLDER
+#/README.md @TNP_GIT_USER_NAME_PLACEHOLDER
+#/.env* @TNP_GIT_USER_NAME_PLACEHOLDER
 
 # ....DevOps related...............................................................................
-#/.github/ @RedLeader962
-#/build_system/ @RedLeader962
-#/.gitignore @RedLeader962
-#/.gitmodules @RedLeader962
-#/.dockerignore @RedLeader962
+#/.github/ @TNP_GIT_USER_NAME_PLACEHOLDER
+#/build_system/ @TNP_GIT_USER_NAME_PLACEHOLDER
+#/.gitignore @TNP_GIT_USER_NAME_PLACEHOLDER
+#/.gitmodules @TNP_GIT_USER_NAME_PLACEHOLDER
+#/.dockerignore @TNP_GIT_USER_NAME_PLACEHOLDER

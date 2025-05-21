@@ -164,7 +164,7 @@ function tnp::install_norlab_project_template(){
     echo
     unset INPUT
     read -r -a INPUT
-#    echo "INPUT=$INPUT" # User input feedback
+    # echo "INPUT=$INPUT" # User input feedback
     echo
 
     # Capitalise new prefix
@@ -180,10 +180,10 @@ function tnp::install_norlab_project_template(){
     mv .env.template-norlab-project.template ".env.${NEW_PROJECT_GIT_NAME}"
 
 
-    n2st::seek_and_modify_string_in_file "folderName=\"\[TNP\]" "folderName=\"\[${ENV_PREFIX}\]" .run/openATerminalInUbuntuContainer.run.xml
-    n2st::seek_and_modify_string_in_file "folderName=\"\[TNP\]" "folderName=\"\[${ENV_PREFIX}\]" .run/runBatsTestsAll.run.xml
+    n2st::seek_and_modify_string_in_file "folderName=\"\[TNP\]" "folderName=\"\[${ENV_PREFIX}\]" .run/open-a-terminal-in-ubuntu-container.run.xml
+    n2st::seek_and_modify_string_in_file "folderName=\"\[TNP\]" "folderName=\"\[${ENV_PREFIX}\]" .run/run-Bats-Tests-All.run.xml
 
-    n2st::seek_and_modify_string_in_file "tests/run_bats_core_test_in_n2st.tnp.bash" "tests/run_bats_core_test_in_n2st.bash" .run/runBatsTestsAll.run.xml
+    n2st::seek_and_modify_string_in_file "tests/run_bats_core_test_in_n2st.tnp.bash" "tests/run_bats_core_test_in_n2st.bash" .run/run-Bats-Tests-All.run.xml
 
     if [[ ${INSTALL_N2ST} == true ]]; then
       n2st::seek_and_modify_string_in_file "function n2st::" "function ${FCT_PREFIX}::" src/dummy.bash
@@ -193,7 +193,19 @@ function tnp::install_norlab_project_template(){
 
   }
 
+  # ....Update CODEOWNER file......................................................................
+  GIT_USER_NAME="$(git config user.name)"
+  echo ">>>> ${GIT_USER_NAME}"
+
+  {
+    cd "${TNP_ROOT}/.github" || exit 1
+    n2st::seek_and_modify_string_in_file "TNP_GIT_USER_NAME_PLACEHOLDER" "${GIT_USER_NAME:-'TODO-CHANGE-GIT-NAME'}" CODEOWNERS
+  }
+
   # ....Set main readme file.......................................................................
+  PROJECT_GIT_REMOTE_URL="$( git remote get-url origin )"
+  PROJECT_GIT_NAME="$( basename ${PROJECT_GIT_REMOTE_URL} .git )"
+
   {
     n2st::print_msg_awaiting_input "Which readme file you want to use? NorLab (Default) or VAUL"
     echo
@@ -230,7 +242,12 @@ function tnp::install_norlab_project_template(){
 
     fi
 
+    n2st::seek_and_modify_string_in_file "https://github.com/TNP_GIT_USER_NAME_PLACEHOLDER\">TNP_GIT_USER_NAME_PLACEHOLDER" "https://github.com/${GIT_USER_NAME:-'TODO-CHANGE-MAINTAINER'}\">${GIT_USER_NAME:-'TODO-CHANGE-MAINTAINER'}*" README.md
+    n2st::seek_and_modify_string_in_file "TNP_PROJECT_NAME_PLACEHOLDER" "${NEW_PROJECT_GIT_NAME}" README.md
+
   }
+
+
 
   # ....Commit project configuration steps.........................................................
   {
@@ -253,14 +270,14 @@ function tnp::install_norlab_project_template(){
       rm -R src/dummy.bash
       rm -R tests/tests_bats
       rm -R tests/run_bats_core_test_in_n2st.template.bash
-      rm -R ".run/runBatsTestsAll.run.xml"
+      rm -R ".run/run-Bats-Tests-All.run.xml"
 
       n2st::print_msg "Commit N2ST lib deletion"
       git add src/dummy.bash
       git add ".env.${NEW_PROJECT_GIT_NAME}"
       git add tests/tests_bats
       git add tests/run_bats_core_test_in_n2st.template.bash
-      git add ".run/runBatsTestsAll.run.xml"
+      git add ".run/run-Bats-Tests-All.run.xml"
       git commit -m 'build: Deleted norlab-shell-script-tools submodule from repository'
 
     fi
