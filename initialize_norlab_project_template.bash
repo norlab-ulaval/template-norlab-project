@@ -17,37 +17,39 @@ MSG_END_FORMAT="\033[0m"
 
 
 function tnp::install_norlab_project_template(){
-  local INPUT
-  local INSTALL_N2ST
+  local user_input
+  local install_n2st
+  local tmp_msg
+
 
   # ....Pre-condition..............................................................................
   if [[ ! -f  "README.norlab_template.md" ]]; then
     echo -e "${MSG_ERROR_FORMAT}[ERROR]${MSG_END_FORMAT} 'initialize_norlab_project_template.bash' script should be executed from the project root!\n Current working directory is '$(pwd)'" 1>&2
-    exit 1
+    return 1
   fi
 
-  # Note: can handle both sourcing cases
-  #   i.e. from within a script or from an interactive terminal session
-  _PATH_TO_SCRIPT="$(realpath "${BASH_SOURCE[0]:-'.'}")"
-  TNP_ROOT="$(dirname "${_PATH_TO_SCRIPT}")"
+  local script_path
+  local tmp_root
+  script_path="$(realpath -q "${BASH_SOURCE[0]:-.}")"
+  tmp_root="$(dirname "${script_path}")"
 
   # ....Load environment variables from file.......................................................
-  cd "${TNP_ROOT}" || exit 1
+  cd "${tmp_root}" || return 1
   set -o allexport
   source .env.template-norlab-project.template
   set +o allexport
 
-  local NEW_PROJECT_GIT_NAME=${PROJECT_GIT_NAME}
+  local new_project_git_name=${PROJECT_GIT_NAME:?err}
 
   # ....Source NorLab Project Template dependencies................................................
 
   # . . Import N2ST lib . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-  cd "${N2ST_PATH:?"Variable not set"}" || exit 1
+  cd "${N2ST_PATH:?"Variable not set"}" || return 1
   source "import_norlab_shell_script_tools_lib.bash"
 
   # ====Begin======================================================================================
 
-  n2st::norlab_splash "${PROJECT_PROMPT_NAME} 🦾"  https://github.com/norlab-ulaval/template-norlab-project
+  n2st::norlab_splash "Norlab-Project-Template 🦾"  https://github.com/norlab-ulaval/template-norlab-project
 
   n2st::print_formated_script_header 'initialize_norlab_project_template.bash' '='
 
@@ -55,16 +57,16 @@ function tnp::install_norlab_project_template(){
   {
     n2st::print_msg_awaiting_input "Do you want to install Norlab Build System (NBS) submodule?"
     echo
-    TMP_MSG="(press 'Y' to install, or press any other key to skip) "
-    n2st::echo_centering_str "${TMP_MSG}" "\033[2m" " "
+    tmp_msg="(press 'Y' to install, or press any other key to skip) "
+    n2st::echo_centering_str "${tmp_msg}" "\033[2m" " "
     echo
-    unset INPUT
-    read -n 1 -r -a INPUT
-#    echo "INPUT=$INPUT" # User input feedback
+    unset user_input
+    read -n 1 -r -a user_input
+#    echo "user_input=$user_input" # User user_input feedback
     echo
 
-    cd "${TNP_ROOT}" || exit 1
-    if [[ ${INPUT} == "Y" ]] || [[ ${INPUT} == "y" ]]; then
+    cd "${tmp_root}" || return 1
+    if [[ ${user_input} == "Y" ]] || [[ ${user_input} == "y" ]]; then
       n2st::print_msg "Installing NBS"
 
       git submodule \
@@ -96,29 +98,29 @@ function tnp::install_norlab_project_template(){
   {
     n2st::print_msg_awaiting_input "Do you want to install Norlab Shell Script Tools (N2ST) submodule?"
     echo
-    TMP_MSG="(press 'Y' to install, or press any other key to skip) "
-    n2st::echo_centering_str "${TMP_MSG}" "\033[2m" " "
+    tmp_msg="(press 'Y' to install, or press any other key to skip) "
+    n2st::echo_centering_str "${tmp_msg}" "\033[2m" " "
     echo
-    unset INPUT
-    read -n 1 -r -a INPUT
-#    echo "INPUT=$INPUT" # User input feedback
+    unset user_input
+    read -n 1 -r -a user_input
+#    echo "user_input=$user_input" # User user_input feedback
     echo
 
-    INSTALL_N2ST=true
+    install_n2st=true
 
-    cd "${TNP_ROOT}" || exit 1
-    if [[ ${INPUT} == "Y" ]] || [[ ${INPUT} == "y" ]]; then
+    cd "${tmp_root}" || return 1
+    if [[ ${user_input} == "Y" ]] || [[ ${user_input} == "y" ]]; then
       # Submodule is already pre-installed
       n2st::print_msg "Installing N2ST"
 
       mv tests/run_bats_core_test_in_n2st.template.bash tests/run_bats_core_test_in_n2st.bash
 
-      n2st::seek_and_modify_string_in_file "Execute 'template-norlab-project.template' repo" "Execute '${NEW_PROJECT_GIT_NAME}' repo" tests/run_bats_core_test_in_n2st.bash
-      n2st::seek_and_modify_string_in_file "source .env.template-norlab-project.template.*" "source .env.${NEW_PROJECT_GIT_NAME}" tests/run_bats_core_test_in_n2st.bash
+      n2st::seek_and_modify_string_in_file "Execute 'template-norlab-project.template' repo" "Execute '${new_project_git_name}' repo" tests/run_bats_core_test_in_n2st.bash
+      n2st::seek_and_modify_string_in_file "source .env.template-norlab-project.template.*" "source .env.${new_project_git_name}" tests/run_bats_core_test_in_n2st.bash
 
     else
       n2st::print_msg "Skipping N2ST install"
-      INSTALL_N2ST=false
+      install_n2st=false
     fi
   }
 
@@ -126,20 +128,20 @@ function tnp::install_norlab_project_template(){
   {
     n2st::print_msg_awaiting_input "Do you want to install Semantic-Release?"
     echo
-    TMP_MSG="(press 'Y' to install, or press any other key to skip) "
-    n2st::echo_centering_str "${TMP_MSG}" "\033[2m" " "
+    tmp_msg="(press 'Y' to install, or press any other key to skip) "
+    n2st::echo_centering_str "${tmp_msg}" "\033[2m" " "
     echo
-    unset INPUT
-    read -n 1 -r -a INPUT
-#    echo "INPUT=$INPUT" # User input feedback
+    unset user_input
+    read -n 1 -r -a user_input
+#    echo "user_input=$user_input" # User user_input feedback
     echo
 
-    if [[ ${INPUT} == "Y" ]] || [[ ${INPUT} == "y" ]]; then
+    if [[ ${user_input} == "Y" ]] || [[ ${user_input} == "y" ]]; then
       # Submodule is already pre-installed
       n2st::print_msg "Installing Semantic-Release"
 
       n2st::print_msg "Resetting ${MSG_DIMMED_FORMAT}CHANGELOG.md${MSG_END_FORMAT}"
-      cd "${TNP_ROOT}" || exit 1
+      cd "${tmp_root}" || return 1
       truncate --size=0 CHANGELOG.md
 
     else
@@ -154,78 +156,79 @@ function tnp::install_norlab_project_template(){
   }
 
 
-
   # ....Modify project prefix......................................................................
+
   {
     n2st::print_msg_awaiting_input "Choose a project wide environment variable prefix? (keep it short, two to four letters, alpha numeric only and no spacing)"
     echo
-    TMP_MSG="(press 'return' when done) "
-    n2st::echo_centering_str "${TMP_MSG}" "\033[2m" " "
+    tmp_msg="(press 'return' when done) "
+    n2st::echo_centering_str "${tmp_msg}" "\033[2m" " "
     echo
-    unset INPUT
-    read -r -a INPUT
-    # echo "INPUT=$INPUT" # User input feedback
+    unset user_input
+    read -r -a user_input
+    # echo "user_input=$user_input" # User user_input feedback
     echo
 
     # Capitalise new prefix
-    ENV_PREFIX="$(echo "${INPUT}" | tr '[:lower:]' '[:upper:]')"
-    FCT_PREFIX="$(echo "${INPUT}" | tr '[:upper:]' '[:lower:]')"
+    local env_prefix
+    local fct_prefix
+    env_prefix="$(echo "${user_input}" | tr '[:lower:]' '[:upper:]')"
+    fct_prefix="$(echo "${user_input}" | tr '[:upper:]' '[:lower:]')"
 
-    n2st::print_msg "Using environment variable prefix ${MSG_DIMMED_FORMAT}${ENV_PREFIX}${MSG_END_FORMAT} e.g.: ${MSG_DIMMED_FORMAT}${ENV_PREFIX}_PATH${MSG_END_FORMAT}"
+    n2st::print_msg "Using environment variable prefix ${MSG_DIMMED_FORMAT}${env_prefix}${MSG_END_FORMAT} e.g.: ${MSG_DIMMED_FORMAT}${env_prefix}_PATH${MSG_END_FORMAT}"
 
-    cd "${TNP_ROOT}" || exit 1
-    n2st::seek_and_modify_string_in_file "PLACEHOLDER_" "${ENV_PREFIX}_" .env.template-norlab-project.template
-    n2st::seek_and_modify_string_in_file "PROJECT_PROMPT_NAME='Norlab-Project-Template'" "PROJECT_PROMPT_NAME='${ENV_PREFIX}'" .env.template-norlab-project.template
+    cd "${tmp_root}" || return 1
+    n2st::seek_and_modify_string_in_file "PLACEHOLDER_" "${env_prefix}_" .env.template-norlab-project.template
+    n2st::seek_and_modify_string_in_file "PROJECT_PROMPT_NAME='Norlab-Project-Template'" "PROJECT_PROMPT_NAME='${env_prefix}'" .env.template-norlab-project.template
 
-    mv .env.template-norlab-project.template ".env.${NEW_PROJECT_GIT_NAME}"
+    mv .env.template-norlab-project.template ".env.${new_project_git_name}"
 
 
-    n2st::seek_and_modify_string_in_file "folderName=\"\[TNP\]" "folderName=\"\[${ENV_PREFIX}\]" .run/open-a-terminal-in-ubuntu-container.run.xml
-    n2st::seek_and_modify_string_in_file "folderName=\"\[TNP\]" "folderName=\"\[${ENV_PREFIX}\]" .run/run-Bats-Tests-All.run.xml
+    n2st::seek_and_modify_string_in_file "folderName=\"\[TNP\]" "folderName=\"\[${env_prefix}\]" .run/open-a-terminal-in-ubuntu-container.run.xml
+    n2st::seek_and_modify_string_in_file "folderName=\"\[TNP\]" "folderName=\"\[${env_prefix}\]" .run/run-Bats-Tests-All.run.xml
 
     n2st::seek_and_modify_string_in_file "tests/run_bats_core_test_in_n2st.tnp.bash" "tests/run_bats_core_test_in_n2st.bash" .run/run-Bats-Tests-All.run.xml
 
-    if [[ ${INSTALL_N2ST} == true ]]; then
-      n2st::seek_and_modify_string_in_file "function n2st::" "function ${FCT_PREFIX}::" src/dummy.bash
-      n2st::seek_and_modify_string_in_file "n2st::" "${FCT_PREFIX}::" tests/tests_bats/test_template.bats
-      n2st::seek_and_modify_string_in_file "TNP_" "${ENV_PREFIX}_" tests/run_bats_core_test_in_n2st.bash
+    if [[ ${install_n2st} == true ]]; then
+      n2st::seek_and_modify_string_in_file "function n2st::" "function ${fct_prefix}::" src/dummy.bash
+      n2st::seek_and_modify_string_in_file "n2st::" "${fct_prefix}::" tests/tests_bats/test_template.bats
+      n2st::seek_and_modify_string_in_file "TNP_" "${env_prefix}_" tests/run_bats_core_test_in_n2st.bash
     fi
 
   }
 
   # ....Update CODEOWNER file......................................................................
-  GIT_USER_NAME="$(git config user.name)"
-  echo ">>>> ${GIT_USER_NAME}"
+  local git_user_name
+  git_user_name="$(git config user.name)"
+  echo ">>>> ${git_user_name}"
 
   {
-    cd "${TNP_ROOT}/.github" || exit 1
-    n2st::seek_and_modify_string_in_file "TNP_GIT_USER_NAME_PLACEHOLDER" "${GIT_USER_NAME:-'TODO-CHANGE-GIT-NAME'}" CODEOWNERS
+    cd "${tmp_root}/.github" || return 1
+    n2st::seek_and_modify_string_in_file "TNP_GIT_USER_NAME_PLACEHOLDER" "${git_user_name:-'TODO-CHANGE-GIT-NAME'}" CODEOWNERS
   }
 
   # ....Set main readme file.......................................................................
-  PROJECT_GIT_REMOTE_URL="$( git remote get-url origin )"
-  PROJECT_GIT_NAME="$( basename ${PROJECT_GIT_REMOTE_URL} .git )"
 
   {
     n2st::print_msg_awaiting_input "Which readme file you want to use? NorLab (Default) or VAUL"
     echo
-    TMP_MSG="(press 'V' to use VAUL, or press any other key to use NorLab) "
-    n2st::echo_centering_str "${TMP_MSG}" "\033[2m" " "
+    tmp_msg="(press 'V' to use VAUL, or press any other key to use NorLab) "
+    n2st::echo_centering_str "${tmp_msg}" "\033[2m" " "
     echo
-    unset INPUT
-    read -n 1 -r -a INPUT
-#    echo "INPUT=$INPUT" # User input feedback
+    unset user_input
+    read -n 1 -r -a user_input
+#    echo "user_input=$user_input" # User user_input feedback
     echo
 
-    cd "${TNP_ROOT}" || exit 1
-    if [[ ${INPUT} == "V" ]] || [[ ${INPUT} == "v" ]]; then
+    cd "${tmp_root}" || return 1
+    if [[ ${user_input} == "V" ]] || [[ ${user_input} == "v" ]]; then
 
       n2st::print_msg "Setting up the VAUL README.md"
       mv README.md NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
       mv README.vaul_template.md README.md
 
-      n2st::seek_and_modify_string_in_file "img.shields.io/github/v/release/vaul-ulaval/template-norlab-project" "img.shields.io/github/v/release/vaul-ulaval/${NEW_PROJECT_GIT_NAME}" README.md
-      n2st::seek_and_modify_string_in_file "vaul-ulaval/template-norlab-project.git" "vaul-ulaval/${NEW_PROJECT_GIT_NAME}.git" README.md
+      n2st::seek_and_modify_string_in_file "img.shields.io/github/v/release/vaul-ulaval/template-norlab-project" "img.shields.io/github/v/release/vaul-ulaval/${new_project_git_name}" README.md
+      n2st::seek_and_modify_string_in_file "vaul-ulaval/template-norlab-project.git" "vaul-ulaval/${new_project_git_name}.git" README.md
 
       rm README.norlab_template.md
 
@@ -235,15 +238,15 @@ function tnp::install_norlab_project_template(){
       mv README.md NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
       mv README.norlab_template.md README.md
 
-      n2st::seek_and_modify_string_in_file "img.shields.io/github/v/release/norlab-ulaval/template-norlab-project" "img.shields.io/github/v/release/norlab-ulaval/${NEW_PROJECT_GIT_NAME}" README.md
-      n2st::seek_and_modify_string_in_file "norlab-ulaval/template-norlab-project.git" "norlab-ulaval/${NEW_PROJECT_GIT_NAME}.git" README.md
+      n2st::seek_and_modify_string_in_file "img.shields.io/github/v/release/norlab-ulaval/template-norlab-project" "img.shields.io/github/v/release/norlab-ulaval/${new_project_git_name}" README.md
+      n2st::seek_and_modify_string_in_file "norlab-ulaval/template-norlab-project.git" "norlab-ulaval/${new_project_git_name}.git" README.md
 
       rm README.vaul_template.md
 
     fi
 
-    n2st::seek_and_modify_string_in_file "https://github.com/TNP_GIT_USER_NAME_PLACEHOLDER\">TNP_GIT_USER_NAME_PLACEHOLDER" "https://github.com/${GIT_USER_NAME:-'TODO-CHANGE-MAINTAINER'}\">${GIT_USER_NAME:-'TODO-CHANGE-MAINTAINER'}*" README.md
-    n2st::seek_and_modify_string_in_file "TNP_PROJECT_NAME_PLACEHOLDER" "${NEW_PROJECT_GIT_NAME}" README.md
+    n2st::seek_and_modify_string_in_file "https://github.com/TNP_GIT_USER_NAME_PLACEHOLDER\">TNP_GIT_USER_NAME_PLACEHOLDER" "https://github.com/${git_user_name:-'TODO-CHANGE-MAINTAINER'}\">${git_user_name:-'TODO-CHANGE-MAINTAINER'}*" README.md
+    n2st::seek_and_modify_string_in_file "TNP_PROJECT_NAME_PLACEHOLDER" "${new_project_git_name}" README.md
 
   }
 
@@ -252,20 +255,20 @@ function tnp::install_norlab_project_template(){
   # ....Commit project configuration steps.........................................................
   {
     n2st::print_msg "Commit project configuration changes"
-    cd "${TNP_ROOT}" || exit 1
+    cd "${tmp_root}" || return 1
     git add .
     git commit -m 'refactor: NorLab project template configuration'
   }
 
   # ....Delayed N2ST deletion step.................................................................
   {
-    cd "${TNP_ROOT}" || exit 1
-    if [[ ${INSTALL_N2ST} == false ]]; then
+    cd "${tmp_root}" || return 1
+    if [[ ${install_n2st} == false ]]; then
 
       # Delete N2ST submodule
       git rm utilities/norlab-shell-script-tools
 
-      n2st::seek_and_modify_string_in_file "N2ST_PATH=.*" " " ".env.${NEW_PROJECT_GIT_NAME}"
+      n2st::seek_and_modify_string_in_file "N2ST_PATH=.*" " " ".env.${new_project_git_name}"
 
       rm -R src/dummy.bash
       rm -R tests/tests_bats
@@ -274,7 +277,7 @@ function tnp::install_norlab_project_template(){
 
       n2st::print_msg "Commit N2ST lib deletion"
       git add src/dummy.bash
-      git add ".env.${NEW_PROJECT_GIT_NAME}"
+      git add ".env.${new_project_git_name}"
       git add tests/tests_bats
       git add tests/run_bats_core_test_in_n2st.template.bash
       git add ".run/run-Bats-Tests-All.run.xml"
@@ -286,7 +289,7 @@ function tnp::install_norlab_project_template(){
   # ====Teardown===================================================================================
   {
     n2st::print_msg "Teardown clean-up"
-    cd "${TNP_ROOT}" || exit 1
+    cd "${tmp_root}" || return 1
 
     if [[ -d tests/tests_bats ]]; then
       rm "tests/tests_bats/bats_testing_tools/norlab_project_template_helper_functions.bash"
@@ -320,17 +323,16 @@ function tnp::install_norlab_project_template(){
 Happy coding!"
   n2st::print_formated_script_footer 'initialize_norlab_project_template.bash' '='
 
-
-  exit 0
-  cd "${TNP_ROOT}" || exit 1
+  cd "${tmp_root}" || return 1
+  return 0
 }
 
 # ::::Main:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
   # This script is being run, ie: __name__="__main__"
   tnp::install_norlab_project_template
-  exit 0
+  exit $?
 else
   # This script is being sourced, ie: __name__="__source__"
   echo -e "${MSG_ERROR_FORMAT}[ERROR]${MSG_END_FORMAT} This script must be run with bash i.e.: $ bash initialize_norlab_project_template.bash" 1>&2
