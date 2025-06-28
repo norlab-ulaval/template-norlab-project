@@ -61,12 +61,12 @@ function tnp::install_norlab_project_template(){
     n2st::echo_centering_str "${tmp_msg}" "\033[2m" " "
     echo
     unset user_input
-    read -n 1 -r -a user_input
+    read -n 1 -r user_input
 #    echo "user_input=$user_input" # User user_input feedback
     echo
 
     cd "${tmp_root}" || return 1
-    if [[ ${user_input} == "Y" ]] || [[ ${user_input} == "y" ]]; then
+    if [[ "${user_input}" == "Y" ]] || [[ "${user_input}" == "y" ]]; then
       n2st::print_msg "Installing NBS"
 
       git submodule \
@@ -102,14 +102,14 @@ function tnp::install_norlab_project_template(){
     n2st::echo_centering_str "${tmp_msg}" "\033[2m" " "
     echo
     unset user_input
-    read -n 1 -r -a user_input
+    read -n 1 -r user_input
 #    echo "user_input=$user_input" # User user_input feedback
     echo
 
     install_n2st=true
 
     cd "${tmp_root}" || return 1
-    if [[ ${user_input} == "Y" ]] || [[ ${user_input} == "y" ]]; then
+    if [[ "${user_input}" == "Y" ]] || [[ "${user_input}" == "y" ]]; then
       # Submodule is already pre-installed
       n2st::print_msg "Installing N2ST"
 
@@ -132,11 +132,11 @@ function tnp::install_norlab_project_template(){
     n2st::echo_centering_str "${tmp_msg}" "\033[2m" " "
     echo
     unset user_input
-    read -n 1 -r -a user_input
+    read -n 1 -r user_input
 #    echo "user_input=$user_input" # User user_input feedback
     echo
 
-    if [[ ${user_input} == "Y" ]] || [[ ${user_input} == "y" ]]; then
+    if [[ "${user_input}" == "Y" ]] || [[ "${user_input}" == "y" ]]; then
       # Submodule is already pre-installed
       n2st::print_msg "Installing Semantic-Release"
 
@@ -165,7 +165,7 @@ function tnp::install_norlab_project_template(){
     n2st::echo_centering_str "${tmp_msg}" "\033[2m" " "
     echo
     unset user_input
-    read -r -a user_input
+    read -r user_input
     # echo "user_input=$user_input" # User user_input feedback
     echo
 
@@ -216,7 +216,7 @@ function tnp::install_norlab_project_template(){
     n2st::echo_centering_str "${tmp_msg}" "\033[2m" " "
     echo
     unset user_input
-    read -n 1 -r -a user_input
+    read -n 1 -r user_input
 #    echo "user_input=$user_input" # User user_input feedback
     echo
 
@@ -224,7 +224,7 @@ function tnp::install_norlab_project_template(){
     if [[ ${user_input} == "V" ]] || [[ ${user_input} == "v" ]]; then
 
       n2st::print_msg "Setting up the VAUL README.md"
-      mv README.md NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
+      mv README.md "${tmp_root}/to_delete/NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md"
       mv README.vaul_template.md README.md
 
       n2st::seek_and_modify_string_in_file "img.shields.io/github/v/release/vaul-ulaval/template-norlab-project" "img.shields.io/github/v/release/vaul-ulaval/${new_project_git_name}" README.md
@@ -235,7 +235,7 @@ function tnp::install_norlab_project_template(){
     else
 
       n2st::print_msg "Setting up the NorLab README.md"
-      mv README.md NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
+      mv README.md "${tmp_root}/to_delete/NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md"
       mv README.norlab_template.md README.md
 
       n2st::seek_and_modify_string_in_file "img.shields.io/github/v/release/norlab-ulaval/template-norlab-project" "img.shields.io/github/v/release/norlab-ulaval/${new_project_git_name}" README.md
@@ -268,7 +268,11 @@ function tnp::install_norlab_project_template(){
       # Delete N2ST submodule
       git rm utilities/norlab-shell-script-tools
 
-      n2st::seek_and_modify_string_in_file "N2ST_PATH=.*" " " ".env.${new_project_git_name}"
+      if [[ ! -d utilities/norlab-build-system ]]; then
+        rm -R ".env.${new_project_git_name}"
+      else
+        n2st::seek_and_modify_string_in_file "N2ST_PATH=.*" " " ".env.${new_project_git_name}"
+      fi
 
       rm -R src/dummy.bash
       rm -R tests/tests_bats
@@ -277,7 +281,9 @@ function tnp::install_norlab_project_template(){
 
       n2st::print_msg "Commit N2ST lib deletion"
       git add src/dummy.bash
-      git add ".env.${new_project_git_name}"
+      if [[ ! -d utilities/norlab-build-system ]]; then
+        git add ".env.${new_project_git_name}"
+      fi
       git add tests/tests_bats
       git add tests/run_bats_core_test_in_n2st.template.bash
       git add ".run/run-Bats-Tests-All.run.xml"
@@ -290,6 +296,7 @@ function tnp::install_norlab_project_template(){
   {
     n2st::print_msg "Teardown clean-up"
     cd "${tmp_root}" || return 1
+    mv initialize_norlab_project_template.bash "${tmp_root}/to_delete/initialize_norlab_project_template.bash"
 
     if [[ -d tests/tests_bats ]]; then
       rm "tests/tests_bats/bats_testing_tools/norlab_project_template_helper_functions.bash"
@@ -308,7 +315,7 @@ function tnp::install_norlab_project_template(){
 
   }
 
-  n2st::print_msg_done "You can delete ${MSG_DIMMED_FORMAT}initialize_norlab_project_template.bash${MSG_END_FORMAT} and ${MSG_DIMMED_FORMAT}NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md${MSG_END_FORMAT} when you are ready.
+  n2st::print_msg_done "You can delete the ${MSG_DIMMED_FORMAT}to_delete/${MSG_END_FORMAT} directory whenever you are ready.
 
    NorLab project remaining configuration steps:
    - ${MSG_DONE_FORMAT}✔ Step 1 › Generate the new repository${MSG_END_FORMAT}

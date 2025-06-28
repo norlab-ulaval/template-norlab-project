@@ -51,6 +51,9 @@ function norlab_project_template_directory_reset_check() {
     # ....Check NorLab project template logic related..............................................
     assert_file_exist initialize_norlab_project_template.bash
     assert_file_exist .env.template-norlab-project.template
+    assert_file_exist to_delete/README.md
+    assert_file_not_exist to_delete/NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
+    assert_file_not_exist to_delete/initialize_norlab_project_template.bash
 
     # ....Check dotenv content.....................................................................
     assert_file_contains .env.template-norlab-project.template "^PROJECT_PROMPT_NAME=Norlab-Project-Template"
@@ -106,6 +109,20 @@ function check_N2ST_not_installed() {
   assert_file_not_exist tests/run_bats_core_test_in_n2st.bash
 }
 
+function check_no_submodule_installed() {
+  cd "${BATS_DOCKER_WORKDIR}" || exit 1
+  assert_output --regexp .*"\[Norlab-Project-Template\]".*"Skipping N2ST install"
+  assert_output --regexp .*"\[Norlab-Project-Template\]".*"Skipping NBS install"
+  assert_dir_not_exist utilities/norlab-shell-script-tools
+  assert_dir_not_exist utilities/norlab-build-system
+#  assert_file_not_contains .env.template-norlab-project "^N2ST_PATH=\"\${PROJECT_PATH}/utilities/norlab-shell-script-tools\""
+  assert_file_not_exist .env.template-norlab-project
+
+  assert_file_not_exist src/dummy.bash
+  assert_dir_not_exist tests/tests_bats
+  assert_file_not_exist tests/run_bats_core_test_in_n2st.bash
+}
+
 function check_semantic_release_is_installed() {
   cd "${BATS_DOCKER_WORKDIR}" || exit 1
   assert_output --regexp .*"\[Norlab-Project-Template\]".*"Installing Semantic-Release"
@@ -129,12 +146,17 @@ function check_semantic_release_not_installed() {
 function check_norlab_project_template_teardown() {
   assert_output --regexp .*"\[Norlab-Project-Template\]".*"Teardown clean-up"
 
-  assert_output --regexp .*"\[Norlab-Project-Template done\]".*"You can delete ".*"initialize_norlab_project_template.bash".*"and ".*"NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md".*"when you are ready.".*"NorLab project remaining configuration steps:".*"-".*"✔ Step 1 › Generate the new repository".*"-".*"✔ Step 2 › Execute initialize_norlab_project_template.bash".*"-   Step 3 › Make it your own".*"https://github.com/norlab-ulaval/template-norlab-project/tree/main#step-3--make-it-your-own".*"-   Step 4 › Configure the GitHub repository settings".*"https://github.com/norlab-ulaval/template-norlab-project/tree/main#step-4--configure-the-github-repository-settings".*"-   Step 5 › Release automation: enable semantic versioning tools".*"https://github.com/norlab-ulaval/template-norlab-project/tree/main#step-5--enable-release-automation-tools-semantic-versioning".*"Completed"
+  assert_output --regexp .*"\[Norlab-Project-Template done\]".*"You can delete the".*"to_delete/".*"directory whenever you are ready.".*"NorLab project remaining configuration steps:".*"-".*"✔ Step 1 › Generate the new repository".*"-".*"✔ Step 2 › Execute initialize_norlab_project_template.bash".*"-   Step 3 › Make it your own".*"https://github.com/norlab-ulaval/template-norlab-project/tree/main#step-3--make-it-your-own".*"-   Step 4 › Configure the GitHub repository settings".*"https://github.com/norlab-ulaval/template-norlab-project/tree/main#step-4--configure-the-github-repository-settings".*"-   Step 5 › Release automation: enable semantic versioning tools".*"https://github.com/norlab-ulaval/template-norlab-project/tree/main#step-5--enable-release-automation-tools-semantic-versioning".*"Completed"
 
   cd "${BATS_DOCKER_WORKDIR}" || exit 1
   assert_file_not_exist tests/run_bats_core_test_in_n2st.tnp.bash
   assert_file_not_exist tests/tests_bats/bats_testing_tools/norlab_project_template_helper_functions.bash
   assert_file_not_exist tests/tests_bats/test_dotenv_files.bats
   assert_file_not_exist tests/tests_bats/test_initialize_norlab_project_template.bats
+
+  assert_file_exist to_delete/NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
+  assert_file_exist to_delete/initialize_norlab_project_template.bash
+  assert_file_not_exist NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
+  assert_file_not_exist initialize_norlab_project_template.bash
 
 }

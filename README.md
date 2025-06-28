@@ -115,39 +115,45 @@ It will execute the following steps:
 
 When the script execution is done, you will end up with the following repository structure:
 ```markdown
-my_new_cool_repo
-├── README.md
-├── CHANGELOG.md
-├── commit_msg_reference.md
-├── version.txt
-├── .env.my_new_cool_repo
-├── artifact
-│   └── README.md
-├── src
-│   ├── README.md
-│   └── dummy.bash
-├── tests
-│   ├── README.md
-│   ├── run_bats_core_test_in_n2st.bash (optional)
-│   └── tests_bats (optional)
-├── utilities
-│   ├── norlab-build-system (optional)
-│   └── norlab-shell-script-tools (optional)
-├── visual
-│   └── ...
-├── .github
-│   ├── CODEOWNERS
-│   ├── pull_request_template.md
-│   └── workflows
-│       └── semantic_release.yml (optional)
-├── .gitignore
-├── .gitmodules
-├── .releaserc.json (optional)
-├── .run
-│   ├── openATerminalInUbuntuContainer.run.xml
-│   └── runBatsTestsAll.run.xml (optional)
-├── NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md (to delete when done)
-└── initialize_norlab_project_template.bash (to delete when done)
+my_new_cool_repo/
+ ├── .github/
+ │   ├── CODEOWNERS
+ │   ├── pull_request_template.md
+ │   └── workflows
+ │       └── semantic_release.yml                 <-- Semantic-versioning (optional)
+ ├── .junie/                                      <-- LLM/AI agent instructions
+ │   ├── guidelines.md
+ │   ├── recipes.md
+ │   └── scratch.md
+ ├── .run/                                        <-- JetBrains run configuration
+ │   ├── openATerminalInUbuntuContainer.run.xml
+ │   └── runBatsTestsAll.run.xml                  <-- norlab-shell-script-tools (optional)
+ ├── src/
+ │   ├── README.md
+ │   └── dummy.bash
+ ├── tests/
+ │   ├── README.md
+ │   ├── run_bats_core_test_in_n2st.bash          <-- norlab-shell-script-tools (optional)
+ │   └── tests_bats                               <-- norlab-shell-script-tools (optional)
+ ├── artifact/
+ │   └── README.md
+ ├── utilities
+ │   ├── norlab-build-system                      <-- optional
+ │   └── norlab-shell-script-tools                <-- optional
+ ├── visual/
+ │   └── ...
+ ├── to_delete/                                   <-- to delete when done
+ │   ├── NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md 
+ │   └── initialize_norlab_project_template.bash 
+ ├── .aiignore
+ ├── .gitignore
+ ├── .gitmodules
+ ├── .releaserc.json                               <-- Semantic-versioning (optional)
+ ├── .env.my_new_cool_repo                         <-- norlab-shell-script-tools (optional)
+ ├── README.md
+ ├── CHANGELOG.md                                  <-- Semantic-versioning (optional)
+ ├── commit_msg_reference.md
+ └── version.txt                                   <-- Semantic-versioning (optional)
 ```
 
 ## Step 3 › Make it your own
@@ -163,14 +169,20 @@ by _semantic-release_
 
 ## Step 4 › Configure the _GitHub_ repository settings
 
-★ The `main` branch is sacred. It must be deployable at any time.  
- We strongly recommend you to configure your repository branching scheme following [**_Gitflow_**](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
- 
- ```bash
- main ← dev ← feature 1
-            ↖ feature 2
- ```
- with _**Branch Protection Rule**_ enable for the default branch (i.e. `main`) and the `dev` branches.
+★ The `main` branch is sacred. It must be deployable at any given time.  
+We **strongly recommend** you configure your repository following [**_Gitflow_**](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) branching scheme
+```
+                                                      tag:release-1
+┈┈ main ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈→
+     └┈ develop ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈┈┈→  
+                   └┈ feature 1 ┈┈┈┘    └┈ feature 2 ┈┈┈┘
+
+```
+with _**Branch Protection Rule**_ enable for the default branch (i.e. `main`) and the `dev` branches.
+**Note**: 
+- The name `main` or `master` are convention for the principal release branch.
+- The name `dev`, `devel` or `develop` are convention for the bleeding edge branch.
+- The name `beta` and `alpha` are convention pre-release branch.
 
 Go to the `Settings` > `Branches` and click `Add branch protection rule` in the _Branch Protection Rule_ panel 
 

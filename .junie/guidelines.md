@@ -52,6 +52,11 @@ All instructions in sections _General Testing Strategy_ plus the following:
 - All new scripts or functionalities need to have (either or both):
   - **Unit-tests**: 
     - Use [N2ST](https://github.com/norlab-ulaval/norlab-shell-script-tools) bats tests tools for unit-test (See `tests/run_bats_core_test_in_n2st.bash` script) and a corresponding bats unit-test `.bats` file in the `tests/tests_bats/` directory. N2ST Bats tests are running in a docker container in complete isolation with a copy of the source code.
+    - Execute all bats tests in the `tests/tests_bats/` directory using
+      ```bash
+      # From repository root
+      bash tests/run_bats_core_test_in_n2st.tnp.bash tests/tests_bats/ tests/tests_bats
+      ```
   - **Integration tests**: 
     - Those tests are divided in two categories: 
       - Dryrun: either make use of a `--dry-run` flag implemented in the script or make use of the docker `--dry-run` flag;  

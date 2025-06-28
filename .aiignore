@@ -6,9 +6,8 @@
 /.junie/scratch.md
 /.junie/recipes.md
 
-# ....dockerized-norlab-project related............................................................
+# ....repository structure related.................................................................
 /artifact/
-/tests/artifact/
 
 # ....General file type............................................................................
 venv/

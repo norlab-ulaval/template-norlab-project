@@ -194,7 +194,8 @@ teardown() {
   check_semantic_release_is_installed
 
   # ....Set main readme file to NorLab.............................................................
-  assert_file_exist NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
+  assert_file_exist to_delete/NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
+  assert_file_exist to_delete/initialize_norlab_project_template.bash
   assert_file_exist README.md
   assert_file_not_exist README.norlab_template.md
   assert_file_not_exist README.vaul_template.md
@@ -319,11 +320,8 @@ teardown() {
   assert_file_exist .gitmodules
   assert_file_empty .gitmodules
 
-  # ....Check NBS install..........................................................................
-  check_NBS_not_installed
-
-  # ....Check N2ST install.........................................................................
-  check_N2ST_not_installed
+  # ....Check N2ST and NBS install.................................................................
+  check_no_submodule_installed
 
   # ....Check teardown.............................................................................
   check_norlab_project_template_teardown
@@ -448,7 +446,8 @@ teardown() {
   # ....Set main readme file to NorLab.............................................................
   cd "${BATS_DOCKER_WORKDIR}" || exit 1
 
-  assert_file_exist NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
+  assert_file_exist to_delete/NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
+  assert_file_exist to_delete/initialize_norlab_project_template.bash
   assert_file_exist README.md
   assert_file_not_exist README.norlab_template.md
   assert_file_not_exist README.vaul_template.md
@@ -485,7 +484,8 @@ teardown() {
   # ....Set main readme file to VAUL...............................................................
 
   cd "${BATS_DOCKER_WORKDIR}" || exit 1
-  assert_file_exist NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
+  assert_file_exist to_delete/NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
+  assert_file_exist to_delete/initialize_norlab_project_template.bash
   assert_file_exist README.md
   assert_file_not_exist README.norlab_template.md
   assert_file_not_exist README.vaul_template.md
