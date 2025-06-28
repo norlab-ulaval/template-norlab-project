@@ -13,26 +13,26 @@
 # Globals: none
 #
 # =================================================================================================
-PARAMS="$@"
+params=( "$@" )
 
-if [[ -z $PARAMS ]]; then
+if [[ -z ${params[0]} ]]; then
   # Set to default bats tests directory if none specified
-  PARAMS="tests/tests_bats/"
+  params="tests/tests_bats/"
 fi
 
 function tnp::run_n2st_testing_tools(){
-  pushd "$(pwd)" >/dev/null || exit 1
 
   # ....Project root logic.........................................................................
-  TNP_ROOT=$(git rev-parse --show-toplevel)
+  local tnp_root
+  tnp_root=$(git rev-parse --show-toplevel)
 
   # ....Load environment variables from file.......................................................
-  cd "${TNP_ROOT}" || exit 1
+  cd "${tnp_root}" || exit 1
   set -o allexport
   source .env.template-norlab-project.template
   set +o allexport
 
-  TNP_PATH=${PROJECT_PATH}
+  local tnp_path=${PROJECT_PATH}
   TNP_GIT_CURRENT_BRANCH=$(git symbolic-ref -q --short HEAD || git describe --all --exact-match)
 
   if [[ ${TEAMCITY_VERSION} ]] ; then
@@ -47,14 +47,15 @@ export TNP_TEAMCITY_PR_SOURCE
     echo "TNP_GIT_NAME=${PROJECT_GIT_NAME}"; \
     echo "TNP_GIT_CURRENT_BRANCH=${TNP_GIT_CURRENT_BRANCH}"; \
     echo "TNP_TEAMCITY_PR_SOURCE=${TNP_TEAMCITY_PR_SOURCE}"; \
-  ) > "${TNP_PATH}/tests/.env.tnp_test_values"
+  ) > "${tnp_path}/tests/.env.tnp_test_values"
 
   # ....Execute N2ST run_bats_tests_in_docker.bash.................................................
   # shellcheck disable=SC2086
-  bash "${N2ST_PATH:?err}/tests/bats_testing_tools/run_bats_tests_in_docker.bash" $PARAMS
+  bash "${N2ST_PATH:?err}/tests/bats_testing_tools/run_bats_tests_in_docker.bash" "${params[@]}"
 
   # ....Teardown...................................................................................
-  popd >/dev/null || exit 1
+  cd "${tnp_root}" || return 1
+  return 0
   }
 
 tnp::run_n2st_testing_tools

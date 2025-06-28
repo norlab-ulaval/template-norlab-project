@@ -53,16 +53,15 @@ function norlab_project_template_directory_reset_check() {
     assert_file_exist .env.template-norlab-project.template
 
     # ....Check dotenv content.....................................................................
-    assert_file_contains .env.template-norlab-project.template "^PROJECT_PROMPT_NAME='Norlab-Project-Template'"
+    assert_file_contains .env.template-norlab-project.template "^PROJECT_PROMPT_NAME=Norlab-Project-Template"
     assert_file_contains .env.template-norlab-project.template "^#NBS_SPLASH_NAME=.*"
-    assert_file_contains .env.template-norlab-project.template "^N2ST_PATH=\${PROJECT_PATH}/utilities/norlab-shell-script-tools"
-    assert_file_contains .env.template-norlab-project.template "^#NBS_PATH=\${PROJECT_PATH}/utilities/norlab-build-system"
+    assert_file_contains .env.template-norlab-project.template "^N2ST_PATH=\"\${PROJECT_PATH}/utilities/norlab-shell-script-tools\""
+    assert_file_contains .env.template-norlab-project.template "^#NBS_PATH=\"\${PROJECT_PATH}/utilities/norlab-build-system\""
     assert_file_contains .env.template-norlab-project.template "^PLACEHOLDER_PROMPT_NAME.*"
     assert_file_contains .env.template-norlab-project.template "^PLACEHOLDER_GIT_REMOTE_URL.*"
     assert_file_contains .env.template-norlab-project.template "^PLACEHOLDER_GIT_NAME.*"
     assert_file_contains .env.template-norlab-project.template "^PLACEHOLDER_PATH.*"
     assert_file_contains .env.template-norlab-project.template "^PLACEHOLDER_SRC_NAME.*"
-    assert_file_contains .env.template-norlab-project.template "^PROJECT_PROMPT_NAME='Norlab-Project-Template'"
 
 
 }
@@ -71,7 +70,7 @@ function check_NBS_is_installed() {
     cd "${BATS_DOCKER_WORKDIR}" || exit 1
     assert_output --regexp .*"\[Norlab-Project-Template\]".*"Installing NBS"
     assert_dir_exist utilities/norlab-build-system
-    assert_file_contains .env.template-norlab-project "^NBS_PATH=\${PROJECT_PATH}/utilities/norlab-build-system"
+    assert_file_contains .env.template-norlab-project "^NBS_PATH=\"\${PROJECT_PATH}/utilities/norlab-build-system\""
     assert_file_contains .env.template-norlab-project "^NBS_SPLASH_NAME=.*"
 }
 
@@ -79,8 +78,8 @@ function check_NBS_not_installed() {
   cd "${BATS_DOCKER_WORKDIR}" || exit 1
   assert_output --regexp .*"\[Norlab-Project-Template\]".*"Skipping NBS install"
   assert_dir_not_exist utilities/norlab-build-system
-  assert_file_not_contains .env.template-norlab-project "^#NBS_PATH=\${PROJECT_PATH}/utilities/norlab-build-system"
-  assert_file_not_contains .env.template-norlab-project "^NBS_PATH=\${PROJECT_PATH}/utilities/norlab-build-system"
+  assert_file_not_contains .env.template-norlab-project "^#NBS_PATH=\"\${PROJECT_PATH}/utilities/norlab-build-system\""
+  assert_file_not_contains .env.template-norlab-project "^NBS_PATH=\"\${PROJECT_PATH}/utilities/norlab-build-system\""
   assert_file_not_contains .env.template-norlab-project "^NBS_SPLASH_NAME=.*"
 }
 
@@ -88,7 +87,7 @@ function check_N2ST_is_installed() {
   cd "${BATS_DOCKER_WORKDIR}" || exit 1
   assert_output --regexp .*"\[Norlab-Project-Template\]".*"Installing N2ST"
   assert_dir_exist utilities/norlab-shell-script-tools
-  assert_file_contains .env.template-norlab-project "^N2ST_PATH=\${PROJECT_PATH}/utilities/norlab-shell-script-tools"
+  assert_file_contains .env.template-norlab-project "^N2ST_PATH=\"\${PROJECT_PATH}/utilities/norlab-shell-script-tools\""
   assert_file_exist src/dummy.bash
   assert_file_exist tests/run_bats_core_test_in_n2st.bash
   assert_file_exist tests/tests_bats/bats_testing_tools/bats_helper_functions_local.bash
@@ -100,7 +99,7 @@ function check_N2ST_not_installed() {
   cd "${BATS_DOCKER_WORKDIR}" || exit 1
   assert_output --regexp .*"\[Norlab-Project-Template\]".*"Skipping N2ST install"
   assert_dir_not_exist utilities/norlab-shell-script-tools
-  assert_file_not_contains .env.template-norlab-project "^N2ST_PATH=\${PROJECT_PATH}/utilities/norlab-shell-script-tools"
+  assert_file_not_contains .env.template-norlab-project "^N2ST_PATH=\"\${PROJECT_PATH}/utilities/norlab-shell-script-tools\""
 
   assert_file_not_exist src/dummy.bash
   assert_dir_not_exist tests/tests_bats

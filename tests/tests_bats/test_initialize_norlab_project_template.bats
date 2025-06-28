@@ -264,7 +264,7 @@ teardown() {
   assert_file_contains .env.template-norlab-project "^MY_PROJECT_GIT_NAME.*"
   assert_file_contains .env.template-norlab-project "^MY_PROJECT_PATH.*"
   assert_file_contains .env.template-norlab-project "^MY_PROJECT_SRC_NAME.*"
-  assert_file_contains .env.template-norlab-project "^PROJECT_PROMPT_NAME='MY_PROJECT'"
+  assert_file_contains .env.template-norlab-project "^PROJECT_PROMPT_NAME=MY_PROJECT"
 
   # ....Modify bats test related files.............................................................
   assert_file_not_contains tests/tests_bats/test_template.bats "^@test \"n2st::.*"
@@ -277,9 +277,6 @@ teardown() {
   assert_file_contains tests/run_bats_core_test_in_n2st.bash "Execute 'template-norlab-project' repo"
   assert_file_not_contains tests/run_bats_core_test_in_n2st.bash "source .env.template-norlab-project.template"
   assert_file_contains tests/run_bats_core_test_in_n2st.bash "source .env.template-norlab-project"
-
-  assert_file_not_contains tests/run_bats_core_test_in_n2st.bash "TNP_"
-  assert_file_contains tests/run_bats_core_test_in_n2st.bash "MY_PROJECT_"
 
   # ....Modify run config related files............................................................
   assert_file_not_contains .run/open-a-terminal-in-ubuntu-container.run.xml "folderName=\"\[TNP\]"

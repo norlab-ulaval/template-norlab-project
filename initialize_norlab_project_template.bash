@@ -179,7 +179,7 @@ function tnp::install_norlab_project_template(){
 
     cd "${tmp_root}" || return 1
     n2st::seek_and_modify_string_in_file "PLACEHOLDER_" "${env_prefix}_" .env.template-norlab-project.template
-    n2st::seek_and_modify_string_in_file "PROJECT_PROMPT_NAME='Norlab-Project-Template'" "PROJECT_PROMPT_NAME='${env_prefix}'" .env.template-norlab-project.template
+    n2st::seek_and_modify_string_in_file "PROJECT_PROMPT_NAME=Norlab-Project-Template" "PROJECT_PROMPT_NAME=${env_prefix}" .env.template-norlab-project.template
 
     mv .env.template-norlab-project.template ".env.${new_project_git_name}"
 

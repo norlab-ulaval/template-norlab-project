@@ -4,7 +4,7 @@
 # Note:
 #   - Each line is a file pattern followed by one or more owners.
 #   - Branch with branch protection rule "Require review from Code Owners"
-#     will automaticaly trigger a request to a designated code owner
+#     will automatically trigger a request to a designated code owner
 #
 # Reference: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
 #

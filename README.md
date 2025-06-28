@@ -121,7 +121,7 @@ my_new_cool_repo
 ├── commit_msg_reference.md
 ├── version.txt
 ├── .env.my_new_cool_repo
-├── data
+├── artifact
 │   └── README.md
 ├── src
 │   ├── README.md
