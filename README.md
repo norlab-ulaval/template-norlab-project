@@ -122,6 +122,7 @@ my_new_cool_repo/
  │   └── workflows
  │       └── semantic_release.yml                 <-- Semantic-versioning (optional)
  ├── .junie/                                      <-- LLM/AI agent instructions
+ │   ├── plans/
  │   ├── guidelines.md
  │   ├── recipes.md
  │   └── scratch.md
@@ -134,7 +135,7 @@ my_new_cool_repo/
  ├── tests/
  │   ├── README.md
  │   ├── run_bats_core_test_in_n2st.bash          <-- norlab-shell-script-tools (optional)
- │   └── tests_bats                               <-- norlab-shell-script-tools (optional)
+ │   └── tests_bats/                              <-- norlab-shell-script-tools (optional)
  ├── artifact/
  │   └── README.md
  ├── utilities
@@ -191,9 +192,14 @@ Go to the `Settings` > `Branches` and click `Add branch protection rule` in the 
 and set the following:
 1. Set _Branch name pattern_ to `main`
 2. Set _Require a pull request before merging_
+   - Set _Require approvals_ with default number to 1 
+   - Set _Dismiss stale pull request approvals when new commits are pushed_ 
+   - Set _Require review from Code Owners_ 
+5. Set _Require status checks to pass before merging_ 
+   - Set _Require branches to be up to date before merging_;
+   - (Optional) If you use a Continuous Integration service such as _**GitHub actions**_ or our **_norlab-teamcity-server_**, add the _Status check tahat are required_ name.
 3. Set _Require conversation resolution before merging_
-4. Set _Restrict who can push to matching branches_ and add names
-5. If you use a Continuous Integration service such as _**GitHub actions**_ or our **_norlab-teamcity-server_**, set _Require status checks to pass before merging_ and set _Require branches to be up to date before merging_
+4. Set _Restrict who can push to matching branches_
 6. Repeat for the `dev` branch
    
 
@@ -221,13 +227,23 @@ and all others such as `doc` and `style` will register for the next release but 
 
 
 ### Configuration
-1. Adopt the [_conventional-commit_](https://www.conventionalcommits.org/) specification. This is a **hard requirement** for _semantic-release_.  
+1. Generate a GitHub [personal access token](https://github.com/settings/tokens) 
+2. and register the generated token on your repository as a _Repository Secrets_ named `SEMANTIC_RELEASE_GH_TOKEN`: 
+   - method 1: using [GitHub cli](https://cli.github.com), using command 
+     ```shell
+     # From repository root
+     $ gh secret set SEMANTIC_RELEASE_GH_TOKEN --body "<your-generated-token-value>"
+     ```
+   - method 2: via your repository GitHub web page by going to the `Settings/secrets and variables/Actions` tab, add a _Repository Secrets_ with the name `SEMANTIC_RELEASE_GH_TOKEN`.   
+3. Modify the _**semantic-release**_ GitHub action implemented in `.github/workflows/semantic_release.yml` if necessary. The current configuration should do the trick for most use cases.  
+4. Adopt the [_conventional-commit_](https://www.conventionalcommits.org/) specification. This is a **hard requirement** for _semantic-release_.  
   See [commit_msg_reference.md](./commit_msg_reference.md) for a quick summary.
-2. Configure the _**semantic-release**_ GitHub action implemented in the `.github/workflows/` directory. 
-   1. You must generate a GitHub [personal access token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) 
-   2. and register it as a _Repository Secrets_ in the tab `Settings/secrets and variables/Actions` and name it `SEMANTIC_RELEASE_GH_TOKEN`.  
-     Reference: [semantic-release/GitHub Actions](https://semantic-release.gitbook.io/semantic-release/recipes/ci-configurations/github-actions)  
-
+        
+References: 
+- [semantic-release/GitHub Actions](https://semantic-release.gitbook.io/semantic-release/recipes/ci-configurations/github-actions)  
+- GitHub 
+  - [Personal access token](https://github.com/settings/tokens)
+  - [Creating a personal access token for the command line](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line)
 
 ---
 

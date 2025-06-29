@@ -56,6 +56,12 @@ setup_file() {
   ## Uncomment the following for debug, the ">&3" is for printing bats msg to stdin
 #  pwd >&3 && tree -L 1 -a -hug >&3
 
+  cat > "${BATS_DOCKER_WORKDIR}/configure_github_branch_protection.bash" << 'EOF'
+# Note: 'configure_github_branch_protection.bash' is tested in 'test_configure_github_branch_protection.bats'
+echo "Mock 'configure_github_branch_protection.bash' script"
+exit 0
+EOF
+
 }
 
 # executed before each test
@@ -163,7 +169,6 @@ teardown() {
 }
 
 @test "Default case › NBS N2ST Semantic-Release and NorLab readme  › expect pass" {
-##  skip "tmp dev" # ToDo: on task end >> delete this line ←
 
   # Note: \n is to simulate the return key
   # Install NBS › Y
@@ -216,7 +221,7 @@ teardown() {
 }
 
 @test "Validate git add steps and gitignore configuration › expect pass" {
-##  skip "tmp dev" # ToDo: on task end >> delete this line ←
+#  skip "tmp dev" # ToDo: on task end >> delete this line ←
 
   # Note: \n is to simulate the return key
   # Install NBS › Y
@@ -239,6 +244,14 @@ teardown() {
 
   # ....Check git commit feedback..................................................................
   refute_output --regexp "Commit".*"create mode".*".idea/".*
+
+  # ....Check .gitignore content...................................................................
+  assert_file_exist .gitignore
+  assert_file_not_contains .gitignore "Dev required"
+  assert_file_not_contains .gitignore "/utilities/tmp/dockerized-norlab-project-mock-EMPTY"
+  assert_file_not_contains .gitignore "/tests/.env.tnp_test_values"
+  assert_file_contains .gitignore "**/artifact/"
+
 }
 
 @test "Prefix substitution and changelog reset › expect pass" {

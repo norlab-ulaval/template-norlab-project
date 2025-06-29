@@ -62,7 +62,6 @@ function tnp::install_norlab_project_template(){
     echo
     unset user_input
     read -n 1 -r user_input
-#    echo "user_input=$user_input" # User user_input feedback
     echo
 
     cd "${tmp_root}" || return 1
@@ -103,7 +102,6 @@ function tnp::install_norlab_project_template(){
     echo
     unset user_input
     read -n 1 -r user_input
-#    echo "user_input=$user_input" # User user_input feedback
     echo
 
     install_n2st=true
@@ -133,7 +131,6 @@ function tnp::install_norlab_project_template(){
     echo
     unset user_input
     read -n 1 -r user_input
-#    echo "user_input=$user_input" # User user_input feedback
     echo
 
     if [[ "${user_input}" == "Y" ]] || [[ "${user_input}" == "y" ]]; then
@@ -197,10 +194,9 @@ function tnp::install_norlab_project_template(){
 
   }
 
-  # ....Update CODEOWNER file......................................................................
+  # ....Update code owners file....................................................................
   local git_user_name
   git_user_name="$(git config user.name)"
-  echo ">>>> ${git_user_name}"
 
   {
     cd "${tmp_root}/.github" || return 1
@@ -217,7 +213,6 @@ function tnp::install_norlab_project_template(){
     echo
     unset user_input
     read -n 1 -r user_input
-#    echo "user_input=$user_input" # User user_input feedback
     echo
 
     cd "${tmp_root}" || return 1
@@ -275,40 +270,60 @@ function tnp::install_norlab_project_template(){
       fi
 
       rm -R src/dummy.bash
-      rm -R tests/tests_bats
-      rm -R tests/run_bats_core_test_in_n2st.template.bash
       rm -R ".run/run-Bats-Tests-All.run.xml"
+
+      mkdir -p tests_FINAL
+      mv tests/README.md tests_FINAL/README.md
+      rm -R tests
+      mv tests_FINAL tests
 
       n2st::print_msg "Commit N2ST lib deletion"
       git add src/dummy.bash
       if [[ ! -d utilities/norlab-build-system ]]; then
         git add ".env.${new_project_git_name}"
       fi
-      git add tests/tests_bats
-      git add tests/run_bats_core_test_in_n2st.template.bash
+      git add tests
       git add ".run/run-Bats-Tests-All.run.xml"
       git commit -m 'build: Deleted norlab-shell-script-tools submodule from repository'
-
     fi
   }
+
+  # ....Update ignore files........................................................................
+  {
+    n2st::seek_and_modify_string_in_file "# .*Dev required.*" " " ".gitignore"
+    n2st::seek_and_modify_string_in_file "/utilities/tmp/dockerized-norlab-project-mock-EMPTY" " " ".gitignore"
+    n2st::seek_and_modify_string_in_file "/tests/.env.tnp_test_values" " " ".gitignore"
+    git add ".gitignore"
+  }
+
+  # ....Execute branch protection rule setup.......................................................
+  bash configure_github_branch_protection.bash || return 1
 
   # ====Teardown===================================================================================
   {
     n2st::print_msg "Teardown clean-up"
     cd "${tmp_root}" || return 1
-    mv initialize_norlab_project_template.bash "${tmp_root}/to_delete/initialize_norlab_project_template.bash"
+    mv initialize_norlab_project_template.bash "to_delete/initialize_norlab_project_template.bash"
+    mv configure_github_branch_protection.bash "to_delete/configure_github_branch_protection.bash"
+    git add "to_delete"
 
-    if [[ -d tests/tests_bats ]]; then
-      rm "tests/tests_bats/bats_testing_tools/norlab_project_template_helper_functions.bash"
-      rm "tests/tests_bats/test_dotenv_files.bats"
-      rm "tests/tests_bats/test_initialize_norlab_project_template.bats"
-      git add "tests/tests_bats/bats_testing_tools/norlab_project_template_helper_functions.bash"
-      git add "tests/tests_bats/test_dotenv_files.bats"
-      git add "tests/tests_bats/test_initialize_norlab_project_template.bats"
+    rm -R ".junie/plans"
+    mkdir -p ".junie/plans"
+    git add ".junie/plans"
+
+    if [[ ${install_n2st} == true ]]; then
+      mkdir -p tests_FINAL/tests_bats/bats_testing_tools
+
+      mv tests/tests_bats/bats_testing_tools/bats_helper_functions_local.bash tests_FINAL/tests_bats/bats_testing_tools/bats_helper_functions_local.bash
+      mv tests/tests_bats/test_template.bats tests_FINAL/tests_bats/test_template.bats
+      mv tests/run_bats_core_test_in_n2st.bash tests_FINAL/run_bats_core_test_in_n2st.bash
+
+      rm -R tests
+      mv tests_FINAL tests
+
+      git add "tests"
+
     fi
-
-    rm -R tests/run_bats_core_test_in_n2st.tnp.bash
-    git add tests/run_bats_core_test_in_n2st.tnp.bash
 
     n2st::print_msg "Commit template-norlab-project files/dir clean-up"
     git commit -m 'build: Clean-up template-norlab-project from repository'

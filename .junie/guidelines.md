@@ -1,37 +1,44 @@
 
 # Repository Guidelines
- 
-## General Requirements:
-- Don't repeat yourself: 
-  - Use already implemented code whenever possible.
-  - Leverage functionality provided by submodule such as _N2ST_ and _NBS_ library whenever possible.
-  
+
 ## Repository Organization
 - `src/` contain repository source code
 - `tests/` contain tests files
 - `tests/tests_bats/` contain N2ST bats framework files that are mainly used for unit-testing
 - `utilities/` contain external libraries such as N2ST and NBS
+- `utilities/tmp/dockerized-norlab-project-mock-EMPTY` is use for cloning a fresh copy of a mock "super project" from https://github.com/norlab-ulaval/dockerized-norlab-project-mock-EMPTY.git on test execution.
+  `dockerized-norlab-project-mock-EMPTY` is a mock of how a user would install and uses TNP. We refer to this as a "super project".
 
-## Version Control
-- Never `git add` or `git commit` changes, all changes require explicit code review and acceptance by the code owner.   
+## General Instructions:
 
-## Tests Requirements
+### Planning instructions
+- Always put plan ready for review in the `.junie/plans` directory.
+
+### Coding instructions
+- Don't repeat yourself: 
+  - Use already implemented code whenever possible;
+  - Leverage functionality provided by submodule such as _N2ST_ and _NBS_ library whenever possible.
+- Path management: each script can optionally use the env var `PLACEHOLDER_PATH`, `*_PATH` (assuming `PLACEHOLDER_PATH` was renamed), `PROJECT_PATH`, `NBS_PATH` (if available), `N2ST_PATH` (if available) and others define in `.env.*` (assuming `.env.template-norlab-project.template` was renamed).
+
+### Version Control Instructions
+- Never `git add` or `git commit` changes, all changes require explicit code review and acceptance by the code owner.
+
+## Testing Strategy Instructions
 - In the context of testing:
-  - the definition of _pass_ is that a test exit without error. Synomym: _green_, _successful_; 
-  - the definition fo _done_ mean that all tests where executed and all tests passed.
+  - the definition of _pass_ is that a test exit without error. Synonym: _green_, _successful_; 
+  - the definition fo _done_ mean that all tests where executed and all required tests passed, i.e. tests are _green_.
+- Inspect the tested script/functions for business logic related error or implementation error. Propose correction before going forward if any. 
+- Identify relevant test cases e.g., behavior validation, error handling, desired user feedback, ...   
+- If the tested script implements helper functions (i.e., support function meant to be used by the main function), test those functions first.
+- Always execute all unit-tests and all integration tests before submitting and only submit when _done_.
 
 ## General Testing Instructions
-- Inspect the tested script/functions for business logic related error or implementation error. Propose correction before going forward if any. 
 - Write tests who challenge the intended functionality or behavior.
-- Identify relevant test cases e.g., behavior validation, error handling, desired user feedback, ...   
 - Divide test file by test cases: one test function per test case.
-- If the tested script implement helper functions (i.e., support function meant to be used by the main function), test those functions first.
 - Provide a summary explanation of the test case: 
   - What does it test for; 
   - What's the test expected outcome (i.e, should it pass or fail); 
   - If you do mock something, justify why.
-- All tests in the `tests/` directory must pass.
-- Always execute all unit-tests and all integration tests before submitting.
 - Their should be at least one test file per corresponding source code file.
 - Write **Unit-tests** and/or **Integration tests**:
   - All new scripts or functionalities need to have (either or both):
@@ -48,21 +55,14 @@
 - Never run integration tests if any unit-tests fail.
 
 ## Shell Script specific Testing Instructions
-All instructions in sections _General Testing Strategy_ plus the following:
+All instructions in sections _General Testing Instructions_ plus the following:
 - All new scripts or functionalities need to have (either or both):
   - **Unit-tests**: 
-    - Use [N2ST](https://github.com/norlab-ulaval/norlab-shell-script-tools) bats tests tools for unit-test (See `tests/run_bats_core_test_in_n2st.bash` script) and a corresponding bats unit-test `.bats` file in the `tests/tests_bats/` directory. N2ST Bats tests are running in a docker container in complete isolation with a copy of the source code.
-    - Execute all bats tests in the `tests/tests_bats/` directory using
-      ```bash
-      # From repository root
-      bash tests/run_bats_core_test_in_n2st.tnp.bash tests/tests_bats/ tests/tests_bats
-      ```
+    - Use [N2ST](https://github.com/norlab-ulaval/norlab-shell-script-tools) bats tests tools for unit-test (See `tests/run_bats_core_test_in_n2st.tnp.bash` script) and a corresponding bats unit-test `.bats` file in the `tests/tests_bats/` directory. N2ST Bats tests are running in a docker container in complete isolation with a copy of the source code.
   - **Integration tests**: 
     - Those tests are divided in two categories: 
-      - Dryrun: either make use of a `--dry-run` flag implemented in the script or make use of the docker `--dry-run` flag;  
+      - Dryrun: either make use of a `--dry-run` flag implemented in the script when available or make use of the docker `--dry-run` flag;  
       - Test: all other integration test case that are not dryrun.
-    - Use [NBS](https://github.com/norlab-ulaval/norlab-build-system) tests tools for integration-test (See `tests/run_all_dryrun_and_tests_script.bash` script) and a corresponding `test_*` or `dryrun_*` script in the `tests/tests_dryrun_and_tests_scripts/` directory.
-    - New integration test script must go in the `tests/tests_dryrun_and_tests_scripts/` directory.
 - Their should be at least one test file (`.bats` and/or `.bash`) per corresponding source code file.
 
 
@@ -80,7 +80,7 @@ All instructions in sections _General Mocking Instruction_ plus the following:
 - Use bats test function `assert_file_executable` and `assert_file_not_executable` to test executable.
 - Use bats test function `assert_symlink_to` and `assert_not_symlink_to` to test symlink.
 - You can test directory/file mode, existence, permision, content and symlink directly without mocking since bats tests are running in a docker container in complete isolation.
-- Test `/usr/local/bin/dna` symlink related logic directly without mocking.
+- Test symlink related logic directly without mocking.
 
 Bats helper library documentation:
   - https://github.com/bats-core/bats-assert
@@ -89,13 +89,13 @@ Bats helper library documentation:
 
 ### Shell Script specific Instructions On Tests Execution
 All instructions in sections _General Instruction On Tests Execution_ plus the following:
-- Don't directly execute `.bats` files, instead execute from the repository root `bash ./tests/run_bats_core_test_in_n2st.bash tests/tests_bats/<bats-file-name>.bats`.
+- Don't directly execute `.bats` files, instead execute from the repository root `bash ./tests/run_bats_core_test_in_n2st.tnp.bash tests/tests_bats/<bats-file-name>.bats`.
 - Don't set tests script in executable mode, instead execute them with `bash <the-script-name>.bash`. 
 
 
 ## Python Specific Testing Instructions
-When creating new tests:
-1. Place tests in the appropriate subdirectory based on what you're testing
+All instructions in sections _General Testing Instructions_ plus the following:
+1. Place new tests in the appropriate subdirectory based on what you're testing
 2. Follow the existing naming conventions (`tests_*` for package, `test_*.py` for files, `test_*` for functions)
 3. Use pytest fixtures from conftest.py for common setup/teardown if exist in directory or parent directory
 4. Use parametrization for testing multiple scenarios

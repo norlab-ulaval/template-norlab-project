@@ -50,10 +50,13 @@ function norlab_project_template_directory_reset_check() {
 
     # ....Check NorLab project template logic related..............................................
     assert_file_exist initialize_norlab_project_template.bash
+    assert_file_exist configure_github_branch_protection.bash
     assert_file_exist .env.template-norlab-project.template
     assert_file_exist to_delete/README.md
+    assert_file_not_exist NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
     assert_file_not_exist to_delete/NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
     assert_file_not_exist to_delete/initialize_norlab_project_template.bash
+    assert_file_not_exist to_delete/configure_github_branch_protection.bash
 
     # ....Check dotenv content.....................................................................
     assert_file_contains .env.template-norlab-project.template "^PROJECT_PROMPT_NAME=Norlab-Project-Template"
@@ -84,6 +87,7 @@ function check_NBS_not_installed() {
   assert_file_not_contains .env.template-norlab-project "^#NBS_PATH=\"\${PROJECT_PATH}/utilities/norlab-build-system\""
   assert_file_not_contains .env.template-norlab-project "^NBS_PATH=\"\${PROJECT_PATH}/utilities/norlab-build-system\""
   assert_file_not_contains .env.template-norlab-project "^NBS_SPLASH_NAME=.*"
+  assert_dir_exist tests
 }
 
 function check_N2ST_is_installed() {
@@ -105,6 +109,7 @@ function check_N2ST_not_installed() {
   assert_file_not_contains .env.template-norlab-project "^N2ST_PATH=\"\${PROJECT_PATH}/utilities/norlab-shell-script-tools\""
 
   assert_file_not_exist src/dummy.bash
+  assert_dir_exist tests
   assert_dir_not_exist tests/tests_bats
   assert_file_not_exist tests/run_bats_core_test_in_n2st.bash
 }
@@ -119,6 +124,7 @@ function check_no_submodule_installed() {
   assert_file_not_exist .env.template-norlab-project
 
   assert_file_not_exist src/dummy.bash
+  assert_dir_exist tests
   assert_dir_not_exist tests/tests_bats
   assert_file_not_exist tests/run_bats_core_test_in_n2st.bash
 }
@@ -156,7 +162,9 @@ function check_norlab_project_template_teardown() {
 
   assert_file_exist to_delete/NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
   assert_file_exist to_delete/initialize_norlab_project_template.bash
+  assert_file_exist to_delete/configure_github_branch_protection.bash
   assert_file_not_exist NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
   assert_file_not_exist initialize_norlab_project_template.bash
+  assert_file_not_exist configure_github_branch_protection.bash
 
 }

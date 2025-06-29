@@ -39,18 +39,18 @@ if [[ -z ${params[0]} ]]; then
 fi
 
 # ....Setup......................................................................................
-superproject_path=$(git rev-parse --show-toplevel)
+super_project_path=$(git rev-parse --show-toplevel)
 
 function n2st::bats_tests_teardown_callback() {
   exit_code=$?
-  cd "${superproject_path:?err}" || exit 1
+  cd "${super_project_path:?err}" || exit 1
   # Add any teardown logic here
   exit ${exit_code:1}
 }
 trap n2st::bats_tests_teardown_callback EXIT
 
 # ....Load environment variables from file.......................................................
-cd "${superproject_path:?err}" || exit 1
+cd "${super_project_path:?err}" || exit 1
 set -o allexport
 source .env.template-norlab-project.template
 set +o allexport

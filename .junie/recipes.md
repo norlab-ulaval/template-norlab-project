@@ -43,7 +43,7 @@ In `TODO.bats`, instead of mocking `find`, `grep`, `cut`, `cd`, `pwd`, `command`
 
 ---
 
-Integration tests `TODO` and `TODO` are all failling. 
+Integration tests `TODO` and `TODO` are all failing. 
 Please investigate and make the required changes. 
 Always follow guidelines at `.junie/guidelines.md`.
 
