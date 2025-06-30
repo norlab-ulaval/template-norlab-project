@@ -99,7 +99,7 @@ setup() {
 
   fi
 
-  cat > "${BATS_DOCKER_WORKDIR}/configure_github_branch_protection.bash" << 'EOF'
+  cat > "configure_github_branch_protection.bash" << 'EOF'
 # Note: 'configure_github_branch_protection.bash' is tested in 'test_configure_github_branch_protection.bats'
 echo "Mock 'configure_github_branch_protection.bash' script"
 exit 0
