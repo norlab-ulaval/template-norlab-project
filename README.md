@@ -72,7 +72,7 @@ Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
 
 ## Requirements:
 - GitHub CLI (gh) ⟶ See install instruction at https://cli.github.com
-- Command-line JSON processor (jq) command:
+- Command-line JSON processor (jq):
   - MacOs: install using brew ⟶ `$ brew install jq`
   - Linux: install using apt-get ⟶ `$ sudo apt-get update && sudo apt-get install jq`
 

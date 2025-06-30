@@ -240,8 +240,8 @@ teardown() {
   assert_output --partial "mock_ci_status/tests,mock_ci_status/build"
 }
 
-@test "gbp::print_usage should display correct usage information" {
-  run gbp::print_usage
+@test "gbp::show_help should display correct usage information" {
+  run gbp::show_help
   assert_success
   assert_output --partial "Configure GitHub branch protection rules"
   assert_output --partial "--dry-run"
@@ -420,5 +420,6 @@ teardown() {
   run gbp::main --dry-run
   assert_success
   assert_output --partial "Processing branch: main"
+  assert_output --partial "Processing branch: beta"
   assert_output --partial "Processing branch: dev"
 }
