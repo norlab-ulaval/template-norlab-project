@@ -9,6 +9,8 @@
 
 if [[ ${TEAMCITY_VERSION} ]]; then
   # Assuming is run in a TC docker run wrapper
+
+  export DEBIAN_FRONTEND=noninteractive
   apt-get update \
     && apt-get install --assume-yes --no-install-recommends \
         locales \
@@ -29,6 +31,7 @@ if [[ ${TEAMCITY_VERSION} ]]; then
   # This is required in our case since we deal with git submodule
   git config --global --add safe.directory "*"
 
+  unset DEBIAN_FRONTEND
 fi
 
 tnp_root=$(git rev-parse --show-toplevel)
