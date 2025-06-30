@@ -139,7 +139,7 @@ function tnp::install_norlab_project_template(){
 
       n2st::print_msg "Resetting ${MSG_DIMMED_FORMAT}CHANGELOG.md${MSG_END_FORMAT}"
       cd "${tmp_root}" || return 1
-      truncate --size=0 CHANGELOG.md
+      truncate -s 0 CHANGELOG.md
 
     else
       n2st::print_msg "Skipping Semantic-Release install"
@@ -307,7 +307,7 @@ function tnp::install_norlab_project_template(){
   }
 
   # ....Execute branch protection rule setup.......................................................
-  bash configure_github_branch_protection.bash "${gbp_args[@]}" || return 1
+  source configure_github_branch_protection.bash "${gbp_args[@]}" || return 1
 
 
   # ....Delayed N2ST deletion step.................................................................

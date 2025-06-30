@@ -37,6 +37,7 @@ source "${N2ST_PATH:?err}/import_norlab_shell_script_tools_lib.bash"
 # ====Functions====================================================================================
 function gbp::validate_prerequisites() {
     local repo_url
+    n2st::print_msg "Validate pre-prerequisites"
 
     # Check if gh CLI is installed
     if ! command -v jq &> /dev/null; then
@@ -72,12 +73,13 @@ function gbp::validate_prerequisites() {
         return 1
     fi
 
+    n2st::print_msg_done "Validate pre-prerequisites"
     return 0
 }
 
 function gbp::get_repository_info() {
     local repo_info
-    repo_info=$(gh repo view --json owner,name,defaultBranchRef)
+    repo_info=$(gh repo view --json "owner,name,defaultBranchRef")
 
     REPO_OWNER=$(echo "$repo_info" | jq -r '.owner.login')
     REPO_NAME=$(echo "$repo_info" | jq -r '.name')
