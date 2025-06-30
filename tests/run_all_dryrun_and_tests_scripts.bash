@@ -39,6 +39,7 @@ if [[ ${TEAMCITY_VERSION} ]]; then
   git config --global credential.helper store
   git config --global user.name "RedLeader962"
   git config --global user.email "redleader962@gmail.com"
+  git config --global url.https://"${GITHUB_TOKEN}"@github.com/.insteadOf https://github.com/
 
   unset DEBIAN_FRONTEND
 fi
