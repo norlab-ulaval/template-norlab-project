@@ -7,10 +7,13 @@
 #
 # =================================================================================================
 
+if [[ ${TEAMCITY_VERSION} ]]; then
+  sudo apt-get update && sudo apt-get install --yes git tree
+fi
+
 tnp_root=$(git rev-parse --show-toplevel)
 
 bash "${tnp_root}/tests/tests_dryrun_and_tests_scripts/dryrun_configure_github_branch_protection.bash"
 EXIT_CODE=$?
-
 
 exit $EXIT_CODE
