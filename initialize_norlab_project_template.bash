@@ -307,7 +307,8 @@ function tnp::install_norlab_project_template(){
   }
 
   # ....Execute branch protection rule setup.......................................................
-  source configure_github_branch_protection.bash "${gbp_args[@]}" || return 1
+  source configure_github_branch_protection.bash
+  gbp::main "${gbp_args[@]}" || return 1
 
 
   # ....Delayed N2ST deletion step.................................................................

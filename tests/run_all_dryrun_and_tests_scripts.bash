@@ -7,6 +7,11 @@
 #
 # =================================================================================================
 
+MSG_ERROR_FORMAT="\033[1;31m"
+MSG_DONE_FORMAT="\033[1;32m"
+MSG_END_FORMAT="\033[0m"
+
+# ....Setup........................................................................................
 if [[ ${TEAMCITY_VERSION} ]]; then
   # Assuming is run in a TC docker run wrapper
 
@@ -34,9 +39,27 @@ if [[ ${TEAMCITY_VERSION} ]]; then
   unset DEBIAN_FRONTEND
 fi
 
+# ....Begin........................................................................................
 tnp_root=$(git rev-parse --show-toplevel)
 
 bash "${tnp_root}/tests/tests_dryrun_and_tests_scripts/dryrun_configure_github_branch_protection.bash"
-EXIT_CODE=$?
+EXIT_CODE1=$?
 
-exit $EXIT_CODE
+bash "${tnp_root}/tests/tests_dryrun_and_tests_scripts/test_configure_github_branch_protection.bash"
+EXIT_CODE2=$?
+
+# ....Teardown.....................................................................................
+
+echo -e "Completed execution of:
+  - dryrun_configure_github_branch_protection.bash
+  - test_configure_github_branch_protection.bash
+"
+
+all_exit_code=$((EXIT_CODE1 + EXIT_CODE2))
+if [[ ${all_exit_code} == 0 ]]; then
+  echo -e "${MSG_DONE_FORMAT}[TNP done] ✓ All integration tests completed successfully!${MSG_END_FORMAT}"
+else
+  echo -e "${MSG_ERROR_FORMAT}[TNP error] ✗ Integration tests completed with failure!${MSG_END_FORMAT}"
+fi
+
+exit ${all_exit_code}

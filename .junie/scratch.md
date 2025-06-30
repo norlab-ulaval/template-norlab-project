@@ -10,7 +10,6 @@ Check if it introduce any breaking change in the code base by running both unit-
 Propose source code change if relevant.
 Execute all unit-tests and all integration tests before submitting.
 
-
 ---
 
 Don't assume the default branch is `main`.

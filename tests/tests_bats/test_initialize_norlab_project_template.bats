@@ -100,8 +100,12 @@ setup() {
   fi
 
   cat > "configure_github_branch_protection.bash" << 'EOF'
-# Note: 'configure_github_branch_protection.bash' is tested in 'test_configure_github_branch_protection.bats'
 echo "Mock 'configure_github_branch_protection.bash' script"
+# Note: 'configure_github_branch_protection.bash' is tested in 'test_configure_github_branch_protection.bats'
+
+function gbp::main() {
+  echo "Mock gbp::main called with args: $*"
+}
 EOF
 
 #  echo -e "\n› Pre test directory state" >&3 && pwd >&3 && tree -L 1 -a -hug >&3
