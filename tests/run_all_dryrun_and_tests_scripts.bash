@@ -36,6 +36,9 @@ if [[ ${TEAMCITY_VERSION} ]]; then
   # This is required in our case since we deal with git submodule
   git config --global --add safe.directory "*"
 
+  git config --global user.name "RedLeader962"
+  git config --global user.email "redleader962@gmail.com"
+
   unset DEBIAN_FRONTEND
 fi
 
