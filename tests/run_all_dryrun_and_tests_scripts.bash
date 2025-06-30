@@ -8,7 +8,20 @@
 # =================================================================================================
 
 if [[ ${TEAMCITY_VERSION} ]]; then
-  sudo apt-get update && sudo apt-get install --yes git tree
+  # Assuming is run in a TC docker run wrapper
+  apt-get update \
+    && apt-get install --assume-yes --no-install-recommends \
+        sudo \
+        lsb-release \
+        curl \
+        wget \
+        ca-certificates \
+        git \
+        tree \
+        zip gzip tar unzip \
+        fontconfig \
+        software-properties-common \
+    && rm -rf /var/lib/apt/lists/*
 fi
 
 tnp_root=$(git rev-parse --show-toplevel)
