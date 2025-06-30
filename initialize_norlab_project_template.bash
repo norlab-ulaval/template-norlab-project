@@ -360,7 +360,7 @@ function tnp::install_norlab_project_template(){
     mv configure_github_branch_protection.bash "to_delete/configure_github_branch_protection.bash"
     git add "to_delete"
 
-    rm -R ".junie/plans"
+    rm -Rf ".junie/plans"
     mkdir -p ".junie/plans"
     git add ".junie/plans"
 
