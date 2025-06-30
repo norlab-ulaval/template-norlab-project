@@ -295,16 +295,6 @@ teardown() {
   assert_output --partial "Branch protection configured for: main"
 }
 
-@test "gbp::status_check_configuration should handle user input correctly" {
-  # Test CI configuration prompt with 'no' response
-  run bash -c "source ${BATS_DOCKER_WORKDIR}/${TESTED_FILE} && echo 'n' | gbp::status_check_configuration"
-  assert_success
-
-  # Test with CI checks input
-  run bash -c "source ${BATS_DOCKER_WORKDIR}/${TESTED_FILE} && echo -e 'y\rmock_ci_status/tests,mock_ci_status/build' | gbp::status_check_configuration"
-  assert_success
-  assert_output --partial "mock_ci_status/tests,mock_ci_status/build"
-}
 
 @test "gbp::show_help should display correct usage information" {
   run gbp::show_help
@@ -323,7 +313,6 @@ teardown() {
     REPO_NAME="test-repo"
     REPO_DEFAULT_BRANCH="main"
   }
-  function gbp::status_check_configuration() { return 0; }
   function gbp::create_branch_if_not_exists() { return 0; }
   function gbp::configure_branch_protection() { return 0; }
   function n2st::norlab_splash() { return 0; }
@@ -331,7 +320,7 @@ teardown() {
   function n2st::print_msg_done() { return 0; }
   function n2st::print_formated_script_footer() { return 0; }
   function n2st::print_msg() { return 0; }
-  export -f gbp::validate_prerequisites gbp::get_repository_info gbp::status_check_configuration
+  export -f gbp::validate_prerequisites gbp::get_repository_info
   export -f gbp::create_branch_if_not_exists gbp::configure_branch_protection
   export -f n2st::norlab_splash n2st::print_formated_script_header n2st::print_msg_done n2st::print_formated_script_footer n2st::print_msg
 
@@ -363,7 +352,6 @@ teardown() {
     REPO_NAME="test-repo"
     REPO_DEFAULT_BRANCH="main"
   }
-  function gbp::status_check_configuration() { return 0; }
   function gbp::update_releaserc_json() { return 0; }
   function gbp::update_semantic_release_yml() { return 0; }
   function gbp::create_branch_if_not_exists() { return 0; }
@@ -373,7 +361,7 @@ teardown() {
   function n2st::print_msg_done() { return 0; }
   function n2st::print_formated_script_footer() { return 0; }
   function n2st::print_msg() { return 0; }
-  export -f gbp::validate_prerequisites gbp::get_repository_info gbp::status_check_configuration
+  export -f gbp::validate_prerequisites gbp::get_repository_info
   export -f gbp::update_releaserc_json gbp::update_semantic_release_yml gbp::create_branch_if_not_exists gbp::configure_branch_protection
   export -f n2st::norlab_splash n2st::print_formated_script_header n2st::print_msg_done n2st::print_formated_script_footer n2st::print_msg
 
@@ -472,7 +460,6 @@ teardown() {
     REPO_NAME="test-repo"
     REPO_DEFAULT_BRANCH="main"
   }
-  function gbp::status_check_configuration() { return 0; }
   function gbp::update_releaserc_json() { return 0; }
   function gbp::update_semantic_release_yml() { return 0; }
   function gbp::create_branch_if_not_exists() { 
@@ -488,7 +475,7 @@ teardown() {
     echo "$*"
     return 0
   }
-  export -f gbp::validate_prerequisites gbp::get_repository_info gbp::status_check_configuration
+  export -f gbp::validate_prerequisites gbp::get_repository_info
   export -f gbp::update_releaserc_json gbp::update_semantic_release_yml gbp::create_branch_if_not_exists gbp::configure_branch_protection
   export -f n2st::norlab_splash n2st::print_formated_script_header n2st::print_msg_done n2st::print_formated_script_footer n2st::print_msg
 

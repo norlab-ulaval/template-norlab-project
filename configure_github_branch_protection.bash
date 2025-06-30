@@ -202,7 +202,7 @@ function gbp::configure_branch_protection() {
 {
   "required_status_checks": {
     "strict": true,
-    "contexts": [${GBP_CI_CHECKS}]
+    "contexts": []
   },
   "enforce_admins": false,
   "required_pull_request_reviews": {
@@ -239,18 +239,6 @@ EOF
     fi
 }
 
-function gbp::status_check_configuration() {
-    local user_input
-
-    n2st::print_msg_awaiting_input "Configure CI status checks? (y/N)"
-    read -n 1 -r user_input
-
-    if [[ "${user_input}" == "y" || "${user_input}" == "Y" ]]; then
-        n2st::print_msg_awaiting_input "Enter CI check names (comma-separated, e.g., 'ci/tests,ci/build'):"
-        read -r ci_checks
-        echo "${ci_checks}"
-    fi
-}
 
 function gbp::update_releaserc_json() {
     local release_branch="$1"
@@ -406,14 +394,6 @@ function gbp::main() {
     if [[ "$release_branch_specified" == "false" ]]; then
         release_branch="${REPO_DEFAULT_BRANCH:-main}"
         n2st::print_msg "Using repository default branch as release branch: $release_branch"
-    fi
-
-    if [[ "$dry_run" == "false" ]]; then
-        # Interactive configuration if not dry run
-        GBP_CI_CHECKS=$( gbp::status_check_configuration )
-        export GBP_CI_CHECKS
-    else
-        n2st::print_msg "DRY RUN: Would set GBP_CI_CHECKS env var"
     fi
 
     # Update .releaserc.json if using non-default release branch name

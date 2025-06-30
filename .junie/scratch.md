@@ -1,6 +1,18 @@
 
 # Scratch
 
+Improve `configure_github_branch_protection.bash`: 
+- remove `gbp::status_check_configuration` function usage everywhere;
+- delete `gbp::status_check_configuration` function;
+- update tests accordingly.
+Follow guidelines at `.junie/guidelines.md`.
+Check if it introduce any breaking change in the code base by running both unit-tests and integration tests.
+Propose source code change if relevant.
+Execute all unit-tests and all integration tests before submitting.
+
+
+---
+
 Don't assume the default branch is `main`.
 The default branch is arbitrary and is set on GitHub.
 Review your proposed solution accordingly.
