@@ -25,6 +25,7 @@ if [[ ${TEAMCITY_VERSION} ]]; then
         wget \
         ca-certificates \
         git \
+        git-credential-store \
         tree \
         zip gzip tar unzip \
         fontconfig \
@@ -36,6 +37,7 @@ if [[ ${TEAMCITY_VERSION} ]]; then
   # This is required in our case since we deal with git submodule
   git config --global --add safe.directory "*"
 
+  git config --global credential.helper store
   git config --global user.name "RedLeader962"
   git config --global user.email "redleader962@gmail.com"
 
