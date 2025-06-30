@@ -80,7 +80,7 @@ setup() {
 
     git clone  --branch "${TNP_TEAMCITY_PR_SOURCE}" "$TNP_GIT_REMOTE_URL"
 
-    cd "${TNP_GIT_NAME}"
+    cd "${TNP_GIT_NAME}" || exit 1
     echo -e "     [\033[1mN2ST bats container\033[0m] cwd=$(pwd)" # >&3
 
     git fetch --all
@@ -100,9 +100,12 @@ setup() {
   fi
 
   cat > "configure_github_branch_protection.bash" << 'EOF'
-# Note: 'configure_github_branch_protection.bash' is tested in 'test_configure_github_branch_protection.bats'
 echo "Mock 'configure_github_branch_protection.bash' script"
-exit 0
+# Note: 'configure_github_branch_protection.bash' is tested in 'test_configure_github_branch_protection.bats'
+
+function gbp::main() {
+  echo "Mock gbp::main called with args: $*"
+}
 EOF
 
 #  echo -e "\n› Pre test directory state" >&3 && pwd >&3 && tree -L 1 -a -hug >&3

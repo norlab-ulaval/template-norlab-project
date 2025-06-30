@@ -13,7 +13,6 @@
 #   read N2ST_PATH
 #
 # =================================================================================================
-pushd "$(pwd)" >/dev/null || exit 1
 
 function tnp::teardown_mock() {
   n2st::print_formated_script_header "teardown_mock.bash" "${MSG_LINE_CHAR_UTIL}"
@@ -43,8 +42,7 @@ function tnp::teardown_mock() {
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
   # This script is being run, ie: __name__="__main__"
 
-  cd "${N2ST_PATH:?'Variable not set'}" || exit 1
-  source "import_norlab_shell_script_tools_lib.bash" || exit 1
+  source "${N2ST_PATH:?'Variable not set'}/import_norlab_shell_script_tools_lib.bash" || exit 1
 
   tnp::teardown_mock
 
@@ -54,8 +52,5 @@ else
   echo -e "${tnp_error_prefix} This script must executed with bash! i.e.: $ bash $( basename "$0" )" 1>&2
   exit 1
 fi
-
-# ====Teardown=====================================================================================
-popd >/dev/null || exit 1
 
 

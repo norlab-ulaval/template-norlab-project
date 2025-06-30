@@ -233,9 +233,9 @@ function tnp::main() {
     bash "${TNP_PATH}/tests/teardown_mock.bash"
 
     if [[ ${fct_exit_code} == 0 ]]; then
-      n2st::print_msg_done "${MSG_DONE_FORMAT}All integration tests completed successfully!${MSG_END_FORMAT}"
+      n2st::print_msg_done "${MSG_DONE_FORMAT}All dry-run tests completed successfully!${MSG_END_FORMAT}"
     else
-      n2st::print_msg_error "${MSG_ERROR_FORMAT}Integration tests completed with failure!${MSG_END_FORMAT}"
+      n2st::print_msg_error "${MSG_ERROR_FORMAT}Dry-run tests completed with failure!${MSG_END_FORMAT}"
     fi
     n2st::print_formated_script_footer "$(basename $0)" "="
     return ${fct_exit_code}
