@@ -1,7 +1,15 @@
 
 # ====template-norlab-project related==============================================================
+# ....Dev required.................................................................................
+/utilities/tmp/dockerized-norlab-project-mock-EMPTY
 /tests/.env.tnp_test_values
 
+# ....Data.........................................................................................
+**/artifact/
+
+# ....AI...........................................................................................
+/.junie/scratch.md
+/.junie/iceboxed_plans
 
 # ====Generic gitignore template===================================================================
 # ToDo: comment/uncomment the relevant one
