@@ -47,8 +47,8 @@ setup_file() {
   ## Uncomment the following for debug, the ">&3" is for printing bats msg to stdin
   #tree -L 1 -a -hug "${PWD}" >&3
 
-  sudo apt-get update && \
-      sudo apt-get install --yes jq
+  apt-get update && \
+      apt-get install --yes jq
 }
 
 # executed before each test
