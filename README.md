@@ -67,13 +67,25 @@ Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
 [//]: # ( ==== Body ================================================== ) 
 **Note:** For `latex` project such as writing proposal or conference paper, use a template from the following list of [NorLab `TeX` template repositories](https://github.com/norlab-ulaval?q=template&type=all&language=tex&sort=) instead.  
 
+
 # How to use this template repository
+
+## Requirements:
+- GitHub CLI (gh) ⟶ See install instruction at https://cli.github.com
+- Command-line JSON processor (jq) command:
+  - MacOs: install using brew ⟶ `$ brew install jq`
+  - Linux: install using apt-get ⟶ `$ sudo apt-get update && sudo apt-get install jq`
+
+## Install steps
 
 - [ ] [Step 1 › Generate the new repository](#step-1--generate-the-new-repository)
 - [ ] [Step 2 › Execute initialization script](#step-2--execute-initialization-script)
-- [ ] [Step 3 › Make it your own](#step-3--make-it-your-own)
-- [ ] [Step 4 › Configure the _GitHub_ repository settings](#step-4--configure-the-github-repository-settings)
-- [ ] [Step 5 › Release automation: enable semantic versioning tools](#step-5--enable-release-automation-tools-semantic-versioning)
+- [ ] [Step 3 › (Optional) Configure semantic-release GitHub token](#step-3--optional-configure-semantic-release-git-hub-token)
+- [ ] [Step 4 › Make it your own](#step-4--make-it-your-own)
+
+[**Documentation**](#documentation):
+- [Configure the _GitHub_ repository settings](#configure-the-github-repository-settings)
+- [Release automation: enable semantic versioning tools](#enable-release-automation-tools-semantic-versioning)
 
 # Instructions
 ## Step 1 › Generate the new repository
@@ -112,6 +124,7 @@ It will execute the following steps:
        to `README.md` and delete the other one
    3. customize url references 
 4. Reset the content of `CHANGELOG.md`
+5. Configure GitHub branch protection rule
 
 When the script execution is done, you will end up with the following repository structure:
 ```markdown
@@ -157,7 +170,19 @@ my_new_cool_repo/
  └── version.txt                                   <-- Semantic-versioning (optional)
 ```
 
-## Step 3 › Make it your own
+## Step 3 › (Optional) Configure semantic-release GitHub token
+Required if installed semantic-release
+1. Generate a GitHub [personal access token](https://github.com/settings/tokens) 
+2. and register the generated token on your repository as a _Repository Secrets_ named `SEMANTIC_RELEASE_GH_TOKEN`: 
+   - method 1: using [GitHub cli](https://cli.github.com), using command 
+     ```shell
+     # From repository root
+     $ gh secret set SEMANTIC_RELEASE_GH_TOKEN --body "<your-generated-token-value>"
+     ```
+   - method 2: see manual install method in Documentation section [Release automation: enable semantic versioning tools](#enable-release-automation-tools-semantic-versioning) / Configuration
+
+
+## Step 4 › Make it your own
 
 1. Configure the repository directory structure for your project type
 2. Modify the code owner designation file: `.github/CODEOWNERS`
@@ -168,7 +193,12 @@ my_new_cool_repo/
 **Note:** `CHANGELOG.md` and `version.txt` are both automatically generated
 by _semantic-release_
 
-## Step 4 › Configure the _GitHub_ repository settings
+## Documentation
+
+### Configure the _GitHub_ repository settings
+
+<details>
+  <summary style="font-weight: bolder;font-size: medium;">Expand/Collapse</summary>
 
 ★ The `main` branch is sacred. It must be deployable at any given time.  
 We **strongly recommend** you configure your repository following [**_Gitflow_**](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) branching scheme
@@ -181,9 +211,9 @@ We **strongly recommend** you configure your repository following [**_Gitflow_**
 ```
 with _**Branch Protection Rule**_ enable for the default branch (i.e. `main`) and the `dev` branches.
 **Note**: 
-- The name `main` or `master` are convention for the principal release branch.
-- The name `dev`, `devel` or `develop` are convention for the bleeding edge branch.
-- The name `beta` and `alpha` are convention pre-release branch.
+- The name `main` or `master` are convention for the principal _release branch_.
+- The name `dev`, `devel` or `develop` are convention for the _bleeding edge branch_.
+- The name `beta` and `alpha` are convention for _pre-release branch_.
 
 Go to the `Settings` > `Branches` and click `Add branch protection rule` in the _Branch Protection Rule_ panel 
 
@@ -201,20 +231,24 @@ and set the following:
 3. Set _Require conversation resolution before merging_
 4. Set _Restrict who can push to matching branches_
 6. Repeat for the `dev` branch
-   
+
+</details>
 
 
-## Step 5 › Enable release automation tools (semantic versioning)  
+### Enable release automation tools (semantic versioning)  
 
-### Why:
+<details>
+  <summary style="font-weight: bolder;font-size: medium;">Expand/Collapse</summary>
+
+#### Why:
 Assuming your repository is part of a bigger system, 
 - easily identify the repository state currently in use as a dependency
 - and escape "dependency hell". 
 
-### How
+#### How
 Any push to the `main` branch will trigger the execution of [_semantic-release_](https://semantic-release.gitbook.io) which will analyse each commits message to determine the version bump following [_semantic versioning_](https://semver.org) scheme `MAJOR.MINOR.PATCH`.
 
-### On version bump, 
+#### On version bump, 
 - a new repository tag gets published with the newest versions number `v<MAJOR>.<MINOR>.<PATCH>`
 - the `CHANGELOG.md` and the `version.txt` files gets updated
 - a new repository release gets published on the _Releases_ page 
@@ -226,7 +260,7 @@ Any push to the `main` branch will trigger the execution of [_semantic-release_]
 and all others such as `doc` and `style` will register for the next release but won't trigger one.
 
 
-### Configuration
+#### Configuration
 1. Generate a GitHub [personal access token](https://github.com/settings/tokens) 
 2. and register the generated token on your repository as a _Repository Secrets_ named `SEMANTIC_RELEASE_GH_TOKEN`: 
    - method 1: using [GitHub cli](https://cli.github.com), using command 
@@ -244,6 +278,8 @@ References:
 - GitHub 
   - [Personal access token](https://github.com/settings/tokens)
   - [Creating a personal access token for the command line](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line)
+
+</details>
 
 ---
 

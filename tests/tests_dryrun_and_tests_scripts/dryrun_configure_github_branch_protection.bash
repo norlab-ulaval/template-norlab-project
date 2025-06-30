@@ -91,7 +91,7 @@ function tnp::test_dry_run_functionality() {
     cd "${TNP_MOCK_REPO_PATH}"
 
     # Test dry-run mode
-    if bash "${TNP_PATH}"/configure_github_branch_protection.bash --dry-run --branch main 2>/dev/null; then
+    if bash "${TNP_PATH}"/configure_github_branch_protection.bash --dry-run --branch main; then
         n2st::print_msg_done "✓ Dry-run functionality works"
     else
         n2st::print_msg_error "✗ Dry-run functionality failed"
@@ -107,7 +107,7 @@ function tnp::test_both_branches_default() {
 
     # Test that both branches are configured by default
     local output
-    output=$(bash "${TNP_PATH}"/configure_github_branch_protection.bash --dry-run 2>/dev/null)
+    output=$(bash "${TNP_PATH}"/configure_github_branch_protection.bash --dry-run)
 
     if [[ "$output" =~ "Processing branch: main" ]] && [[ "$output" =~ "Processing branch: dev" ]]; then
         n2st::print_msg_done "✓ Both branches configured by default"
@@ -124,7 +124,7 @@ function tnp::test_releaserc_json_update() {
 
     # Test .releaserc.json update in dry-run mode
     local output
-    output=$(bash "${TNP_PATH}"/configure_github_branch_protection.bash --dry-run --release-branch master 2>/dev/null)
+    output=$(bash "${TNP_PATH}"/configure_github_branch_protection.bash --dry-run --release-branch master)
 
     # shellcheck disable=SC2076
     if [[ "$output" =~ "DRY RUN: Would update .releaserc.json:" ]] && [[ "$output" =~ "Release branch: master" ]]; then
@@ -142,7 +142,7 @@ function tnp::test_semantic_release_yml_update() {
 
     # Test semantic_release.yml update in dry-run mode
     local output
-    output=$(bash "${TNP_PATH}"/configure_github_branch_protection.bash --dry-run --release-branch master 2>/dev/null)
+    output=$(bash "${TNP_PATH}"/configure_github_branch_protection.bash --dry-run --release-branch master)
 
     # shellcheck disable=SC2076
     if [[ "$output" =~ "DRY RUN: Would update .github/workflows/semantic_release.yml:" ]] && [[ "$output" =~ "Release branch: master" ]]; then

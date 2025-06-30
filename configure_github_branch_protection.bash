@@ -35,7 +35,7 @@ function gbp::validate_prerequisites() {
     # Check if gh CLI is installed
     if ! command -v jq &> /dev/null; then
         n2st::print_msg_error "Command-line JSON processor (jq) command is not installed. Please install it first:"
-        echo "  https://cli.github.com/"
+        echo "  https://manpages.ubuntu.com/manpages/focal/man1/jq.1.html"
         return 1
     fi
 
@@ -76,6 +76,8 @@ function gbp::get_repository_info() {
     REPO_OWNER=$(echo "$repo_info" | jq -r '.owner.login')
     REPO_NAME=$(echo "$repo_info" | jq -r '.name')
 
+    export REPO_OWNER
+    export REPO_NAME
     n2st::print_msg "Repository: ${REPO_OWNER}/${REPO_NAME}"
 }
 
@@ -148,7 +150,7 @@ EOF
     if gh api \
         --method PUT \
         --header "Accept: application/vnd.github+json" \
-        "/repos/${REPO_OWNER}/${REPO_NAME}/branches/${branch_name}/protection" \
+        "/repos/${REPO_OWNER:?err}/${REPO_NAME:?err}/branches/${branch_name}/protection" \
         --input <(echo "$protection_config") > /dev/null; then
         n2st::print_msg_done "Branch protection configured for: ${branch_name}"
     else
@@ -296,14 +298,16 @@ function gbp::main() {
     #n2st::norlab_splash "GitHub Branch Protection" "https://github.com/norlab-ulaval/template-norlab-project"
     #n2st::print_formated_script_header "$( basename $0)" "="
 
-    # Validate prerequisites
-    gbp::validate_prerequisites || return 1
-
-    # Get repository information
-    gbp::get_repository_info
-
-    # Interactive configuration if not dry run
     if [[ "$dry_run" == "false" ]]; then
+        # Validate prerequisites
+        gbp::validate_prerequisites || return 1
+
+        # Get repository information
+        gbp::get_repository_info
+        test -n "${REPO_OWNER:?err}" || n2st::print_msg_error_and_exit "Env variable REPO_OWNER need to be set and non-empty."
+        test -n "${REPO_NAME:?err}" || n2st::print_msg_error_and_exit "Env variable REPO_NAME need to be set and non-empty."
+
+        # Interactive configuration if not dry run
         GBP_CI_CHECKS=$( gbp::status_check_configuration )
         export GBP_CI_CHECKS
     fi
