@@ -55,13 +55,6 @@ setup_file() {
 
   ## Uncomment the following for debug, the ">&3" is for printing bats msg to stdin
 #  pwd >&3 && tree -L 1 -a -hug >&3
-
-  cat > "${BATS_DOCKER_WORKDIR}/configure_github_branch_protection.bash" << 'EOF'
-# Note: 'configure_github_branch_protection.bash' is tested in 'test_configure_github_branch_protection.bats'
-echo "Mock 'configure_github_branch_protection.bash' script"
-exit 0
-EOF
-
 }
 
 # executed before each test
@@ -105,6 +98,12 @@ setup() {
     cd "${BATS_DOCKER_WORKDIR}" || exit 1
 
   fi
+
+  cat > "${BATS_DOCKER_WORKDIR}/configure_github_branch_protection.bash" << 'EOF'
+# Note: 'configure_github_branch_protection.bash' is tested in 'test_configure_github_branch_protection.bats'
+echo "Mock 'configure_github_branch_protection.bash' script"
+exit 0
+EOF
 
 #  echo -e "\n› Pre test directory state" >&3 && pwd >&3 && tree -L 1 -a -hug >&3
 }
