@@ -20,15 +20,10 @@ function tnp::install_gh_cli_on_ci() {
   if [[ $(uname) == "Linux" ]] && ! command -v gh &> /dev/null; then
     echo "Test is run on a TeamCity server, install GitHub cli"
     {
-      (type -p wget >/dev/null || (apt update && apt-get install wget -y)) \
-        && mkdir -p -m 755 /etc/apt/keyrings \
-        && out=$(mktemp) && wget -nv -O$out https://cli.github.com/packages/githubcli-archive-keyring.gpg \
-        && cat $out | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
-        && chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
-        && mkdir -p -m 755 /etc/apt/sources.list.d \
-        && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
-        && apt update \
-        && apt install gh -y ;
+      curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+      echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+      sudo apt update
+      sudo apt install gh -y
     } || { n2st::print_msg_error "Failed to install GitHub cli!" ; return 1 ; }
   fi
 
@@ -37,6 +32,7 @@ function tnp::install_gh_cli_on_ci() {
   elif [[ ${TEAMCITY_VERSION} ]] && [[ -n ${GITHUB_TOKEN} ]]; then
     n2st::print_msg "GitHub cli login › Authenticating with GitHub token..."
     echo "$GITHUB_TOKEN" | gh auth login --with-token
+    gh auth status # Verify authentication
   fi
   return 0
 }
