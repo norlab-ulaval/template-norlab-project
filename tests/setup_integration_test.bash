@@ -43,7 +43,7 @@ function tnp::install_gh_cli_on_ci() {
 }
 
 function tnp::install_jq_on_ci() {
-  if [[ ${TEAMCITY_VERSION} ]] && ! command -v gh &> /dev/null; then
+  if [[ ${TEAMCITY_VERSION} ]] && ! command -v jq &> /dev/null; then
     echo "Test is run on a TeamCity server, install JSON processor (jq) command-line"
     {
       sudo apt update \
