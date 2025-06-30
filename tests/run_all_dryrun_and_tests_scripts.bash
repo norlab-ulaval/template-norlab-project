@@ -25,7 +25,6 @@ if [[ ${TEAMCITY_VERSION} ]]; then
         wget \
         ca-certificates \
         git \
-        git-credential-store \
         tree \
         zip gzip tar unzip \
         fontconfig \
