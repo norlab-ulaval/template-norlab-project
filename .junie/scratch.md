@@ -1,9 +1,23 @@
 
 # Scratch
 
+You are not done. Unit-test are failing.
+Use `\r` instead of `\n` to simulate the return key.
+Always follow guidelines at `.junie/guidelines.md`.
+
+---
+
+Add an interactive step in `initialize_norlab_project_template.bash` at the execution of `bash configure_github_branch_protection.bash` so that user can decide to set non-default _release branch_ and _bleeding edge branch_ name. In effect the value fetch from user input would be passed to the option flag `--release-branch BRANCH_NAME` and `--dev-branch BRANCH_NAME` implemented in `configure_github_branch_protection.bash`.
+Update tests accordingly.
+Create at least one test case for this new feature, update current tests cases otherwise.
+Always follow guidelines at `.junie/guidelines.md`.
+
+
+---
+
 You miss understood my instructions, 
 - I said ADD logic to update `semantic_release.yml` field `branches` name `main` to user set _release branch_ name if using non-default. 
-- You have remove the already implemented logic for updating `.releaserc.json`.
+- You have remove the already implemented logic for updating `.releaserc.json`
 - Both update logic are required:  `semantic_release.yml` and `.releaserc.json`.
 Integration tests `TODO` and `TODO` are all failing. 
 Please investigate and make the required changes. 

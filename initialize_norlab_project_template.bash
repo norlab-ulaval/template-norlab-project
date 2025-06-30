@@ -245,8 +245,6 @@ function tnp::install_norlab_project_template(){
 
   }
 
-
-
   # ....Commit project configuration steps.........................................................
   {
     n2st::print_msg "Commit project configuration changes"
@@ -254,6 +252,63 @@ function tnp::install_norlab_project_template(){
     git add .
     git commit -m 'refactor: NorLab project template configuration'
   }
+
+  # ....Configure GitHub branch protection.....................................................
+  {
+    local release_branch="main"
+    local dev_branch="dev"
+    declare -a gbp_args=()
+
+    n2st::print_msg_awaiting_input "Do you want to configure custom branch names for GitHub branch protection?"
+    echo
+    tmp_msg="(press 'Y' to configure custom names) "
+    n2st::echo_centering_str "${tmp_msg}" "\033[2m" " "
+    tmp_msg="(press any other key to use defaults: main/dev) "
+    n2st::echo_centering_str "${tmp_msg}" "\033[2m" " "
+    echo
+    unset user_input
+    read -n 1 -r user_input
+    echo
+
+    if [[ "${user_input}" == "Y" ]] || [[ "${user_input}" == "y" ]]; then
+      n2st::print_msg "Configuring custom branch names..."
+      echo
+
+      # Prompt for release branch name
+      n2st::print_msg_awaiting_input "Enter the release branch name (default: main):"
+      tmp_msg="(press 'return' when done) "
+      n2st::echo_centering_str "${tmp_msg}" "\033[2m" " "
+      echo
+      unset user_input
+      read -r user_input
+      if [[ -n "${user_input}" ]]; then
+        release_branch="${user_input}"
+      fi
+      echo
+
+      # Prompt for dev branch name
+      n2st::print_msg_awaiting_input "Enter the bleeding edge branch name (default: dev):"
+      tmp_msg="(press 'return' when done) "
+      n2st::echo_centering_str "${tmp_msg}" "\033[2m" " "
+      echo
+      unset user_input
+      read -r user_input
+      if [[ -n "${user_input}" ]]; then
+        dev_branch="${user_input}"
+      fi
+      echo
+
+      n2st::print_msg "Using custom branch names: release='${release_branch}', dev='${dev_branch}'"
+      gbp_args=(--release-branch "${release_branch}" --dev-branch "${dev_branch}")
+    else
+      n2st::print_msg "Using default branch names: release='main', dev='dev'"
+    fi
+    echo
+  }
+
+  # ....Execute branch protection rule setup.......................................................
+  bash configure_github_branch_protection.bash "${gbp_args[@]}" || return 1
+
 
   # ....Delayed N2ST deletion step.................................................................
   {
@@ -296,8 +351,6 @@ function tnp::install_norlab_project_template(){
     git add ".gitignore"
   }
 
-  # ....Execute branch protection rule setup.......................................................
-  bash configure_github_branch_protection.bash || return 1
 
   # ====Teardown===================================================================================
   {
@@ -360,4 +413,3 @@ else
   echo -e "${MSG_ERROR_FORMAT}[ERROR]${MSG_END_FORMAT} This script must be run with bash i.e.: $ bash initialize_norlab_project_template.bash" 1>&2
   exit 1
 fi
-

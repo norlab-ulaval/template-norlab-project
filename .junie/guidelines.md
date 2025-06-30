@@ -5,6 +5,7 @@
 - `src/` contain repository source code
 - `tests/` contain tests files
 - `tests/tests_bats/` contain N2ST bats framework files that are mainly used for unit-testing
+- `tests/tests_dryrun_and_tests_scripts/` contain integration tests
 - `utilities/` contain external libraries such as N2ST and NBS
 - `utilities/tmp/dockerized-norlab-project-mock-EMPTY` is use for cloning a fresh copy of a mock "super project" from https://github.com/norlab-ulaval/dockerized-norlab-project-mock-EMPTY.git on test execution.
   `dockerized-norlab-project-mock-EMPTY` is a mock of how a user would install and uses TNP. We refer to this as a "super project".
@@ -63,6 +64,7 @@ All instructions in sections _General Testing Instructions_ plus the following:
     - Those tests are divided in two categories: 
       - Dryrun: either make use of a `--dry-run` flag implemented in the script when available or make use of the docker `--dry-run` flag;  
       - Test: all other integration test case that are not dryrun.
+    - Run `bash run_all_dryrun_and_tests_scripts.bash` to execute integration test.
 - Their should be at least one test file (`.bats` and/or `.bash`) per corresponding source code file.
 
 

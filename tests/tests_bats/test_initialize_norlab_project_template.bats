@@ -175,8 +175,9 @@ teardown() {
   # Install N2ST › Y
   # Semantic-Release › Y
   # Project env var prefix › TMP1
-  # Install NorLab readme › Y
-  local TEST_CASE="yyyTMP1\ny"
+  # Install NorLab readme › Y (any key except V)
+  # Custom branch names › N (use defaults)
+  local TEST_CASE="yyyTMP1\n\nn"
 
   norlab_project_template_directory_reset_check
 
@@ -227,9 +228,10 @@ teardown() {
   # Install NBS › Y
   # Install N2ST › Y
   # Semantic-Release › Y
-  # Project env var prefix › TMP1
-  # Install NorLab readme › Y
-  local TEST_CASE="yyyTMP2\ny"
+  # Project env var prefix › TMP2
+  # Install NorLab readme › Y (any key except V)
+  # Custom branch names › N (use defaults)
+  local TEST_CASE="yyyTMP2\n\nn"
 
   norlab_project_template_directory_reset_check
 
@@ -262,8 +264,9 @@ teardown() {
   # Install N2ST › Y
   # Semantic-Release › Y
   # Project env var prefix › my_project
-  # Install NorLab readme › Y
-  local TEST_CASE="yyymy_project\ny"
+  # Install NorLab readme › Y (any key except V)
+  # Custom branch names › N (use defaults)
+  local TEST_CASE="yyymy_project\n\nn"
 
   norlab_project_template_directory_reset_check
 
@@ -318,8 +321,9 @@ teardown() {
   # Install N2ST › N
   # Semantic-Release › Y
   # Project env var prefix › no_sub
-  # Install NorLab readme › Y
-  local TEST_CASE="nnyno_sub\ny"
+  # Install NorLab readme › Y (any key except V)
+  # Custom branch names › N (use defaults)
+  local TEST_CASE="nnyno_sub\n\nn"
 
   norlab_project_template_directory_reset_check
 
@@ -349,8 +353,9 @@ teardown() {
   # Install N2ST › N
   # Semantic-Release › Y
   # Project env var prefix › NBS
-  # Install NorLab readme › Y
-  local TEST_CASE="ynyNBS\ny"
+  # Install NorLab readme › Y (any key except V)
+  # Custom branch names › N (use defaults)
+  local TEST_CASE="ynyNBS\n\nn"
 
   norlab_project_template_directory_reset_check
 
@@ -381,9 +386,10 @@ teardown() {
   # Install NBS › N
   # Install N2ST › Y
   # Semantic-Release › Y
-  # Project env var prefix ›N2ST
-  # Install NorLab readme › Y
-  local TEST_CASE="nyyN2ST\ny"
+  # Project env var prefix › N2ST
+  # Install NorLab readme › Y (any key except V)
+  # Custom branch names › N (use defaults)
+  local TEST_CASE="nyyN2ST\n\nn"
 
   norlab_project_template_directory_reset_check
 
@@ -415,8 +421,9 @@ teardown() {
   # Install N2ST › Y
   # Semantic-Release › N
   # Project env var prefix › NOSEMANTIC
-  # Install NorLab readme › Y
-  local TEST_CASE="yynNOSEMANTIC\ny"
+  # Install NorLab readme › Y (any key except V)
+  # Custom branch names › N (use defaults)
+  local TEST_CASE="yynNOSEMANTIC\n\nn"
 
   norlab_project_template_directory_reset_check
 
@@ -447,8 +454,9 @@ teardown() {
   # Install N2ST › Y
   # Semantic-Release › Y
   # Project env var prefix › TMP1
-  # Install NorLab readme › Y
-  local TEST_CASE="YYYTMP1\nY"
+  # Install NorLab readme › Y (any key except V)
+  # Custom branch names › N (use defaults)
+  local TEST_CASE="YYYTMP1\n\nn"
 
   norlab_project_template_directory_reset_check
 
@@ -486,7 +494,8 @@ teardown() {
   # Semantic-Release › Y
   # Project env var prefix › TMP1
   # Install VAUL readme › V
-  local TEST_CASE="YYYTMP1\nV"
+  # Custom branch names › N (use defaults)
+  local TEST_CASE="YYYTMP1\nVn"
 
   norlab_project_template_directory_reset_check
 
@@ -514,5 +523,83 @@ teardown() {
 
 }
 
+@test "Interactive branch configuration › default branch names › expect pass" {
+  # Note: \n is to simulate the return key
+  # Install NBS › Y
+  # Install N2ST › Y
+  # Semantic-Release › Y
+  # Project env var prefix › BRANCH_TEST
+  # Install NorLab readme › Y (any key except V)
+  # Custom branch names › N (use defaults)
+  local TEST_CASE="yyyBRANCH_TEST\nYn"
 
+  norlab_project_template_directory_reset_check
 
+  # ....Execute initialize_norlab_project_template.bash............................................
+  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
+  assert_success
+
+  # ....Check that default branch names are used...................................................
+  cd "${BATS_DOCKER_WORKDIR}" || exit 1
+  assert_output --partial "Using default branch names: release='main', dev='dev'"
+  assert_output --partial "Mock 'configure_github_branch_protection.bash' script"
+
+  # ....Check teardown.............................................................................
+  check_norlab_project_template_teardown
+}
+
+@test "Interactive branch configuration › custom branch names › expect pass" {
+  # Note: \n is to simulate the return key
+  # Install NBS › Y
+  # Install N2ST › Y
+  # Semantic-Release › Y
+  # Project env var prefix › CUSTOM_BRANCH
+  # Install NorLab readme › Y (any key except V)
+  # Custom branch names › Y
+  # Release branch › master
+  # Dev branch › develop
+  local TEST_CASE="yyyCUSTOM_BRANCH\n\nymaster\ndevelop\n"
+
+  norlab_project_template_directory_reset_check
+
+  # ....Execute initialize_norlab_project_template.bash............................................
+  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
+  assert_success
+
+  # ....Check that custom branch names are used....................................................
+  cd "${BATS_DOCKER_WORKDIR}" || exit 1
+  assert_output --partial "Configuring custom branch names..."
+  assert_output --partial "Using custom branch names: release='master', dev='develop'"
+  assert_output --partial "Mock 'configure_github_branch_protection.bash' script"
+
+  # ....Check teardown.............................................................................
+  check_norlab_project_template_teardown
+}
+
+@test "Interactive branch configuration › custom with empty input uses defaults › expect pass" {
+  # Note: \n is to simulate the return key
+  # Install NBS › Y
+  # Install N2ST › Y
+  # Semantic-Release › Y
+  # Project env var prefix › EMPTY_TEST
+  # Install NorLab readme › Y (any key except V)
+  # Custom branch names › Y
+  # Release branch › (empty - should use default 'main')
+  # Dev branch › (empty - should use default 'dev')
+  local TEST_CASE="yyyEMPTY_TEST\n\ny\n\n"
+
+  norlab_project_template_directory_reset_check
+
+  # ....Execute initialize_norlab_project_template.bash............................................
+  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
+  assert_success
+
+  # ....Check that defaults are used when input is empty...........................................
+  cd "${BATS_DOCKER_WORKDIR}" || exit 1
+  assert_output --partial "Configuring custom branch names..."
+  assert_output --partial "Using custom branch names: release='main', dev='dev'"
+  assert_output --partial "Mock 'configure_github_branch_protection.bash' script"
+
+  # ....Check teardown.............................................................................
+  check_norlab_project_template_teardown
+}
