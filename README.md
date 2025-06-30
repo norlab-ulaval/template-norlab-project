@@ -67,13 +67,25 @@ Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
 [//]: # ( ==== Body ================================================== ) 
 **Note:** For `latex` project such as writing proposal or conference paper, use a template from the following list of [NorLab `TeX` template repositories](https://github.com/norlab-ulaval?q=template&type=all&language=tex&sort=) instead.  
 
+
 # How to use this template repository
+
+## Requirements:
+- GitHub CLI (gh) ⟶ See install instruction at https://cli.github.com
+- Command-line JSON processor (jq):
+  - MacOs: install using brew ⟶ `$ brew install jq`
+  - Linux: install using apt-get ⟶ `$ sudo apt-get update && sudo apt-get install jq`
+
+## Install steps
 
 - [ ] [Step 1 › Generate the new repository](#step-1--generate-the-new-repository)
 - [ ] [Step 2 › Execute initialization script](#step-2--execute-initialization-script)
-- [ ] [Step 3 › Make it your own](#step-3--make-it-your-own)
-- [ ] [Step 4 › Configure the _GitHub_ repository settings](#step-4--configure-the-github-repository-settings)
-- [ ] [Step 5 › Release automation: enable semantic versioning tools](#step-5--enable-release-automation-tools-semantic-versioning)
+- [ ] [Step 3 › (Optional) Configure semantic-release GitHub token](#step-3--optional-configure-semantic-release-git-hub-token)
+- [ ] [Step 4 › Make it your own](#step-4--make-it-your-own)
+
+[**Documentation**](#documentation):
+- [Configure the _GitHub_ repository settings](#configure-the-github-repository-settings)
+- [Release automation: enable semantic versioning tools](#enable-release-automation-tools-semantic-versioning)
 
 # Instructions
 ## Step 1 › Generate the new repository
@@ -112,45 +124,65 @@ It will execute the following steps:
        to `README.md` and delete the other one
    3. customize url references 
 4. Reset the content of `CHANGELOG.md`
+5. Configure GitHub branch protection rule
 
 When the script execution is done, you will end up with the following repository structure:
 ```markdown
-my_new_cool_repo
-├── README.md
-├── CHANGELOG.md
-├── commit_msg_reference.md
-├── version.txt
-├── .env.my_new_cool_repo
-├── data
-│   └── README.md
-├── src
-│   ├── README.md
-│   └── dummy.bash
-├── tests
-│   ├── README.md
-│   ├── run_bats_core_test_in_n2st.bash (optional)
-│   └── tests_bats (optional)
-├── utilities
-│   ├── norlab-build-system (optional)
-│   └── norlab-shell-script-tools (optional)
-├── visual
-│   └── ...
-├── .github
-│   ├── CODEOWNERS
-│   ├── pull_request_template.md
-│   └── workflows
-│       └── semantic_release.yml (optional)
-├── .gitignore
-├── .gitmodules
-├── .releaserc.json (optional)
-├── .run
-│   ├── openATerminalInUbuntuContainer.run.xml
-│   └── runBatsTestsAll.run.xml (optional)
-├── NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md (to delete when done)
-└── initialize_norlab_project_template.bash (to delete when done)
+my_new_cool_repo/
+ ├── .github/
+ │   ├── CODEOWNERS
+ │   ├── pull_request_template.md
+ │   └── workflows
+ │       └── semantic_release.yml                 <-- Semantic-versioning (optional)
+ ├── .junie/                                      <-- LLM/AI agent instructions
+ │   ├── plans/
+ │   ├── guidelines.md
+ │   ├── recipes.md
+ │   └── scratch.md
+ ├── .run/                                        <-- JetBrains run configuration
+ │   ├── openATerminalInUbuntuContainer.run.xml
+ │   └── runBatsTestsAll.run.xml                  <-- norlab-shell-script-tools (optional)
+ ├── src/
+ │   ├── README.md
+ │   └── dummy.bash
+ ├── tests/
+ │   ├── README.md
+ │   ├── run_bats_core_test_in_n2st.bash          <-- norlab-shell-script-tools (optional)
+ │   └── tests_bats/                              <-- norlab-shell-script-tools (optional)
+ ├── artifact/
+ │   └── README.md
+ ├── utilities
+ │   ├── norlab-build-system                      <-- optional
+ │   └── norlab-shell-script-tools                <-- optional
+ ├── visual/
+ │   └── ...
+ ├── to_delete/                                   <-- to delete when done
+ │   ├── NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md 
+ │   └── initialize_norlab_project_template.bash 
+ ├── .aiignore
+ ├── .gitignore
+ ├── .gitmodules
+ ├── .releaserc.json                               <-- Semantic-versioning (optional)
+ ├── .env.my_new_cool_repo                         <-- norlab-shell-script-tools (optional)
+ ├── README.md
+ ├── CHANGELOG.md                                  <-- Semantic-versioning (optional)
+ ├── commit_msg_reference.md
+ └── version.txt                                   <-- Semantic-versioning (optional)
 ```
 
-## Step 3 › Make it your own
+## Step 3 › (Optional) Configure semantic-release GitHub token
+Required if installed semantic-release
+1. Generate a GitHub [personal access token](https://github.com/settings/tokens) 
+2. and register the generated token on your repository as a _Repository Secrets_ named `SEMANTIC_RELEASE_GH_TOKEN`: 
+   - method 1: using [GitHub cli](https://cli.github.com), using command 
+     ```shell
+     # From repository root
+     $ gh secret set SEMANTIC_RELEASE_GH_TOKEN --body "<your-generated-token-value>"
+     ```
+   - method 2: see manual install method in Documentation section [Release automation: enable semantic versioning tools](#enable-release-automation-tools-semantic-versioning) / Configuration
+
+
+## Step 4 › Make it your own
 
 1. Configure the repository directory structure for your project type
 2. Modify the code owner designation file: `.github/CODEOWNERS`
@@ -161,16 +193,27 @@ my_new_cool_repo
 **Note:** `CHANGELOG.md` and `version.txt` are both automatically generated
 by _semantic-release_
 
-## Step 4 › Configure the _GitHub_ repository settings
+## Documentation
 
-★ The `main` branch is sacred. It must be deployable at any time.  
- We strongly recommend you to configure your repository branching scheme following [**_Gitflow_**](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
- 
- ```bash
- main ← dev ← feature 1
-            ↖ feature 2
- ```
- with _**Branch Protection Rule**_ enable for the default branch (i.e. `main`) and the `dev` branches.
+### Configure the _GitHub_ repository settings
+
+<details>
+  <summary style="font-weight: bolder;font-size: medium;">Expand/Collapse</summary>
+
+★ The `main` branch is sacred. It must be deployable at any given time.  
+We **strongly recommend** you configure your repository following [**_Gitflow_**](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) branching scheme
+```
+                                                      tag:release-1
+┈┈ main ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈→
+     └┈ develop ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈┈┈→  
+                   └┈ feature 1 ┈┈┈┘    └┈ feature 2 ┈┈┈┘
+
+```
+with _**Branch Protection Rule**_ enable for the default branch (i.e. `main`) and the `dev` branches.
+**Note**: 
+- The name `main` or `master` are convention for the principal _release branch_.
+- The name `dev`, `devel` or `develop` are convention for the _bleeding edge branch_.
+- The name `beta` and `alpha` are convention for _pre-release branch_.
 
 Go to the `Settings` > `Branches` and click `Add branch protection rule` in the _Branch Protection Rule_ panel 
 
@@ -179,24 +222,33 @@ Go to the `Settings` > `Branches` and click `Add branch protection rule` in the 
 and set the following:
 1. Set _Branch name pattern_ to `main`
 2. Set _Require a pull request before merging_
+   - Set _Require approvals_ with default number to 1 
+   - Set _Dismiss stale pull request approvals when new commits are pushed_ 
+   - Set _Require review from Code Owners_ 
+5. Set _Require status checks to pass before merging_ 
+   - Set _Require branches to be up to date before merging_;
+   - (Optional) If you use a Continuous Integration service such as _**GitHub actions**_ or our **_norlab-teamcity-server_**, add the _Status check tahat are required_ name.
 3. Set _Require conversation resolution before merging_
-4. Set _Restrict who can push to matching branches_ and add names
-5. If you use a Continuous Integration service such as _**GitHub actions**_ or our **_norlab-teamcity-server_**, set _Require status checks to pass before merging_ and set _Require branches to be up to date before merging_
+4. Set _Restrict who can push to matching branches_
 6. Repeat for the `dev` branch
-   
+
+</details>
 
 
-## Step 5 › Enable release automation tools (semantic versioning)  
+### Enable release automation tools (semantic versioning)  
 
-### Why:
+<details>
+  <summary style="font-weight: bolder;font-size: medium;">Expand/Collapse</summary>
+
+#### Why:
 Assuming your repository is part of a bigger system, 
 - easily identify the repository state currently in use as a dependency
 - and escape "dependency hell". 
 
-### How
+#### How
 Any push to the `main` branch will trigger the execution of [_semantic-release_](https://semantic-release.gitbook.io) which will analyse each commits message to determine the version bump following [_semantic versioning_](https://semver.org) scheme `MAJOR.MINOR.PATCH`.
 
-### On version bump, 
+#### On version bump, 
 - a new repository tag gets published with the newest versions number `v<MAJOR>.<MINOR>.<PATCH>`
 - the `CHANGELOG.md` and the `version.txt` files gets updated
 - a new repository release gets published on the _Releases_ page 
@@ -208,14 +260,26 @@ Any push to the `main` branch will trigger the execution of [_semantic-release_]
 and all others such as `doc` and `style` will register for the next release but won't trigger one.
 
 
-### Configuration
-1. Adopt the [_conventional-commit_](https://www.conventionalcommits.org/) specification. This is a **hard requirement** for _semantic-release_.  
+#### Configuration
+1. Generate a GitHub [personal access token](https://github.com/settings/tokens) 
+2. and register the generated token on your repository as a _Repository Secrets_ named `SEMANTIC_RELEASE_GH_TOKEN`: 
+   - method 1: using [GitHub cli](https://cli.github.com), using command 
+     ```shell
+     # From repository root
+     $ gh secret set SEMANTIC_RELEASE_GH_TOKEN --body "<your-generated-token-value>"
+     ```
+   - method 2: via your repository GitHub web page by going to the `Settings/secrets and variables/Actions` tab, add a _Repository Secrets_ with the name `SEMANTIC_RELEASE_GH_TOKEN`.   
+3. Modify the _**semantic-release**_ GitHub action implemented in `.github/workflows/semantic_release.yml` if necessary. The current configuration should do the trick for most use cases.  
+4. Adopt the [_conventional-commit_](https://www.conventionalcommits.org/) specification. This is a **hard requirement** for _semantic-release_.  
   See [commit_msg_reference.md](./commit_msg_reference.md) for a quick summary.
-2. Configure the _**semantic-release**_ GitHub action implemented in the `.github/workflows/` directory. 
-   1. You must generate a GitHub [personal access token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) 
-   2. and register it as a _Repository Secrets_ in the tab `Settings/secrets and variables/Actions` and name it `SEMANTIC_RELEASE_GH_TOKEN`.  
-     Reference: [semantic-release/GitHub Actions](https://semantic-release.gitbook.io/semantic-release/recipes/ci-configurations/github-actions)  
+        
+References: 
+- [semantic-release/GitHub Actions](https://semantic-release.gitbook.io/semantic-release/recipes/ci-configurations/github-actions)  
+- GitHub 
+  - [Personal access token](https://github.com/settings/tokens)
+  - [Creating a personal access token for the command line](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line)
 
+</details>
 
 ---
 
