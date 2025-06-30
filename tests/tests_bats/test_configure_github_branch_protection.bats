@@ -164,18 +164,18 @@ teardown() {
   assert_output --partial "Repository is not hosted on GitHub"
 }
 
-@test "gbp::get_repository_info should extract owner and name correctly" {
+@test "gbp::get_repository_info should extract owner, name and default branch correctly" {
   # Mock gh repo view command
   function gh() {
     if [[ "$1" == "repo" && "$2" == "view" ]]; then
-      echo '{"owner":{"login":"norlab-ulaval"},"name":"test-repo"}'
+      echo '{"owner":{"login":"norlab-ulaval"},"name":"test-repo","defaultBranchRef":{"name":"main"}}'
     fi
   }
   export -f gh
 
   run gbp::get_repository_info
   assert_success
-  assert_output --partial "Repository: norlab-ulaval/test-repo"
+  assert_output --partial "Repository: norlab-ulaval/test-repo (default branch: main)"
 }
 
 @test "gbp::create_branch_if_not_exists should work in dry-run mode" {
@@ -196,6 +196,72 @@ teardown() {
   run gbp::create_branch_if_not_exists "existing-branch" "false"
   assert_success
   assert_output --partial "Branch 'existing-branch' already exists"
+}
+
+@test "gbp::rename_branch_if_needed should skip when using default branch name" {
+  REPO_DEFAULT_BRANCH="main"
+  export REPO_DEFAULT_BRANCH
+
+  run gbp::rename_branch_if_needed "main" "false"
+  assert_success
+  # Should return 0 without any output since it's using default name
+}
+
+@test "gbp::rename_branch_if_needed should work in dry-run mode" {
+  REPO_DEFAULT_BRANCH="main"
+  export REPO_DEFAULT_BRANCH
+
+  # Mock git show-ref to simulate main exists, target doesn't exist
+  function git() {
+    if [[ "$1" == "show-ref" && "$4" == "refs/heads/main" ]]; then
+      return 0  # main branch exists
+    elif [[ "$1" == "show-ref" && "$4" == "refs/remotes/origin/main" ]]; then
+      return 0  # main branch exists on remote
+    elif [[ "$1" == "show-ref" && "$4" == "refs/heads/master" ]]; then
+      return 1  # master branch doesn't exist
+    elif [[ "$1" == "show-ref" && "$4" == "refs/remotes/origin/master" ]]; then
+      return 1  # master branch doesn't exist on remote
+    fi
+  }
+  export -f git
+
+  run gbp::rename_branch_if_needed "master" "true"
+  assert_success
+  assert_output --partial "DRY RUN: Would rename branch 'main' to 'master'"
+}
+
+@test "gbp::rename_branch_if_needed should skip when default branch doesn't exist" {
+  REPO_DEFAULT_BRANCH="main"
+  export REPO_DEFAULT_BRANCH
+
+  # Mock git show-ref to simulate main doesn't exist
+  function git() {
+    if [[ "$1" == "show-ref" ]]; then
+      return 1  # No branches exist
+    fi
+  }
+  export -f git
+
+  run gbp::rename_branch_if_needed "master" "false"
+  assert_success
+  # Should return 0 without renaming since main doesn't exist
+}
+
+@test "gbp::rename_branch_if_needed should skip when target branch already exists" {
+  REPO_DEFAULT_BRANCH="main"
+  export REPO_DEFAULT_BRANCH
+
+  # Mock git show-ref to simulate both branches exist
+  function git() {
+    if [[ "$1" == "show-ref" ]]; then
+      return 0  # Both branches exist
+    fi
+  }
+  export -f git
+
+  run gbp::rename_branch_if_needed "master" "false"
+  assert_success
+  # Should return 0 without renaming since target already exists
 }
 
 @test "gbp::configure_branch_protection should work in dry-run mode" {
@@ -255,6 +321,7 @@ teardown() {
   function gbp::get_repository_info() { 
     REPO_OWNER="test-owner"
     REPO_NAME="test-repo"
+    REPO_DEFAULT_BRANCH="main"
   }
   function gbp::status_check_configuration() { return 0; }
   function gbp::create_branch_if_not_exists() { return 0; }
@@ -294,6 +361,7 @@ teardown() {
   function gbp::get_repository_info() { 
     REPO_OWNER="test-owner"
     REPO_NAME="test-repo"
+    REPO_DEFAULT_BRANCH="main"
   }
   function gbp::status_check_configuration() { return 0; }
   function gbp::update_releaserc_json() { return 0; }
@@ -321,6 +389,9 @@ teardown() {
 }
 
 @test "gbp::update_releaserc_json should skip when using default branch name" {
+  REPO_DEFAULT_BRANCH="main"
+  export REPO_DEFAULT_BRANCH
+
   run gbp::update_releaserc_json "main" "false"
   assert_success
   assert_output --partial "Using default release branch name, no .releaserc.json update needed"
@@ -358,6 +429,9 @@ teardown() {
 }
 
 @test "gbp::update_semantic_release_yml should skip when using default branch name" {
+  REPO_DEFAULT_BRANCH="main"
+  export REPO_DEFAULT_BRANCH
+
   run gbp::update_semantic_release_yml "main" "false"
   assert_success
   assert_output --partial "Using default release branch name, no semantic_release.yml update needed"
@@ -396,6 +470,7 @@ teardown() {
   function gbp::get_repository_info() { 
     REPO_OWNER="test-owner"
     REPO_NAME="test-repo"
+    REPO_DEFAULT_BRANCH="main"
   }
   function gbp::status_check_configuration() { return 0; }
   function gbp::update_releaserc_json() { return 0; }

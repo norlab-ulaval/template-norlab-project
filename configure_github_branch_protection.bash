@@ -7,7 +7,7 @@ DOCUMENTATION_CONFIGURE_GITHUB_BRANCH_PROTECTION=$( cat <<'EOF'
 #   $ bash configure_github_branch_protection.bash [OPTIONS]
 #
 # Options:
-#   --release-branch BRANCH_NAME     Set release branch name (default: main)
+#   --release-branch BRANCH_NAME     Set release branch name (default: repository's default branch)
 #   --dev-branch BRANCH_NAME         Set bleeding edge branch name (default: dev)
 #   --branch BRANCH_NAME             Configure a specific branch only
 #   --dry-run                        Show what would be done without making changes
@@ -16,10 +16,13 @@ DOCUMENTATION_CONFIGURE_GITHUB_BRANCH_PROTECTION=$( cat <<'EOF'
 # Notes:
 #   - Require that the repository be hosted on GitHub
 #   - Default branch name:
-#     - Release branch: 'main'
+#     - Release branch: repository's default branch (automatically detected)
 #     - Pre-release branch: 'beta'
 #     - Bleeding edge branch: 'dev'
-#   - Branches will be created and push to remote if they don't exist
+#   - Branch handling:
+#     - If a non-default release branch name is specified and the repository's default branch exists,
+#       the default branch will be renamed to the specified release branch name
+#     - Otherwise, branches will be created and pushed to remote if they don't exist
 #
 # =================================================================================================
 EOF
@@ -74,14 +77,86 @@ function gbp::validate_prerequisites() {
 
 function gbp::get_repository_info() {
     local repo_info
-    repo_info=$(gh repo view --json owner,name)
+    repo_info=$(gh repo view --json owner,name,defaultBranchRef)
 
     REPO_OWNER=$(echo "$repo_info" | jq -r '.owner.login')
     REPO_NAME=$(echo "$repo_info" | jq -r '.name')
+    REPO_DEFAULT_BRANCH=$(echo "$repo_info" | jq -r '.defaultBranchRef.name')
 
     export REPO_OWNER
     export REPO_NAME
-    n2st::print_msg "Repository: ${REPO_OWNER}/${REPO_NAME}"
+    export REPO_DEFAULT_BRANCH
+    n2st::print_msg "Repository: ${REPO_OWNER}/${REPO_NAME} (default branch: ${REPO_DEFAULT_BRANCH})"
+}
+
+function gbp::rename_branch_if_needed() {
+    local target_branch="$1"
+    local dry_run="$2"
+    local default_branch="${REPO_DEFAULT_BRANCH:-main}"
+
+    # Only rename for non-default release branch names
+    if [[ "$target_branch" == "$default_branch" ]]; then
+        return 0
+    fi
+
+    # Check if default branch exists and target branch doesn't exist
+    local default_exists=false
+    local target_exists=false
+
+    if git show-ref --verify --quiet "refs/heads/$default_branch" || \
+       git show-ref --verify --quiet "refs/remotes/origin/$default_branch"; then
+        default_exists=true
+    fi
+
+    if git show-ref --verify --quiet "refs/heads/$target_branch" || \
+       git show-ref --verify --quiet "refs/remotes/origin/$target_branch"; then
+        target_exists=true
+    fi
+
+    # Only rename if default exists and target doesn't exist
+    if [[ "$default_exists" == "true" && "$target_exists" == "false" ]]; then
+        if [[ "$dry_run" == "true" ]]; then
+            n2st::print_msg "DRY RUN: Would rename branch '$default_branch' to '$target_branch'"
+            return 0
+        fi
+
+        n2st::print_msg "Renaming branch '$default_branch' to '$target_branch'..."
+
+        # Get current branch to restore later
+        local current_branch
+        current_branch=$(git branch --show-current)
+
+        # Checkout the default branch if not already on it
+        if [[ "$current_branch" != "$default_branch" ]]; then
+            if ! git checkout "$default_branch"; then
+                n2st::print_msg_error "Failed to checkout '$default_branch' for renaming"
+                return 1
+            fi
+        fi
+
+        # Rename the branch locally
+        if git branch -m "$target_branch"; then
+            # Push the new branch and delete the old one from remote
+            if git push -u origin "$target_branch" && git push origin --delete "$default_branch"; then
+                n2st::print_msg_done "Branch '$default_branch' renamed to '$target_branch'"
+                # Update the default branch on GitHub if we're renaming the default
+                if [[ "$dry_run" == "false" ]]; then
+                    gh repo edit --default-branch "$target_branch" 2>/dev/null || true
+                fi
+                return 0
+            else
+                n2st::print_msg_error "Failed to update remote references for renamed branch"
+                # Try to restore the original branch name
+                git branch -m "$default_branch" 2>/dev/null || true
+                return 1
+            fi
+        else
+            n2st::print_msg_error "Failed to rename branch '$default_branch' to '$target_branch'"
+            return 1
+        fi
+    fi
+
+    return 0
 }
 
 function gbp::create_branch_if_not_exists() {
@@ -186,7 +261,7 @@ function gbp::update_releaserc_json() {
     fi
 
     # Only update if using non-default release branch name
-    if [[ "$release_branch" == "main" ]]; then
+    if [[ "$release_branch" == "${REPO_DEFAULT_BRANCH:-main}" ]]; then
         n2st::print_msg "Using default release branch name, no .releaserc.json update needed"
         return 0
     fi
@@ -231,7 +306,7 @@ function gbp::update_semantic_release_yml() {
     fi
 
     # Only update if using non-default release branch name
-    if [[ "$release_branch" == "main" ]]; then
+    if [[ "$release_branch" == "${REPO_DEFAULT_BRANCH:-main}" ]]; then
         n2st::print_msg "Using default release branch name, no semantic_release.yml update needed"
         return 0
     fi
@@ -248,7 +323,8 @@ function gbp::update_semantic_release_yml() {
     cp .github/workflows/semantic_release.yml .github/workflows/semantic_release.yml.backup
 
     # Update the branches configuration using sed
-    if sed -i.tmp "s/- main/- $release_branch/g" .github/workflows/semantic_release.yml; then
+    local default_branch="${REPO_DEFAULT_BRANCH:-main}"
+    if sed -i.tmp "s/- $default_branch/- $release_branch/g" .github/workflows/semantic_release.yml; then
         rm -f .github/workflows/semantic_release.yml.tmp
         n2st::print_msg_done "semantic_release.yml updated successfully"
         echo "Backup saved as .github/workflows/semantic_release.yml.backup"
@@ -274,7 +350,8 @@ function gbp::show_help() {
 function gbp::main() {
     local dry_run="false"
     local arbitrary_branch=""
-    local release_branch="main"
+    local release_branch=""
+    local release_branch_specified="false"
     local pre_release_branch="beta"
     local dev_branch="dev"
 
@@ -291,6 +368,7 @@ function gbp::main() {
                 ;;
             --release-branch)
                 release_branch="$2"
+                release_branch_specified="true"
                 shift 2
                 ;;
             --dev-branch)
@@ -320,6 +398,13 @@ function gbp::main() {
     gbp::get_repository_info
     test -n "${REPO_OWNER:?err}" || n2st::print_msg_error_and_exit "Env variable REPO_OWNER need to be set and non-empty."
     test -n "${REPO_NAME:?err}" || n2st::print_msg_error_and_exit "Env variable REPO_NAME need to be set and non-empty."
+    test -n "${REPO_DEFAULT_BRANCH:?err}" || n2st::print_msg_error_and_exit "Env variable REPO_DEFAULT_BRANCH need to be set and non-empty."
+
+    # Set release branch to repository default if not specified by user
+    if [[ "$release_branch_specified" == "false" ]]; then
+        release_branch="${REPO_DEFAULT_BRANCH:-main}"
+        n2st::print_msg "Using repository default branch as release branch: $release_branch"
+    fi
 
     if [[ "$dry_run" == "false" ]]; then
         # Interactive configuration if not dry run
@@ -341,6 +426,9 @@ function gbp::main() {
         gbp::create_branch_if_not_exists "$arbitrary_branch" "$dry_run"
         gbp::configure_branch_protection "$arbitrary_branch" "$dry_run"
     else
+        # Try to rename the default branch to the release branch if needed
+        gbp::rename_branch_if_needed "$release_branch" "$dry_run"
+
         # Configure release and dev branches
         for branch in "$release_branch" "$pre_release_branch" "$dev_branch"; do
             n2st::print_msg "Processing branch: $branch"

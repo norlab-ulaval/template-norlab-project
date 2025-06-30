@@ -1,6 +1,13 @@
 
 # Scratch
 
+Don't assume the default branch is `main`.
+The default branch is arbitrary and is set on GitHub.
+Review your proposed solution accordingly.
+Follow guidelines at `.junie/guidelines.md`.
+
+---
+
 Improve `configure_github_branch_protection.bash`: add logic to _rename_ the git branch _release branch_ if using a non-default name instead of creating a new one.
 Follow guidelines at `.junie/guidelines.md`.
 Update `tests/tests_bats/test_configure_github_branch_protection.bats` and `tests/tests_dryrun_and_tests_scripts/dryrun_configure_github_branch_protection.bash` accordingly.
@@ -8,7 +15,6 @@ Check if it introduce any breaking change in the code base by running both unit-
 Propose source code change if relevant.
 Update Markdown documentation accordingly. 
 Execute all unit-tests and all integration tests before submitting.
-
 
 --
 

@@ -153,6 +153,41 @@ function tnp::test_semantic_release_yml_update() {
     fi
 }
 
+function tnp::test_branch_renaming_functionality() {
+    echo "Testing branch renaming functionality..."
+
+    cd "${TNP_MOCK_REPO_PATH}"
+
+    # Test branch renaming in dry-run mode
+    local output
+    output=$(bash "${TNP_PATH}"/configure_github_branch_protection.bash --dry-run --release-branch master)
+
+    # shellcheck disable=SC2076
+    if [[ "$output" =~ "DRY RUN: Would rename branch 'main' to 'master'" ]]; then
+        n2st::print_msg_done "✓ Branch renaming functionality works"
+    else
+        n2st::print_msg_error "✗ Branch renaming functionality failed"
+        return 1
+    fi
+}
+
+function tnp::test_branch_renaming_documentation() {
+    echo "Testing branch renaming functionality documentation..."
+
+    cd "${TNP_MOCK_REPO_PATH}"
+
+    # Test that help mentions branch renaming
+    local help_output
+    help_output=$(bash "${TNP_PATH}"/configure_github_branch_protection.bash --help)
+
+    if [[ "$help_output" =~ "Branch handling:" ]] && [[ "$help_output" =~ "renamed to the specified release branch name" ]]; then
+        n2st::print_msg_done "✓ Branch renaming functionality is documented"
+    else
+        n2st::print_msg_error "✗ Branch renaming functionality not documented"
+        return 1
+    fi
+}
+
 function tnp::main() {
     echo "Starting GitHub branch protection integration tests..."
 
@@ -190,6 +225,8 @@ function tnp::main() {
     tnp::test_both_branches_default || ((fct_exit_code++))
     tnp::test_releaserc_json_update || ((fct_exit_code++))
     tnp::test_semantic_release_yml_update || ((fct_exit_code++))
+    tnp::test_branch_renaming_functionality || ((fct_exit_code++))
+    tnp::test_branch_renaming_documentation || ((fct_exit_code++))
 
     # ....Teardown.................................................................................
     bash "${TNP_PATH}/tests/teardown_integration_test.bash"

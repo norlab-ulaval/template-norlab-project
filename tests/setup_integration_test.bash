@@ -17,10 +17,6 @@ pushd "$(pwd)" >/dev/null || exit 1
 function tnp::install_gh_cli_on_ci() {
   # Official doc: https://github.com/cli/cli/blob/trunk/docs/install_linux.md
 
-  if [[ ${TEAMCITY_VERSION} ]] && [[ -z ${GITHUB_TOKEN} ]]; then
-    n2st::print_msg_error_and_exit "CI execution require that GITHUB_TOKEN be set to enable automatic GitHub cli authentification login"
-  fi
-
   if [[ $(uname) == "Linux" ]] && ! command -v gh &> /dev/null; then
     echo "Test is run on a TeamCity server, install GitHub cli"
     {
@@ -34,6 +30,13 @@ function tnp::install_gh_cli_on_ci() {
         && sudo apt update \
         && sudo apt install gh -y ;
     } || { n2st::print_msg_error "Failed to install GitHub cli!" ; return 1 ; }
+  fi
+
+  if [[ ${TEAMCITY_VERSION} ]] && [[ -z ${GITHUB_TOKEN} ]]; then
+    n2st::print_msg_error_and_exit "CI execution require that GITHUB_TOKEN be set to enable automatic GitHub cli authentification login"
+  elif [[ ${TEAMCITY_VERSION} ]] && [[ -n ${GITHUB_TOKEN} ]]; then
+    n2st::print_msg "GitHub cli login › Authenticating with GitHub token..."
+    echo "$GITHUB_TOKEN" | gh auth login --with-token
   fi
   return 0
 }
