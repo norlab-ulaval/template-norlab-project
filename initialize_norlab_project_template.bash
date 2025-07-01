@@ -19,6 +19,7 @@ MSG_END_FORMAT="\033[0m"
 function tnp::install_norlab_project_template(){
   local user_input
   local install_n2st
+  local install_semantic_release
   local tmp_msg
 
 
@@ -136,6 +137,7 @@ function tnp::install_norlab_project_template(){
     if [[ "${user_input}" == "Y" ]] || [[ "${user_input}" == "y" ]]; then
       # Submodule is already pre-installed
       n2st::print_msg "Installing Semantic-Release"
+      install_semantic_release=true
 
       n2st::print_msg "Resetting ${MSG_DIMMED_FORMAT}CHANGELOG.md${MSG_END_FORMAT}"
       cd "${tmp_root}" || return 1
@@ -143,6 +145,7 @@ function tnp::install_norlab_project_template(){
 
     else
       n2st::print_msg "Skipping Semantic-Release install"
+      install_semantic_release=false
 
       rm -R version.txt
       rm -R CHANGELOG.md
@@ -254,12 +257,16 @@ function tnp::install_norlab_project_template(){
   }
 
   # ....Configure GitHub branch protection.....................................................
+  local release_branch="main"
+  local dev_branch="dev"
   {
-    local release_branch="main"
-    local dev_branch="dev"
     declare -a gbp_args=()
 
-    n2st::print_msg_awaiting_input "Do you want to configure custom branch names for GitHub branch protection?"
+    n2st::print_msg_awaiting_input "Do you want to configure custom branch names for GitHub branch protection rule?"
+    echo "  Default branch names:"
+    echo "  - release branch: 'main'"
+    echo "  - bleeding edge branch: 'dev'"
+    echo "  - pre-release branch: 'beta' (not customizable)"
     echo
     tmp_msg="(press 'Y' to configure custom names) "
     n2st::echo_centering_str "${tmp_msg}" "\033[2m" " "
@@ -298,10 +305,14 @@ function tnp::install_norlab_project_template(){
       fi
       echo
 
-      n2st::print_msg "Using custom branch names: release='${release_branch}', dev='${dev_branch}'"
+      n2st::print_msg "Using custom branch names:"
+      echo "  - release branch: '${release_branch}'"
+      echo "  - bleeding edge branch: '${dev_branch}'"
       gbp_args=(--release-branch "${release_branch}" --dev-branch "${dev_branch}")
     else
-      n2st::print_msg "Using default branch names: release='main', dev='dev'"
+      n2st::print_msg "Using default branch names:"
+      echo "  - release branch: 'main'"
+      echo "  - bleeding edge branch: 'dev'"
     fi
     echo
   }
@@ -365,6 +376,9 @@ function tnp::install_norlab_project_template(){
     mkdir -p ".junie/plans"
     git add ".junie/plans"
 
+    rm -Rf "utilities/tmp"
+    git add "utilities/tmp"
+
     if [[ ${install_n2st} == true ]]; then
       mkdir -p tests_FINAL/tests_bats/bats_testing_tools
 
@@ -384,17 +398,33 @@ function tnp::install_norlab_project_template(){
 
   }
 
+  local remaining_config_steps_msg
+  if [[ ${install_semantic_release} == true ]]; then
+    remaining_config_steps_msg="Step 3 › Configure semantic-release GitHub token
+       https://github.com/norlab-ulaval/template-norlab-project/tree/main#step-3--optional-configure-semantic-release-github-token-detailed
+   -   Step 4 › Make it your own
+       https://github.com/norlab-ulaval/template-norlab-project/tree/main##step-4--make-it-your-own-detailed
+"
+  else
+    remaining_config_steps_msg="${MSG_DIMMED_FORMAT}Step 3 › (skip) Configure semantic-release GitHub token${MSG_END_FORMAT}
+   -   Step 4 › Make it your own
+       https://github.com/norlab-ulaval/template-norlab-project/tree/main##step-4--make-it-your-own-detailed
+"
+  fi
+
   n2st::print_msg_done "You can delete the ${MSG_DIMMED_FORMAT}to_delete/${MSG_END_FORMAT} directory whenever you are ready.
 
    NorLab project remaining configuration steps:
    - ${MSG_DONE_FORMAT}✔ Step 1 › Generate the new repository${MSG_END_FORMAT}
    - ${MSG_DONE_FORMAT}✔ Step 2 › Execute initialize_norlab_project_template.bash${MSG_END_FORMAT}
-   -   Step 3 › Make it your own
-       https://github.com/norlab-ulaval/template-norlab-project/tree/main#step-3--make-it-your-own
-   -   Step 4 › Configure the GitHub repository settings
-       https://github.com/norlab-ulaval/template-norlab-project/tree/main#step-4--configure-the-github-repository-settings
-   -   Step 5 › Release automation: enable semantic versioning tools
-       https://github.com/norlab-ulaval/template-norlab-project/tree/main#step-5--enable-release-automation-tools-semantic-versioning
+   -   ${remaining_config_steps_msg}
+
+   Follow GitFlow branching scheme
+
+                                                               tag:release-1
+   ┈┈ ${release_branch} ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈→
+        └┈ ${dev_branch} ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈┈┈→
+                      └┈ feature 1 ┈┈┈┘    └┈ feature 2 ┈┈┈┘
 
 Happy coding!"
   n2st::print_formated_script_footer 'initialize_norlab_project_template.bash' '='
