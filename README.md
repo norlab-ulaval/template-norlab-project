@@ -54,6 +54,7 @@ Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
 
 [//]: # ( ==== Body ================================================== ) 
 
+
 ## Getting started (fast)
 
 ### Requirements:
@@ -63,14 +64,14 @@ Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
   - MacOs: install using brew ⟶ `$ brew install jq`
 
 ### Install steps:
-##### [Step 1 › Generate the new repository](#step-1--generate-the-new-repository) from template and clone it
+##### [Step 1 › Generate the new repository]((#step-1--generate-the-new-repository-detailed-)) from template and clone it
 
 Click on the buttons `Use this template` > `Create a new repository`, then
 ```shell
 git clone --recurse-submodule https://github.com/<your-new-git-repository-url>
 ```
 
-##### [Step 2 › Execute initialization script](#step-2--execute-initialization-script)
+##### [Step 2 › Execute initialization script]((#step-2--execute-initialization-script-detailed))
 
 Execute the following and follow the instruction on the console
 ```shell
@@ -78,7 +79,7 @@ cd <your-new-git-repository-url>
 bash initialize_norlab_project_template.bash
 ```
 
-##### [Step 3 › (Optional) Configure semantic-release GitHub token](#step-3--optional-configure-semantic-release-git-hub-token)
+##### [Step 3 › (Optional) Configure semantic-release GitHub token]((#step-3--optional-configure-semantic-release-github-token-detailed))
    
 Generate a GitHub [personal access token](https://github.com/settings/tokens) and execute
 ```shell
@@ -86,7 +87,7 @@ $ gh secret set SEMANTIC_RELEASE_GH_TOKEN --body "<your-generated-token-value>"
 ```
 See [commit_msg_reference.md](./commit_msg_reference.md) for a quick summary of the [_conventional-commit_](https://www.conventionalcommits.org/) specification commit message formating requirements.
 
-##### [Step 4 › Make it your own](#step-4--make-it-your-own)
+##### [Step 4 › Make it your own]((#step-4--make-it-your-own-detailed))
 
 ##### Step 5 › Stay awesome
 
@@ -119,19 +120,26 @@ The initialization script perform the following:
 
 ## Instructions (detailed)
 
-### Install steps:
+**Install steps**:
 
-- [Step 1 › Generate the new repository](#step-1--generate-the-new-repository) from template and clone it
-- [Step 2 › Execute initialization script](#step-2--execute-initialization-script)
-- [Step 3 › (Optional) Configure semantic-release GitHub token](#step-3--optional-configure-semantic-release-git-hub-token)
-- [Step 4 › Make it your own](#step-4--make-it-your-own)
+* [Step 1 › Generate the new repository (detailed)](#step-1--generate-the-new-repository-detailed-)
+* [Step 2 › Execute initialization script (detailed)](#step-2--execute-initialization-script-detailed)
+* [Step 3 › (Optional) Configure semantic-release GitHub token (detailed)](#step-3--optional-configure-semantic-release-github-token-detailed)
+* [Step 4 › Make it your own (detailed)](#step-4--make-it-your-own-detailed)
 
-### Documentation:
+**Documentation**:
 
-- [Configure the _GitHub_ repository settings manually](#configure-the-github-repository-settings-manually)
-- [Release automation: enable semantic versioning tools](#enable-release-automation-tools-semantic-versioning)
+* [Documentation](#documentation)
+  * [Configure the _GitHub_ repository settings manually](#configure-the-_github_-repository-settings-manually)
+    * [Why](#why)
+    * [How](#how)
+  * [Enable release automation tools (semantic versioning)](#enable-release-automation-tools-semantic-versioning-)
+    * [Why](#why-1)
+    * [How](#how-1)
+    * [Configuration](#configuration)
+* [Questions](#questions)
 
-## Step 1 › Generate the new repository
+## Step 1 › Generate the new repository (detailed) 
 1. Click on the buttons `Use this template` > `Create a new repository` 
    <br>
    <img alt="img.png" src="visual/use_this_template_button.png" width="200"/>
@@ -141,7 +149,7 @@ The initialization script perform the following:
 $ git clone --recurse-submodule https://github.com/<your-new-git-repository-url>
 ```
 
-## Step 2 › Execute initialization script
+## Step 2 › Execute initialization script (detailed)
 (Support Unix system: Ubuntu and Mac OsX)
 
 ```shell
@@ -250,7 +258,7 @@ my_new_cool_repo/
  └── README.md
 ```
 
-## Step 3 › (Optional) Configure semantic-release GitHub token
+## Step 3 › (Optional) Configure semantic-release GitHub token (detailed)
 Required if installed semantic-release
 1. Generate a GitHub [personal access token](https://github.com/settings/tokens) 
 2. and register the generated token on your repository as a _Repository Secrets_ named `SEMANTIC_RELEASE_GH_TOKEN`: 
@@ -262,7 +270,7 @@ Required if installed semantic-release
    - method 2: see manual install method in Documentation section [Release automation: enable semantic versioning tools](#enable-release-automation-tools-semantic-versioning) / Configuration
 
 
-## Step 4 › Make it your own
+## Step 4 › Make it your own (detailed)
 
 1. Configure the repository directory structure for your project type
 2. Modify the code owner designation file: `.github/CODEOWNERS`
@@ -277,10 +285,23 @@ by _semantic-release_
 
 ### Configure the _GitHub_ repository settings manually
 
-<details>
-  <summary style="font-weight: bolder;font-size: medium;">Expand/Collapse</summary>
+[//]: # (<details>)
+[//]: # (  <summary style="font-weight: bolder;font-size: medium;">Expand/Collapse</summary>)
 
-★ The `main` branch is sacred. It must be deployable at any given time.  
+#### Why
+_Release_ branches are sacred, they **must be deployable at any given time** (e.g., the `main` branch).  
+Doing research is already hard enough. The last thing any researcher want is to throw an unreliable code base into the mix.
+
+#### What
+
+VCS conventions:
+- The repository default branch (the one who is checked out by default when cloning) should be either the main _release_ branch or a _pre-release_ branch.
+- The name `main` or `master` are conventions for the main _release_ branch.
+- For _ROS_ base specific repository, branch named after _ROS_ distro are usually considered _release_ branch, e.g., `foxy`. `humble`
+- The name `dev`, `devel` or `develop` are conventions for the _bleeding edge_ branch.
+- The name `beta` and `alpha` are conventions for _pre-release_ branch.
+- Branches prefixed `release*` are usually release preparation branch, published releases are merged into _release_ branches and tagged.  
+
 We **strongly recommend** you configure your repository following [**_Gitflow_**](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) branching scheme
 ```
                                                       tag:release-1
@@ -289,15 +310,20 @@ We **strongly recommend** you configure your repository following [**_Gitflow_**
                    └┈ feature 1 ┈┈┈┘    └┈ feature 2 ┈┈┈┘
 
 ```
-with _**Branch Protection Rule**_ enable for the default branch (i.e. `main`) and the `dev` branches.
-**Note**: 
-- The name `main` or `master` are convention for the principal _release branch_.
-- The name `dev`, `devel` or `develop` are convention for the _bleeding edge branch_.
-- The name `beta` and `alpha` are convention for _pre-release branch_.
+with _**Branch Protection Rule**_ enable for the _release_, _pre-release_ and _bleeding edge_ branches.
 
-Go to the `Settings` > `Branches` and click `Add branch protection rule` in the _Branch Protection Rule_ panel 
 
-![branch_protection_rule_menu.png](visual/branch_protection_rule_menu.png)
+#### Configuration
+#### Method 1: Automated configuration
+Use the provided configuration script and follow the instructions on console
+```shell
+bash configure_github_branch_protection.bash
+```
+
+#### Method 2: Manual configuration
+Go to the `Settings` > `Branches` and click `Add branch protection rule` in the _Branch Protection Rule_ panel
+
+<img alt="branch_protection_rule_menu.png" src="visual/branch_protection_rule_menu.png" width="600"/>
 
 and set the following:
 1. Set _Branch name pattern_ to `main`
@@ -312,23 +338,23 @@ and set the following:
 4. Set _Restrict who can push to matching branches_
 6. Repeat for the `dev` branch
 
-</details>
+[//]: # (</details>)
 
 
 ### Enable release automation tools (semantic versioning)  
 
-<details>
-  <summary style="font-weight: bolder;font-size: medium;">Expand/Collapse</summary>
+[//]: # (<details>)
+[//]: # (  <summary style="font-weight: bolder;font-size: medium;">Expand/Collapse</summary>)
 
-#### Why:
+#### Why
 Assuming your repository is part of a bigger system, 
-- easily identify the repository state currently in use as a dependency
+- quickly identify the state of each repository dependencies, 
 - and escape "dependency hell". 
 
-#### How
-Any push to the `main` branch will trigger the execution of [_semantic-release_](https://semantic-release.gitbook.io) which will analyse each commits message to determine the version bump following [_semantic versioning_](https://semver.org) scheme `MAJOR.MINOR.PATCH`.
+#### How it work
+Any push to a _release_ or _pre-release_ branch will trigger the execution of [_semantic-release_](https://semantic-release.gitbook.io) which will analyze each commits message to determine the version bump following [_semantic versioning_](https://semver.org) scheme `MAJOR.MINOR.PATCH`.
 
-#### On version bump, 
+On version bump,
 - a new repository tag gets published with the newest versions number `v<MAJOR>.<MINOR>.<PATCH>`
 - the `CHANGELOG.md` and the `version.txt` files gets updated
 - a new repository release gets published on the _Releases_ page 
@@ -353,28 +379,28 @@ and all others such as `doc` and `style` will register for the next release but 
 4. Adopt the [_conventional-commit_](https://www.conventionalcommits.org/) specification. This is a **hard requirement** for _semantic-release_.  
   See [commit_msg_reference.md](./commit_msg_reference.md) for a quick summary.
         
-References: 
+#### References 
 - [semantic-release/GitHub Actions](https://semantic-release.gitbook.io/semantic-release/recipes/ci-configurations/github-actions)  
 - GitHub 
   - [Personal access token](https://github.com/settings/tokens)
   - [Creating a personal access token for the command line](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line)
 
-</details>
+[//]: # (</details>)
 
 ---
 
-## Questions: 
+## Questions
 
-**I'm concern using _conventional-commit_ will slow me down:** 
-<br> 
+#### I'm concern using _conventional-commit_ will slow me down: 
+ 
 It does not discourage moving fast, ["It discourages moving fast in a disorganized way"](https://www.conventionalcommits.org/en/v1.0.0/#doesnt-this-discourage-rapid-development-and-fast-iteration) 
 
-**What if I want to revert a buggy release:**
-<br> 
+#### What if I want to revert a buggy release:
+ 
 Either fix the bug and push a `fix` commit or revert the problematic commits and push a `revert` commit.  
 
-**I don't want to use _semantic-release_ or _conventional-commit_ in my development workflow:**
-<br>
+#### I don't want to use _semantic-release_ or _conventional-commit_ in my development workflow:
+
 No problem, just disable the _semantic-release_ github action by deleting the `.github/workflows/semantic_release.yml` file.
 
 
