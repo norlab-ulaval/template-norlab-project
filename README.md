@@ -214,6 +214,7 @@ my_new_cool_repo/
  │   └── ...
  ├── to_delete/                                   <-- to delete when done
  │   ├── NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md 
+ │   ├── configure_github_branch_protection.bash 
  │   └── initialize_norlab_project_template.bash 
  ├── .aiignore
  ├── .gitignore
@@ -255,6 +256,7 @@ my_new_cool_repo/
  │   └── ...
  ├── to_delete/                                   <-- to delete when done
  │   ├── NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md 
+ │   ├── configure_github_branch_protection.bash 
  │   └── initialize_norlab_project_template.bash 
  ├── .env.my_new_cool_repo                         <-- norlab-shell-script-tools (optional)
  ├── .aiignore
