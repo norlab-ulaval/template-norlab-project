@@ -64,7 +64,7 @@ Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
   - MacOs: install using brew ⟶ `$ brew install jq`
 
 ### Install steps:
-##### Step 1 › Generate the new repository from template and clone it
+#### Step 1 › Generate the new repository from template and clone it
 
 Click on the buttons `Use this template` > `Create a new repository`, then
 ```shell
@@ -73,7 +73,7 @@ git clone --recurse-submodule https://github.com/<your-new-git-repository-url>
 
 [Go to detailed instructions →](#step-1--generate-the-new-repository-detailed)
 
-##### Step 2 › Execute initialization script
+#### Step 2 › Execute initialization script
 
 Execute the following and follow the instruction on the console
 ```shell
@@ -83,7 +83,7 @@ bash initialize_norlab_project_template.bash
 
 [Go to detailed instructions →](#step-2--execute-initialization-script-detailed)
 
-##### Step 3 › (Optional) Configure semantic-release GitHub token
+#### Step 3 › (Optional) Configure semantic-release GitHub token
    
 Generate a GitHub [personal access token](https://github.com/settings/tokens) and execute
 ```shell
@@ -93,7 +93,7 @@ See [commit_msg_reference.md](./commit_msg_reference.md) for a quick summary of 
 
 [Go to detailed instructions →](#step-3--optional-configure-semantic-release-github-token-detailed)
 
-##### Step 4 › Make it your own
+#### Step 4 › Make it your own
 
 [Go to detailed instructions →](#step-4--make-it-your-own-detailed)
 
@@ -138,17 +138,15 @@ The initialization script perform the following:
 * [Step 3 › (Optional) Configure semantic-release GitHub token (detailed)](#step-3--optional-configure-semantic-release-github-token-detailed)
 * [Step 4 › Make it your own (detailed)](#step-4--make-it-your-own-detailed)
 
-**Documentation**:
 
-* [Documentation](#documentation)
-  * [Configure the _GitHub_ repository settings manually](#configure-the-_github_-repository-settings-manually)
-    * [Why](#why)
-    * [How](#how)
-  * [Enable release automation tools (semantic versioning)](#enable-release-automation-tools-semantic-versioning-)
-    * [Why](#why-1)
-    * [How](#how-1)
-    * [Configuration](#configuration)
-* [Questions](#questions)
+[Documentation](#documentation)
+* [Configure the _GitHub_ repository settings manually](#configure-the-_github_-repository-settings-manually)
+* [Enable release automation tools (semantic versioning)](#enable-release-automation-tools-semantic-versioning-)
+
+[Questions](#questions)
+* [I'm concern using _conventional-commit_ will slow me down:](#im-concern-using-_conventional-commit_-will-slow-me-down-)
+* [What if I want to revert a buggy release:](#what-if-i-want-to-revert-a-buggy-release)
+* [I don't want to use _semantic-release_ or _conventional-commit_ in my development workflow:](#i-dont-want-to-use-_semantic-release_-or-_conventional-commit_-in-my-development-workflow)
 
 ## Step 1 › Generate the new repository (detailed)
 1. Click on the buttons `Use this template` > `Create a new repository` 
