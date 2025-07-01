@@ -40,13 +40,18 @@ function tnp::install_gh_cli_on_ci() {
   return 0
 }
 
-function tnp::install_jq_on_ci() {
+function tnp::install_other_requirement_on_ci() {
   if [[ ${TEAMCITY_VERSION} ]] && ! command -v jq &> /dev/null; then
-    echo "Test is run on a TeamCity server, install JSON processor (jq) command-line"
+    echo "Test is run on a TeamCity server,"
+    sudo apt update
+    echo "install JSON processor (jq) command-line"
     {
-      sudo apt update \
-      && sudo apt install --yes jq ;
+      sudo apt install --yes jq ;
     } || { n2st::print_msg_error "Failed to install JSON processor (jq)!" ; return 1 ; }
+    echo "install JSON processor (jq) command-line"
+    {
+      sudo apt install --yes tree ;
+    } || { n2st::print_msg_error "Failed to install tree!" ; return 1 ; }
   fi
   return 0
 }
@@ -95,7 +100,7 @@ if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
 
   n2st::print_formated_script_header "setup_integration_test.bash" "${MSG_LINE_CHAR_UTIL}"
   tnp::install_gh_cli_on_ci || exit 1
-  tnp::install_jq_on_ci || exit 1
+  tnp::install_other_requirement_on_ci || exit 1
   tnp::setup_mock_semantic_release_files || exit 1
   n2st::print_formated_script_footer "setup_integration_test.bash" "${MSG_LINE_CHAR_UTIL}"
 else

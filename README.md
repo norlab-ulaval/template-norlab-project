@@ -60,8 +60,11 @@ Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
 ### Requirements:
 - GitHub CLI (`gh`) ⟶ See install instruction at https://cli.github.com
 - Command-line JSON processor (`jq`):
-  - Linux: install using apt-get ⟶ `$ sudo apt-get update && sudo apt-get install jq`
-  - MacOs: install using brew ⟶ `$ brew install jq`
+  - Linux ⟶ `$ sudo apt-get update && sudo apt-get install jq`
+  - MacOs ⟶ `$ brew update && brew install jq`
+- Directory visualization command (`tree`):
+  - Linux ⟶ `$ sudo apt-get update && sudo apt-get install tree`
+  - MacOs ⟶ `$ brew update && brew install tree`
 
 ### Install steps:
 #### Step 1 › Generate the new repository from template and clone it
@@ -316,8 +319,8 @@ VCS conventions:
 We **strongly recommend** you configure your repository following [**_Gitflow_**](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) branching scheme
 ```
                                                       tag:release-1
-┈┈ main ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈→
-     └┈ develop ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈┈┈→  
+┈┈ main ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈>
+     └┈ develop ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈┈┈>  
                    └┈ feature 1 ┈┈┈┘    └┈ feature 2 ┈┈┈┘
 
 ```

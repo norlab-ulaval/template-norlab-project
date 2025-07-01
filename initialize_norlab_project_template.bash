@@ -21,20 +21,18 @@ function tnp::install_norlab_project_template(){
   local install_n2st
   local install_semantic_release
   local tmp_msg
-
-
-  # ....Pre-condition..............................................................................
-  if [[ ! -f  "README.norlab_template.md" ]]; then
-    echo -e "${MSG_ERROR_FORMAT}[ERROR]${MSG_END_FORMAT} 'initialize_norlab_project_template.bash' script should be executed from the project root!\n Current working directory is '$(pwd)'" 1>&2
-    return 1
-  fi
-
   local script_path
   local tmp_root
   script_path="$(realpath -q "${BASH_SOURCE[0]:-.}")"
   tmp_root="$(dirname "${script_path}")"
 
+
   # ....Load environment variables from file.......................................................
+  if [[ ! -f  ".env.template-norlab-project.template" ]]; then
+    echo -e "${MSG_ERROR_FORMAT}[ERROR]${MSG_END_FORMAT} 'initialize_norlab_project_template.bash' script should be executed from the project root!\n Current working directory is '$(pwd)'" 1>&2
+    return 1
+  fi
+
   cd "${tmp_root}" || return 1
   set -o allexport
   source .env.template-norlab-project.template
@@ -44,15 +42,28 @@ function tnp::install_norlab_project_template(){
 
   # ....Source NorLab Project Template dependencies................................................
 
-  # . . Import N2ST lib . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-  cd "${N2ST_PATH:?"Variable not set"}" || return 1
-  source "import_norlab_shell_script_tools_lib.bash"
+  source "${N2ST_PATH:?"Variable not set"}/import_norlab_shell_script_tools_lib.bash"
+  source configure_github_branch_protection.bash
+
+  # ....Pre-condition..............................................................................
+  gbp::validate_prerequisites
+
+  if ! command -v tree &> /dev/null; then
+    n2st::print_msg_error "Directory visualization command 'tree' is not installed. Please install it first:"
+    echo ""
+    return 1
+  fi
+
 
   # ====Begin======================================================================================
 
   n2st::norlab_splash "Norlab-Project-Template 🦾"  https://github.com/norlab-ulaval/template-norlab-project
 
   n2st::print_formated_script_header 'initialize_norlab_project_template.bash' '='
+
+  # ....Force asking for password early............................................................
+  cd "${tmp_root}" || return 1
+  sudo tree -L 1 -a "${PWD}"
 
   # ....Install NBS................................................................................
   {
@@ -318,7 +329,6 @@ function tnp::install_norlab_project_template(){
   }
 
   # ....Execute branch protection rule setup.......................................................
-  source configure_github_branch_protection.bash
   gbp::main "${gbp_args[@]}" || return 1
 
 
@@ -401,32 +411,40 @@ function tnp::install_norlab_project_template(){
   local remaining_config_steps_msg
   if [[ ${install_semantic_release} == true ]]; then
     remaining_config_steps_msg="Step 3 › Configure semantic-release GitHub token
-       https://github.com/norlab-ulaval/template-norlab-project/tree/main#step-3--optional-configure-semantic-release-github-token-detailed
-   -   Step 4 › Make it your own
-       https://github.com/norlab-ulaval/template-norlab-project/tree/main##step-4--make-it-your-own-detailed
+         https://github.com/norlab-ulaval/template-norlab-project/tree/main#step-3--optional-configure-semantic-release-github-token-detailed
+     -   Step 4 › Make it your own
+         https://github.com/norlab-ulaval/template-norlab-project/tree/main##step-4--make-it-your-own-detailed
 "
   else
     remaining_config_steps_msg="${MSG_DIMMED_FORMAT}Step 3 › (skip) Configure semantic-release GitHub token${MSG_END_FORMAT}
-   -   Step 4 › Make it your own
-       https://github.com/norlab-ulaval/template-norlab-project/tree/main##step-4--make-it-your-own-detailed
+     -   Step 4 › Make it your own
+         https://github.com/norlab-ulaval/template-norlab-project/tree/main##step-4--make-it-your-own-detailed
 "
   fi
 
-  n2st::print_msg_done "You can delete the ${MSG_DIMMED_FORMAT}to_delete/${MSG_END_FORMAT} directory whenever you are ready.
+  echo
+  n2st::draw_horizontal_line_across_the_terminal_window '='
+  n2st::print_msg_done "Repository initialization is complete. Your repository structure now look like this"
+
+  cd "${tmp_root}" || return 1
+  sudo tree -L 1 -a "${PWD}"
+
+  echo "
+   You can delete the ${MSG_DIMMED_FORMAT}to_delete/${MSG_END_FORMAT} directory whenever you are ready.
 
    NorLab project remaining configuration steps:
-   - ${MSG_DONE_FORMAT}✔ Step 1 › Generate the new repository${MSG_END_FORMAT}
-   - ${MSG_DONE_FORMAT}✔ Step 2 › Execute initialize_norlab_project_template.bash${MSG_END_FORMAT}
-   -   ${remaining_config_steps_msg}
+     - ${MSG_DONE_FORMAT}✔ Step 1 › Generate the new repository${MSG_END_FORMAT}
+     - ${MSG_DONE_FORMAT}✔ Step 2 › Execute initialize_norlab_project_template.bash${MSG_END_FORMAT}
+     -   ${remaining_config_steps_msg}
 
    Follow GitFlow branching scheme
+                                                                 tag:release-1
+     ┈┈ ${release_branch} ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈>
+          └┈ ${dev_branch} ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈┈┈>
+                        └┈ feature 1 ┈┈┈┘    └┈ feature 2 ┈┈┈┘
 
-                                                               tag:release-1
-   ┈┈ ${release_branch} ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈→
-        └┈ ${dev_branch} ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈┈┈→
-                      └┈ feature 1 ┈┈┈┘    └┈ feature 2 ┈┈┈┘
+   Happy coding!"
 
-Happy coding!"
   n2st::print_formated_script_footer 'initialize_norlab_project_template.bash' '='
 
   cd "${tmp_root}" || return 1

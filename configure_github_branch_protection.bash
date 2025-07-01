@@ -386,7 +386,6 @@ function gbp::main() {
         esac
     done
 
-    ## Print header
     #n2st::norlab_splash "GitHub Branch Protection" "https://github.com/norlab-ulaval/template-norlab-project"
     #n2st::print_formated_script_header "$( basename $0)" "="
 
@@ -431,9 +430,9 @@ function gbp::main() {
 
     fi
 
-
     n2st::print_msg_done "Branch protection configuration completed"
     #n2st::print_formated_script_footer "$( basename $0)" "="
+    return 0
 }
 
 # Execute main function if script is run directly
