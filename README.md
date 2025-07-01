@@ -23,20 +23,11 @@
     <a href="https://hub.docker.com/repositories/norlabulaval">norlabulaval</a>
     (Docker Hub) &nbsp;
 </sup>
-<br>
-<br>
 
 [//]: # ( ==== Description =========================================== )
 **A template repository for code-related research projects.
 It’s meant to help kick-start repository creation by enabling software engineering 
 research-oriented best practice.**
-<br>
-<br>
-It has a few preconfigured tools such as an initialization script to speed up the repository 
-customization process, a pull request template, a sematic-release github action, a standardized 
-readme file with _NorLab_ or _VAUL_ logo, a git ignore file with common file/directory entries, a code owner 
-designation file, JetBranins IDE run configurations and the basic directory structure. 
-
 <br>
 
 [//]: # ( ==== Badges ================================================ )
@@ -51,9 +42,6 @@ designation file, JetBranins IDE run configurations and the basic directory stru
 [//]: # (<a href="https://hub.docker.com/repository/docker/norlabulaval/libpointmatcher/"> <img alt="Docker Image Version &#40;latest semver&#41;" src="https://img.shields.io/docker/v/norlabulaval/libpointmatcher?logo=docker"> </a>)
 
 
-
-<br>
-
 [//]: # ( ==== Maintainer ============================================ )
 <sub>
 Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
@@ -65,37 +53,92 @@ Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
 
 
 [//]: # ( ==== Body ================================================== ) 
+
+## Getting started (fast)
+
+### Requirements:
+- GitHub CLI (`gh`) ⟶ See install instruction at https://cli.github.com
+- Command-line JSON processor (`jq`):
+  - Linux: install using apt-get ⟶ `$ sudo apt-get update && sudo apt-get install jq`
+  - MacOs: install using brew ⟶ `$ brew install jq`
+
+### Install steps:
+##### [Step 1 › Generate the new repository](#step-1--generate-the-new-repository) from template and clone it
+
+Click on the buttons `Use this template` > `Create a new repository`, then
+```shell
+git clone --recurse-submodule https://github.com/<your-new-git-repository-url>
+```
+
+##### [Step 2 › Execute initialization script](#step-2--execute-initialization-script)
+
+Execute the following and follow the instruction on the console
+```shell
+cd <your-new-git-repository-url>
+bash initialize_norlab_project_template.bash
+```
+
+##### [Step 3 › (Optional) Configure semantic-release GitHub token](#step-3--optional-configure-semantic-release-git-hub-token)
+   
+Generate a GitHub [personal access token](https://github.com/settings/tokens) and execute
+```shell
+$ gh secret set SEMANTIC_RELEASE_GH_TOKEN --body "<your-generated-token-value>"
+```
+See [commit_msg_reference.md](./commit_msg_reference.md) for a quick summary of the [_conventional-commit_](https://www.conventionalcommits.org/) specification commit message formating requirements.
+
+##### [Step 4 › Make it your own](#step-4--make-it-your-own)
+
+##### Step 5 › Stay awesome
+
+<hr style="color:lightgray;background-color:lightgray">
+
+## What it does
+
+This template repository has a few preconfigured tools such as 
+- an initialization script to speed up the repository customization process, 
+- a GitHub branch protection rule configuration script,
+- a sematic-release github action, 
+- a standardized readme file with _NorLab_ or _VAUL_ logo, 
+- a git ignore file with common file/directory entries, 
+- a pull request template, 
+- a code owner designation file, 
+- a JetBrains IDE run configurations and junie guidelines 
+- and the basic directory structure. 
+
+The initialization script perform the following: 
+  - Customize the repository files to your need 
+  - Configure the GitHub branch protection rule
+  - Optional install: 
+    - semantic-release automation,
+    - norlab-shell-script-tools, 
+    - norlab-build-system.
+
 **Note:** For `latex` project such as writing proposal or conference paper, use a template from the following list of [NorLab `TeX` template repositories](https://github.com/norlab-ulaval?q=template&type=all&language=tex&sort=) instead.  
 
+---
 
-# How to use this template repository
+## Instructions (detailed)
 
-## Requirements:
-- GitHub CLI (gh) ⟶ See install instruction at https://cli.github.com
-- Command-line JSON processor (jq):
-  - MacOs: install using brew ⟶ `$ brew install jq`
-  - Linux: install using apt-get ⟶ `$ sudo apt-get update && sudo apt-get install jq`
+### Install steps:
 
-## Install steps
+- [Step 1 › Generate the new repository](#step-1--generate-the-new-repository) from template and clone it
+- [Step 2 › Execute initialization script](#step-2--execute-initialization-script)
+- [Step 3 › (Optional) Configure semantic-release GitHub token](#step-3--optional-configure-semantic-release-git-hub-token)
+- [Step 4 › Make it your own](#step-4--make-it-your-own)
 
-- [ ] [Step 1 › Generate the new repository](#step-1--generate-the-new-repository)
-- [ ] [Step 2 › Execute initialization script](#step-2--execute-initialization-script)
-- [ ] [Step 3 › (Optional) Configure semantic-release GitHub token](#step-3--optional-configure-semantic-release-git-hub-token)
-- [ ] [Step 4 › Make it your own](#step-4--make-it-your-own)
+### Documentation:
 
-[**Documentation**](#documentation):
-- [Configure the _GitHub_ repository settings](#configure-the-github-repository-settings)
+- [Configure the _GitHub_ repository settings manually](#configure-the-github-repository-settings-manually)
 - [Release automation: enable semantic versioning tools](#enable-release-automation-tools-semantic-versioning)
 
-# Instructions
 ## Step 1 › Generate the new repository
 1. Click on the buttons `Use this template` > `Create a new repository` 
-    <br>
-   ![img.png](visual/use_this_template_button.png)
+   <br>
+   <img alt="img.png" src="visual/use_this_template_button.png" width="200"/>
 2. find a meaningful repository name, don't worry you can change it latter (see BC Gov [Naming Repos](https://github.com/bcgov/BC-Policy-Framework-For-GitHub/blob/master/BC-Gov-Org-HowTo/Naming-Repos.md) recommendation for advice and best-practice)
 3. Clone your new repository using the following command line
 ```shell
-$ git clone --recurse-submodule https://github.com/<your-git-repository-url>
+$ git clone --recurse-submodule https://github.com/<your-new-git-repository-url>
 ```
 
 ## Step 2 › Execute initialization script
@@ -104,10 +147,11 @@ $ git clone --recurse-submodule https://github.com/<your-git-repository-url>
 ```shell
 # From repository root, execute the following line
 $ bash initialize_norlab_project_template.bash
+
 # Follow the instruction on the console
 ```
 
-It will execute the following steps:
+The initialization script will execute the following steps:
 
 1. Install resources (or skip):
     1. (optional) [Norlab Build System (NBS)](https://github.com/norlab-ulaval/norlab-build-system)
@@ -124,10 +168,45 @@ It will execute the following steps:
        to `README.md` and delete the other one
    3. customize url references 
 4. Reset the content of `CHANGELOG.md`
-5. Configure GitHub branch protection rule
+5. Configure the GitHub branch protection rule
 
 When the script execution is done, you will end up with the following repository structure:
-```markdown
+
+**Minimal install**
+```
+my_new_cool_repo/
+ ├── .github/
+ │   ├── CODEOWNERS
+ │   └── pull_request_template.md
+ ├── .junie/                                      <-- LLM/AI agent instructions
+ │   ├── plans/
+ │   ├── guidelines.md
+ │   ├── recipes.md
+ │   └── scratch.md
+ ├── .run/                                        <-- JetBrains run configuration
+ │   └── openATerminalInUbuntuContainer.run.xml
+ ├── src/
+ │   ├── README.md
+ │   └── dummy.bash
+ ├── tests/
+ │   └── README.md
+ ├── artifact/
+ │   └── README.md
+ ├── utilities/
+ ├── visual/
+ │   └── ...
+ ├── to_delete/                                   <-- to delete when done
+ │   ├── NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md 
+ │   └── initialize_norlab_project_template.bash 
+ ├── .aiignore
+ ├── .gitignore
+ ├── .gitmodules
+ ├── commit_msg_reference.md
+ └── README.md
+```
+
+**Full install**
+```
 my_new_cool_repo/
  ├── .github/
  │   ├── CODEOWNERS
@@ -149,9 +228,10 @@ my_new_cool_repo/
  │   ├── README.md
  │   ├── run_bats_core_test_in_n2st.bash          <-- norlab-shell-script-tools (optional)
  │   └── tests_bats/                              <-- norlab-shell-script-tools (optional)
+ │       └── ...
  ├── artifact/
  │   └── README.md
- ├── utilities
+ ├── utilities/
  │   ├── norlab-build-system                      <-- optional
  │   └── norlab-shell-script-tools                <-- optional
  ├── visual/
@@ -159,15 +239,15 @@ my_new_cool_repo/
  ├── to_delete/                                   <-- to delete when done
  │   ├── NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md 
  │   └── initialize_norlab_project_template.bash 
+ ├── .env.my_new_cool_repo                         <-- norlab-shell-script-tools (optional)
  ├── .aiignore
  ├── .gitignore
  ├── .gitmodules
  ├── .releaserc.json                               <-- Semantic-versioning (optional)
- ├── .env.my_new_cool_repo                         <-- norlab-shell-script-tools (optional)
- ├── README.md
  ├── CHANGELOG.md                                  <-- Semantic-versioning (optional)
+ ├── version.txt                                   <-- Semantic-versioning (optional)
  ├── commit_msg_reference.md
- └── version.txt                                   <-- Semantic-versioning (optional)
+ └── README.md
 ```
 
 ## Step 3 › (Optional) Configure semantic-release GitHub token
@@ -195,7 +275,7 @@ by _semantic-release_
 
 ## Documentation
 
-### Configure the _GitHub_ repository settings
+### Configure the _GitHub_ repository settings manually
 
 <details>
   <summary style="font-weight: bolder;font-size: medium;">Expand/Collapse</summary>
@@ -283,7 +363,7 @@ References:
 
 ---
 
-# Questions: 
+## Questions: 
 
 **I'm concern using _conventional-commit_ will slow me down:** 
 <br> 
@@ -297,5 +377,4 @@ Either fix the bug and push a `fix` commit or revert the problematic commits and
 <br>
 No problem, just disable the _semantic-release_ github action by deleting the `.github/workflows/semantic_release.yml` file.
 
-[//]: # (....MonTitre..............................................................................)
 
