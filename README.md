@@ -64,14 +64,16 @@ Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
   - MacOs: install using brew ⟶ `$ brew install jq`
 
 ### Install steps:
-##### [Step 1 › Generate the new repository]((#step-1--generate-the-new-repository-detailed-)) from template and clone it
+##### Step 1 › Generate the new repository from template and clone it
 
 Click on the buttons `Use this template` > `Create a new repository`, then
 ```shell
 git clone --recurse-submodule https://github.com/<your-new-git-repository-url>
 ```
 
-##### [Step 2 › Execute initialization script]((#step-2--execute-initialization-script-detailed))
+[Go to detailed instructions →](#step-1--generate-the-new-repository-detailed)
+
+##### Step 2 › Execute initialization script
 
 Execute the following and follow the instruction on the console
 ```shell
@@ -79,7 +81,9 @@ cd <your-new-git-repository-url>
 bash initialize_norlab_project_template.bash
 ```
 
-##### [Step 3 › (Optional) Configure semantic-release GitHub token]((#step-3--optional-configure-semantic-release-github-token-detailed))
+[Go to detailed instructions →](#step-2--execute-initialization-script-detailed)
+
+##### Step 3 › (Optional) Configure semantic-release GitHub token
    
 Generate a GitHub [personal access token](https://github.com/settings/tokens) and execute
 ```shell
@@ -87,10 +91,17 @@ $ gh secret set SEMANTIC_RELEASE_GH_TOKEN --body "<your-generated-token-value>"
 ```
 See [commit_msg_reference.md](./commit_msg_reference.md) for a quick summary of the [_conventional-commit_](https://www.conventionalcommits.org/) specification commit message formating requirements.
 
-##### [Step 4 › Make it your own]((#step-4--make-it-your-own-detailed))
+[Go to detailed instructions →](#step-3--optional-configure-semantic-release-github-token-detailed)
 
-##### Step 5 › Stay awesome
+##### Step 4 › Make it your own
 
+[Go to detailed instructions →](#step-4--make-it-your-own-detailed)
+
+<div align="center">
+🦾
+</div>
+
+<br>
 <hr style="color:lightgray;background-color:lightgray">
 
 ## What it does
@@ -122,7 +133,7 @@ The initialization script perform the following:
 
 **Install steps**:
 
-* [Step 1 › Generate the new repository (detailed)](#step-1--generate-the-new-repository-detailed-)
+* [Step 1 › Generate the new repository (detailed)](#step-1--generate-the-new-repository-detailed)
 * [Step 2 › Execute initialization script (detailed)](#step-2--execute-initialization-script-detailed)
 * [Step 3 › (Optional) Configure semantic-release GitHub token (detailed)](#step-3--optional-configure-semantic-release-github-token-detailed)
 * [Step 4 › Make it your own (detailed)](#step-4--make-it-your-own-detailed)
@@ -139,7 +150,7 @@ The initialization script perform the following:
     * [Configuration](#configuration)
 * [Questions](#questions)
 
-## Step 1 › Generate the new repository (detailed) 
+## Step 1 › Generate the new repository (detailed)
 1. Click on the buttons `Use this template` > `Create a new repository` 
    <br>
    <img alt="img.png" src="visual/use_this_template_button.png" width="200"/>
