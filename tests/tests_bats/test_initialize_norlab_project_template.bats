@@ -543,7 +543,9 @@ teardown() {
 
   # ....Check that default branch names are used...................................................
   cd "${BATS_DOCKER_WORKDIR}" || exit 1
-  assert_output --partial "Using default branch names: release='main', dev='dev'"
+  assert_output --partial "Using default branch names:"
+  assert_output --partial "release branch: 'main'"
+  assert_output --partial "bleeding edge branch: 'dev'"
   assert_output --partial "Mock 'configure_github_branch_protection.bash' script"
 
   # ....Check teardown.............................................................................
@@ -571,7 +573,9 @@ teardown() {
   # ....Check that custom branch names are used....................................................
   cd "${BATS_DOCKER_WORKDIR}" || exit 1
   assert_output --partial "Configuring custom branch names..."
-  assert_output --partial "Using custom branch names: release='master', dev='develop'"
+  assert_output --partial "Using custom branch names:"
+  assert_output --partial "release branch: 'master'"
+  assert_output --partial "bleeding edge branch: 'develop'"
   assert_output --partial "Mock 'configure_github_branch_protection.bash' script"
 
   # ....Check teardown.............................................................................
@@ -599,7 +603,9 @@ teardown() {
   # ....Check that defaults are used when input is empty...........................................
   cd "${BATS_DOCKER_WORKDIR}" || exit 1
   assert_output --partial "Configuring custom branch names..."
-  assert_output --partial "Using custom branch names: release='main', dev='dev'"
+  assert_output --partial "Using custom branch names:"
+  assert_output --partial "release branch: 'main'"
+  assert_output --partial "bleeding edge branch: 'dev'"
   assert_output --partial "Mock 'configure_github_branch_protection.bash' script"
 
   # ....Check teardown.............................................................................

@@ -18,7 +18,8 @@ function tnp::setup_mock() {
   n2st::print_formated_script_header "setup_mock.bash" "${MSG_LINE_CHAR_UTIL}"
 
   test -n "${TNP_PATH:?err}" || n2st::print_msg_error_and_exit "Env variable TNP_PATH need to be set and non-empty."
-  test -d "${TNP_PATH}/utilities/tmp" || n2st::print_msg_error_and_exit "The directory ${TNP_PATH}/utilities/tmp is unreachable"
+  test -d "${TNP_PATH}/utilities" || n2st::print_msg_error_and_exit "The directory ${TNP_PATH}/utilities is unreachable"
+  mkdir -p "${TNP_PATH}/utilities/tmp"
 
   if [[ -d "${TNP_PATH}/utilities/tmp/dockerized-norlab-project-mock-EMPTY" ]]; then
       # Delete git cloned repo
