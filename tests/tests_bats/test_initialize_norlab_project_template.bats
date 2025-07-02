@@ -880,3 +880,46 @@ teardown() {
   refute_output --partial "is a private repository owned by"
   refute_output --partial "enabling branch protection rule on a private repository require a GitHub Pro plan"
 }
+
+@test "repository compatibility › vaul-ulaval private repo should proceed normally" {
+  # Mock GitHub CLI to return private repo owned by vaul-ulaval
+  function gh() {
+    if [[ "$1" == "repo" && "$2" == "view" && "$3" == "--json" ]]; then
+      case "$4" in
+        "owner")
+          echo "vaul-ulaval"
+          ;;
+        "isPrivate")
+          echo "true"
+          ;;
+        "name")
+          echo "test-repo"
+          ;;
+      esac
+      return 0
+    fi
+  }
+  export -f gh
+
+  # Mock jq command
+  function jq() {
+    case "$1" in
+      ".owner.login")
+        echo "vaul-ulaval"
+        ;;
+      ".isPrivate")
+        echo "true"
+        ;;
+      ".name")
+        echo "test-repo"
+        ;;
+    esac
+  }
+  export -f jq
+
+  # Test the actual script execution with vaul-ulaval private repo
+  # The script should proceed normally without prompting for action
+  run bash -c "echo -e 'n\nn\nn\nn\ntest\n\nn' | timeout 10s bash ./$TESTED_FILE"
+  refute_output --partial "is a private repository owned by"
+  refute_output --partial "enabling branch protection rule on a private repository require a GitHub Pro plan"
+}
