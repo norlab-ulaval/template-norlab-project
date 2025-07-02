@@ -120,7 +120,6 @@ ${MSG_END_FORMAT}"
     echo
     tmp_msg="(press 'Y' to install, or press any other key to skip) "
     n2st::echo_centering_str "${tmp_msg}" "\033[2m" " "
-    echo
     unset user_input
     read -n 1 -r user_input
     echo
@@ -151,7 +150,6 @@ ${MSG_END_FORMAT}"
       n2st::seek_and_modify_string_in_file "#NBS_SPLASH_NAME=.*" " " .env.template-norlab-project.template
 
     fi
-    echo
   }
 
   # ....Install N2ST...............................................................................
@@ -160,7 +158,6 @@ ${MSG_END_FORMAT}"
     echo
     tmp_msg="(press 'Y' to install, or press any other key to skip) "
     n2st::echo_centering_str "${tmp_msg}" "\033[2m" " "
-    echo
     unset user_input
     read -n 1 -r user_input
     echo
@@ -189,7 +186,6 @@ ${MSG_END_FORMAT}"
     echo
     tmp_msg="(press 'Y' to install, or press any other key to skip) "
     n2st::echo_centering_str "${tmp_msg}" "\033[2m" " "
-    echo
     unset user_input
     read -n 1 -r user_input
     echo
@@ -222,7 +218,6 @@ ${MSG_END_FORMAT}"
     echo
     tmp_msg="(press 'Y' to install, or press any other key to skip) "
     n2st::echo_centering_str "${tmp_msg}" "\033[2m" " "
-    echo
     unset user_input
     read -n 1 -r user_input
     echo
@@ -292,7 +287,6 @@ ${MSG_END_FORMAT}"
     echo
     tmp_msg="(press 'V' to use VAUL, or press any other key to use NorLab) "
     n2st::echo_centering_str "${tmp_msg}" "\033[2m" " "
-    echo
     unset user_input
     read -n 1 -r user_input
     echo
@@ -352,7 +346,6 @@ ${MSG_END_FORMAT}"
     n2st::echo_centering_str "${tmp_msg}" "\033[2m" " "
     tmp_msg="(press any other key to use defaults: main/dev) "
     n2st::echo_centering_str "${tmp_msg}" "\033[2m" " "
-    echo
     unset user_input
     read -n 1 -r user_input
     echo
@@ -365,9 +358,9 @@ ${MSG_END_FORMAT}"
       n2st::print_msg_awaiting_input "Enter the release branch name (default: main):"
       tmp_msg="(press 'return' when done) "
       n2st::echo_centering_str "${tmp_msg}" "\033[2m" " "
-      echo
       unset user_input
       read -r user_input
+      echo
       if [[ -n "${user_input}" ]]; then
         release_branch="${user_input}"
       fi
@@ -377,9 +370,9 @@ ${MSG_END_FORMAT}"
       n2st::print_msg_awaiting_input "Enter the bleeding edge branch name (default: dev):"
       tmp_msg="(press 'return' when done) "
       n2st::echo_centering_str "${tmp_msg}" "\033[2m" " "
-      echo
       unset user_input
       read -r user_input
+      echo
       if [[ -n "${user_input}" ]]; then
         dev_branch="${user_input}"
       fi
