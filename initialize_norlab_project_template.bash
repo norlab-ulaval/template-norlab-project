@@ -58,7 +58,7 @@ function tnp::install_norlab_project_template(){
 
   # ====Begin======================================================================================
 
-  n2st::norlab_splash "Norlab-Project-Template 🦾"  https://github.com/norlab-ulaval/template-norlab-project
+  n2st::norlab_splash "Norlab-Project-Template"  https://github.com/norlab-ulaval/template-norlab-project
 
   n2st::print_formated_script_header 'initialize_norlab_project_template.bash' '='
 
