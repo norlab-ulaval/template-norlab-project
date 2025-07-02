@@ -485,3 +485,97 @@ teardown() {
   assert_output --partial "Processing branch: beta"
   assert_output --partial "Processing branch: dev"
 }
+
+# ====Standalone Mode Tests=======================================================================
+
+@test "standalone mode should work when N2ST_PATH is not set" {
+  # Unset N2ST_PATH to simulate standalone mode
+  unset N2ST_PATH
+
+  # Mock git commands for standalone mode
+  function git() {
+    case "$1" in
+      "rev-parse")
+        if [[ "$2" == "--show-toplevel" ]]; then
+          echo "${TNP_MOCK_REPO_PATH}"
+        fi
+        ;;
+      "submodule")
+        echo "Mock: git submodule add norlab-shell-script-tools"
+        return 0
+        ;;
+      "add"|"commit")
+        echo "Mock: git $*"
+        return 0
+        ;;
+      *)
+        return 0
+        ;;
+    esac
+  }
+  export -f git
+
+  # Mock directory check to simulate submodule doesn't exist
+  function test() {
+    if [[ "$1" == "-d" && "$2" == "${TNP_MOCK_REPO_PATH}/utilities/norlab-shell-script-tools" ]]; then
+      return 1  # Directory doesn't exist
+    fi
+    return 0
+  }
+  export -f test
+
+  # Create the submodule directory structure to simulate successful cloning
+  mkdir -p "${TNP_MOCK_REPO_PATH}/utilities/norlab-shell-script-tools"
+
+  # Test the actual script execution in standalone mode
+  run bash "${BATS_DOCKER_WORKDIR}/${TESTED_FILE}" --help
+  assert_output --partial "[TNP] The N2ST_PATH env var is not set! Assuming we are in stand alone mode"
+
+  # Clean up
+  rm -rf "${TNP_MOCK_REPO_PATH}/utilities/norlab-shell-script-tools"
+}
+
+@test "standalone mode should skip cloning when submodule already exists" {
+  # Unset N2ST_PATH to simulate standalone mode
+  unset N2ST_PATH
+
+  # Mock git commands
+  function git() {
+    if [[ "$1" == "rev-parse" && "$2" == "--show-toplevel" ]]; then
+      echo "${TNP_MOCK_REPO_PATH}"
+    fi
+    return 0
+  }
+  export -f git
+
+  # Create the submodule directory to simulate it already exists
+  mkdir -p "${TNP_MOCK_REPO_PATH}/utilities/norlab-shell-script-tools"
+
+  # Create a minimal import file to avoid errors
+  cat > "${TNP_MOCK_REPO_PATH}/utilities/norlab-shell-script-tools/import_norlab_shell_script_tools_lib.bash" << EOF
+echo "Mock N2ST import"
+
+function n2st::draw_horizontal_line_across_the_terminal_window() {
+  return 0
+}
+export -f  n2st::draw_horizontal_line_across_the_terminal_window
+EOF
+
+  # Test the actual script execution when submodule exists
+  run bash "${BATS_DOCKER_WORKDIR}/${TESTED_FILE}" --help
+  assert_output --partial "[TNP] The N2ST_PATH env var is not set! Assuming we are in stand alone mode"
+  refute_output --partial "norlab-shell-script-tools is unreachable, cloning now"
+
+  # Clean up
+  rm -rf "${TNP_MOCK_REPO_PATH}/utilities/norlab-shell-script-tools"
+}
+
+@test "standalone mode should work when N2ST_PATH is already set" {
+  # Set N2ST_PATH to simulate it's already configured
+  export N2ST_PATH="${BATS_DOCKER_WORKDIR}/utilities/norlab-shell-script-tools"
+
+  # Test the actual script execution when N2ST_PATH is set
+  run bash "${BATS_DOCKER_WORKDIR}/${TESTED_FILE}" --help
+  assert_success
+  refute_output --partial "Assuming we are in stand alone mode"
+}

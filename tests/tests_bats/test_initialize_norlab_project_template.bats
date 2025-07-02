@@ -696,3 +696,197 @@ teardown() {
   # ....Check teardown.............................................................................
   check_norlab_project_template_teardown
 }
+
+# ====New Feature Tests============================================================================
+
+@test "tree command validation › should fail when tree command is not available" {
+  # Mock command to simulate tree not being available
+  function command() {
+    if [[ "$1" == "-v" && "$2" == "tree" ]]; then
+      return 1  # tree command not found
+    fi
+    return 0
+  }
+  export -f command
+
+  # Test the actual script execution when tree is not available
+  run bash -c "echo 'n' | bash ./$TESTED_FILE"
+  assert_failure
+  assert_output --partial "Directory visualization command 'tree' is not installed"
+  assert_output --partial "See Requirements section"
+}
+
+@test "tree command validation › should pass when tree command is available" {
+  # Mock command to simulate tree being available
+  function command() {
+    if [[ "$1" == "-v" && "$2" == "tree" ]]; then
+      return 0  # tree command found
+    fi
+    return 0
+  }
+  export -f command
+
+  # Mock tree command itself
+  function tree() {
+    echo "Mock tree output"
+    return 0
+  }
+  export -f tree
+
+  # Mock sudo command
+  function sudo() {
+    if [[ "$1" == "tree" ]]; then
+      echo "Mock sudo tree output"
+      return 0
+    fi
+    return 0
+  }
+  export -f sudo
+
+  # Test that the script continues when tree is available
+  # Note: We'll test with minimal input to avoid full execution
+  run bash -c "echo -e 'n\nn\nn\nn\ntest\n\nn' | timeout 10s bash ./$TESTED_FILE"
+  # The script should not fail due to missing tree command
+  refute_output --partial "Directory visualization command 'tree' is not installed"
+}
+
+@test "repository compatibility › private repo owned by non-norlab-ulaval should prompt for action" {
+  # Mock GitHub CLI to return private repo owned by non-norlab user
+  function gh() {
+    if [[ "$1" == "repo" && "$2" == "view" && "$3" == "--json" ]]; then
+      case "$4" in
+        "owner")
+          echo "test-user"
+          ;;
+        "isPrivate")
+          echo "true"
+          ;;
+        "name")
+          echo "test-repo"
+          ;;
+      esac
+      return 0
+    fi
+  }
+  export -f gh
+
+  # Mock jq command
+  function jq() {
+    case "$1" in
+      ".owner.login")
+        echo "test-user"
+        ;;
+      ".isPrivate")
+        echo "true"
+        ;;
+      ".name")
+        echo "test-repo"
+        ;;
+    esac
+  }
+  export -f jq
+
+  # Test the actual script execution with private repo
+  # The script should prompt for action when it detects a private repo owned by non-norlab user
+  run bash -c "echo 'S' | timeout 10s bash ./$TESTED_FILE"
+  assert_output --partial "test-repo is a private repository owned by test-user"
+  assert_output --partial "enabling branch protection rule on a private repository require a GitHub Pro plan"
+  assert_output --partial "Make repository visibility public -> press 'P'"
+  assert_output --partial "Skip branch configuration -> press 'S'"
+  assert_output --partial "Try it any way (I feel lucky) -> press 'L'"
+}
+
+@test "repository compatibility › public repo should proceed normally" {
+  # Mock GitHub CLI to return public repo
+  function gh() {
+    if [[ "$1" == "repo" && "$2" == "view" && "$3" == "--json" ]]; then
+      case "$4" in
+        "owner")
+          echo "test-user"
+          ;;
+        "isPrivate")
+          echo "false"
+          ;;
+        "name")
+          echo "test-repo"
+          ;;
+      esac
+      return 0
+    fi
+  }
+  export -f gh
+
+  # Mock jq command
+  function jq() {
+    case "$1" in
+      ".owner.login")
+        echo "test-user"
+        ;;
+      ".isPrivate")
+        echo "false"
+        ;;
+      ".name")
+        echo "test-repo"
+        ;;
+    esac
+  }
+  export -f jq
+
+  # Test the actual script execution with public repo
+  # The script should proceed normally without prompting for action
+  run bash -c "echo -e 'n\nn\nn\nn\ntest\n\nn' | timeout 10s bash ./$TESTED_FILE"
+  refute_output --partial "is a private repository owned by"
+  refute_output --partial "enabling branch protection rule on a private repository require a GitHub Pro plan"
+}
+
+@test "repository compatibility › norlab-ulaval private repo should proceed normally" {
+  # Mock GitHub CLI to return private repo owned by norlab-ulaval
+  function gh() {
+    if [[ "$1" == "repo" && "$2" == "view" && "$3" == "--json" ]]; then
+      case "$4" in
+        "owner")
+          echo "norlab-ulaval"
+          ;;
+        "isPrivate")
+          echo "true"
+          ;;
+        "name")
+          echo "test-repo"
+          ;;
+      esac
+      return 0
+    fi
+  }
+  export -f gh
+
+  # Mock jq command
+  function jq() {
+    case "$1" in
+      ".owner.login")
+        echo "norlab-ulaval"
+        ;;
+      ".isPrivate")
+        echo "true"
+        ;;
+      ".name")
+        echo "test-repo"
+        ;;
+    esac
+  }
+  export -f jq
+
+  # Test the actual script execution with norlab-ulaval private repo
+  # The script should proceed normally without prompting for action
+  run bash -c "echo -e 'n\nn\nn\nn\ntest\n\nn' | timeout 10s bash ./$TESTED_FILE"
+  refute_output --partial "is a private repository owned by"
+  refute_output --partial "enabling branch protection rule on a private repository require a GitHub Pro plan"
+}
+
+# Note: The conditional branch configuration test was removed because it was testing for
+# behavior that doesn't exist in the actual script. The branch configuration logic
+# is already tested through the existing integration tests that run the full script.
+
+# Note: The following tests were removed because they were copying source code instead of testing actual functionality.
+# These features are already tested through the existing integration tests that run the full script.
+# The conditional JetBrains cleanup, early sudo call, and branching scheme visualization are internal
+# implementation details that are covered by the comprehensive integration tests above.
