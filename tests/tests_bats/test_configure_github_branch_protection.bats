@@ -295,6 +295,61 @@ teardown() {
   assert_output --partial "Branch protection configured for: main"
 }
 
+@test "gbp::configure_repository_settings should work in dry-run mode" {
+  run gbp::configure_repository_settings "true"
+  assert_success
+  assert_output --partial "DRY RUN: Would configure repository with:"
+  assert_output --partial "gh repo edit"
+  assert_output --partial "--enable-auto-merge"
+  assert_output --partial "--delete-branch-on-merge"
+  assert_output --partial "--enable-merge-commit"
+  assert_output --partial "--enable-squash-merge"
+  assert_output --partial "--allow-update-branch"
+}
+
+@test "gbp::configure_repository_settings should call gh repo edit correctly" {
+  # Mock gh repo edit command
+  function gh() {
+    if [[ "$1" == "repo" && "$2" == "edit" ]]; then
+      # Verify correct flags are passed
+      local expected_flags=(
+        "--enable-auto-merge"
+        "--delete-branch-on-merge"
+        "--enable-merge-commit"
+        "--enable-squash-merge"
+        "--allow-update-branch"
+      )
+
+      for flag in "${expected_flags[@]}"; do
+        if [[ ! " $* " =~ " $flag " ]]; then
+          echo "Missing flag: $flag"
+          return 1
+        fi
+      done
+      return 0
+    fi
+  }
+  export -f gh
+
+  run gbp::configure_repository_settings "false"
+  assert_success
+  assert_output --partial "Repository-wide settings configured"
+}
+
+@test "gbp::configure_repository_settings should handle gh repo edit failure" {
+  # Mock gh repo edit command to fail
+  function gh() {
+    if [[ "$1" == "repo" && "$2" == "edit" ]]; then
+      return 1
+    fi
+  }
+  export -f gh
+
+  run gbp::configure_repository_settings "false"
+  assert_failure
+  assert_output --partial "Failed to configure repository-wide settings"
+}
+
 
 @test "gbp::show_help should display correct usage information" {
   run gbp::show_help
@@ -313,6 +368,7 @@ teardown() {
     REPO_NAME="test-repo"
     REPO_DEFAULT_BRANCH="main"
   }
+  function gbp::configure_repository_settings() { return 0; }
   function gbp::create_branch_if_not_exists() { return 0; }
   function gbp::configure_branch_protection() { return 0; }
   function n2st::norlab_splash() { return 0; }
@@ -320,7 +376,7 @@ teardown() {
   function n2st::print_msg_done() { return 0; }
   function n2st::print_formated_script_footer() { return 0; }
   function n2st::print_msg() { return 0; }
-  export -f gbp::validate_prerequisites gbp::get_repository_info
+  export -f gbp::validate_prerequisites gbp::get_repository_info gbp::configure_repository_settings
   export -f gbp::create_branch_if_not_exists gbp::configure_branch_protection
   export -f n2st::norlab_splash n2st::print_formated_script_header n2st::print_msg_done n2st::print_formated_script_footer n2st::print_msg
 
@@ -352,6 +408,7 @@ teardown() {
     REPO_NAME="test-repo"
     REPO_DEFAULT_BRANCH="main"
   }
+  function gbp::configure_repository_settings() { return 0; }
   function gbp::update_releaserc_json() { return 0; }
   function gbp::update_semantic_release_yml() { return 0; }
   function gbp::create_branch_if_not_exists() { return 0; }
@@ -361,7 +418,7 @@ teardown() {
   function n2st::print_msg_done() { return 0; }
   function n2st::print_formated_script_footer() { return 0; }
   function n2st::print_msg() { return 0; }
-  export -f gbp::validate_prerequisites gbp::get_repository_info
+  export -f gbp::validate_prerequisites gbp::get_repository_info gbp::configure_repository_settings
   export -f gbp::update_releaserc_json gbp::update_semantic_release_yml gbp::create_branch_if_not_exists gbp::configure_branch_protection
   export -f n2st::norlab_splash n2st::print_formated_script_header n2st::print_msg_done n2st::print_formated_script_footer n2st::print_msg
 
