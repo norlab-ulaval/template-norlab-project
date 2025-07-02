@@ -697,7 +697,6 @@ teardown() {
   check_norlab_project_template_teardown
 }
 
-# ====New Feature Tests============================================================================
 
 @test "tree command validation › should fail when tree command is not available" {
   # Mock command to simulate tree not being available
@@ -791,9 +790,9 @@ teardown() {
   run bash -c "echo 'S' | timeout 10s bash ./$TESTED_FILE"
   assert_output --partial "test-repo is a private repository owned by test-user"
   assert_output --partial "enabling branch protection rule on a private repository require a GitHub Pro plan"
-  assert_output --partial "Make repository visibility public -> press 'P'"
-  assert_output --partial "Skip branch configuration -> press 'S'"
-  assert_output --partial "Try it any way (I feel lucky) -> press 'L'"
+  assert_output --regexp "Make repository visibility public".*"press 'P'"
+  assert_output --regexp "Skip branch configuration".*"press 'S'"
+  assert_output --regexp "Try it any way \(I feel lucky\)".*"press 'L'"
 }
 
 @test "repository compatibility › public repo should proceed normally" {
@@ -881,12 +880,3 @@ teardown() {
   refute_output --partial "is a private repository owned by"
   refute_output --partial "enabling branch protection rule on a private repository require a GitHub Pro plan"
 }
-
-# Note: The conditional branch configuration test was removed because it was testing for
-# behavior that doesn't exist in the actual script. The branch configuration logic
-# is already tested through the existing integration tests that run the full script.
-
-# Note: The following tests were removed because they were copying source code instead of testing actual functionality.
-# These features are already tested through the existing integration tests that run the full script.
-# The conditional JetBrains cleanup, early sudo call, and branching scheme visualization are internal
-# implementation details that are covered by the comprehensive integration tests above.

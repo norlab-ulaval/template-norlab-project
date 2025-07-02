@@ -63,7 +63,10 @@ function tnp::install_norlab_project_template(){
 
   # ....Force asking for password early............................................................
   cd "${tmp_root}" || return 1
-  sudo tree -L 1 -a "${PWD}"
+  n2st::print_msg "Current repository structure
+${MSG_DIMMED_FORMAT}
+$(tree -L 1 -a --noreport --dirsfirst -I .git -I .idea -I .cadence "${PWD}")
+${MSG_END_FORMAT}"
 
   # ....Check branch protection feature repository compatibility...................................
   local branch_configuration_enable=true
@@ -79,13 +82,15 @@ function tnp::install_norlab_project_template(){
 
     if [[ ${repo_is_private} == true ]] && [[ ${repo_owner} != "norlab-ulaval" ]]; then
       n2st::print_msg_warning "${repo_name} is a private repository owned by ${repo_owner}.
+
   ${MSG_WARNING_FORMAT}Be advised, enabling branch protection rule on a private repository require a GitHub Pro plan${MSG_END_FORMAT}.
+
   Possible actions:
-    Make repository visibility public -> press 'P'
-    Skip branch configuration -> press 'S'
-    Try it any way (I feel lucky) -> press 'L'
-    Exit, change repo ownership to norlab-ulaval and try again -> press any other key
-  "
+    Make repository visibility public ${MSG_DIMMED_FORMAT}-> (press 'P')${MSG_END_FORMAT}
+    Skip branch configuration ${MSG_DIMMED_FORMAT}-> (press 'S')${MSG_END_FORMAT}
+    Try it any way (I feel lucky) ${MSG_DIMMED_FORMAT}-> (press 'L')${MSG_END_FORMAT}
+    Exit, change repo ownership to norlab-ulaval and try again ${MSG_DIMMED_FORMAT}-> (press any other key)${MSG_END_FORMAT}
+"
       unset user_input
       read -n 1 -r user_input
       echo
@@ -498,12 +503,11 @@ function tnp::install_norlab_project_template(){
 
   echo
   n2st::draw_horizontal_line_across_the_terminal_window '='
-  n2st::print_msg_done "Repository initialization is complete. Your repository structure now look like this"
-
   cd "${tmp_root}" || return 1
-  sudo tree -L 1 -a "${PWD}"
-
-  echo "
+  n2st::print_msg_done "Repository initialization is complete. Your repository structure now look like this
+${MSG_DIMMED_FORMAT}
+$(tree -L 1 -a --noreport --dirsfirst -I .git -I .idea -I .cadence "${PWD}")
+${MSG_END_FORMAT}
    You can delete the ${MSG_DIMMED_FORMAT}to_delete/${MSG_END_FORMAT} directory whenever you are ready.
 
    NorLab project remaining configuration steps:
@@ -511,7 +515,7 @@ function tnp::install_norlab_project_template(){
      - ${MSG_DONE_FORMAT}✔ Step 2 › Execute initialize_norlab_project_template.bash${MSG_END_FORMAT}
      -   ${remaining_config_steps_msg}"
   if [[ ${branch_configuration_enable} == true ]]; then
-    echo "   Follow GitFlow branching scheme
+    echo -e "   Follow GitFlow branching scheme
                                                                  tag:release-1
      ┈┈ ${release_branch} ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈>
           └┈ ${dev_branch} ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈┈┈>
