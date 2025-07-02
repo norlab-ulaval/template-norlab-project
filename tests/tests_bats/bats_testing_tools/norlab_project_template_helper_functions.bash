@@ -178,7 +178,7 @@ function check_jetbrains_resources_not_installed() {
 function check_norlab_project_template_teardown() {
   assert_output --regexp .*"\[Norlab-Project-Template\]".*"Teardown clean-up"
 
-  assert_output --regexp .*"\[Norlab-Project-Template done\]".*"Repository initialization is complete. Your repository structure now look like this".*"You can delete the".*"to_delete/".*"directory whenever you are ready.".*"NorLab project remaining configuration steps:".*"-".*"✔ Step 1 › Generate the new repository".*"-".*"✔ Step 2 › Execute initialize_norlab_project_template.bash".*"-   Step 3".*"Make it your own".*"Happy coding".*"Completed"
+  assert_output --regexp .*"\[Norlab-Project-Template done\]".*"Repository initialization is complete.".*"Your repository structure now look like this".*"You can delete the".*"to_delete/".*"directory whenever you are ready.".*"NorLab project remaining configuration steps:".*"-".*"✔ Step 1 › Generate the new repository".*"-".*"✔ Step 2 › Execute initialize_norlab_project_template.bash".*"-   Step 3".*"Make it your own".*"Happy coding".*"Completed"
 
   cd "${BATS_DOCKER_WORKDIR}" || exit 1
   assert_file_not_exist tests/run_bats_core_test_in_n2st.tnp.bash

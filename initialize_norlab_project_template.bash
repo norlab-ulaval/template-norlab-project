@@ -23,9 +23,10 @@ function tnp::install_norlab_project_template(){
   local tmp_msg
   local script_path
   local tmp_root
+  local repo_root_name
   script_path="$(realpath -q "${BASH_SOURCE[0]:-.}")"
   tmp_root="$(dirname "${script_path}")"
-
+  repo_root_name="$(basename "${tmp_root}")"
 
   # ....Load environment variables from file.......................................................
   if [[ ! -f  ".env.template-norlab-project.template" ]]; then
@@ -66,7 +67,7 @@ function tnp::install_norlab_project_template(){
   # ★ Note: Keep 'sudo', its required for preserving user interaction flow
   n2st::print_msg "Current repository structure
 ${MSG_DIMMED_FORMAT}
-$(sudo tree -L 1 -a --noreport --dirsfirst -I .git -I .idea -I .cadence "${PWD}")
+$(cd .. && sudo tree -L 2 -a --noreport --dirsfirst -F -I .git -I .idea -I .cadence "${repo_root_name}" | sed 's/^/     /' && cd "${repo_root_name}")
 ${MSG_END_FORMAT}"
 
   # ....Check branch protection feature repository compatibility...................................
@@ -81,7 +82,7 @@ ${MSG_END_FORMAT}"
     #local repo_is_in_organization
     #repo_is_in_organization="$(gh repo view --json isInOrganization --jq '.isInOrganization')"
 
-    if [[ ${repo_is_private} == true ]] && [[ ${repo_owner} != "norlab-ulaval" ]]; then
+    if [[ ${repo_is_private} == true ]] && [[ ${repo_owner} != "norlab-ulaval" && ${repo_owner} != "vaul-ulaval" ]]; then
       n2st::print_msg_warning "${repo_name} is a private repository owned by ${repo_owner}.
 
   ${MSG_WARNING_FORMAT}Be advised, enabling branch protection rule on a private repository require a GitHub Pro plan${MSG_END_FORMAT}.
@@ -90,7 +91,7 @@ ${MSG_END_FORMAT}"
     Make repository visibility public ${MSG_DIMMED_FORMAT}-> (press 'P')${MSG_END_FORMAT}
     Skip branch configuration ${MSG_DIMMED_FORMAT}-> (press 'S')${MSG_END_FORMAT}
     Try it any way (I feel lucky) ${MSG_DIMMED_FORMAT}-> (press 'L')${MSG_END_FORMAT}
-    Exit, change repo ownership to norlab-ulaval and try again ${MSG_DIMMED_FORMAT}-> (press any other key)${MSG_END_FORMAT}
+    Exit, change repo ownership to norlab-ulaval (or vaul-ulaval) and try again ${MSG_DIMMED_FORMAT}-> (press any other key)${MSG_END_FORMAT}
 "
       unset user_input
       read -n 1 -r user_input
@@ -106,7 +107,7 @@ ${MSG_END_FORMAT}"
         n2st::print_msg "Understood, you feel lucky ☘️"
         :
       else
-        n2st::print_msg "Understood, see you back when repository ownership is switched to norlab-ulaval."
+        n2st::print_msg "Understood, see you back when repository ownership is switched to norlab-ulaval (or vaul-ulaval)."
         return 0
       fi
     fi
@@ -496,9 +497,10 @@ ${MSG_END_FORMAT}"
   echo
   n2st::draw_horizontal_line_across_the_terminal_window '='
   cd "${tmp_root}" || return 1
-  n2st::print_msg_done "Repository initialization is complete. Your repository structure now look like this
+  n2st::print_msg_done "Repository initialization is complete.
+   Your repository structure now look like this
 ${MSG_DIMMED_FORMAT}
-$(tree -L 1 -a --noreport --dirsfirst -I .git -I .idea -I .cadence "${PWD}")
+$(cd .. && tree -L 2 -a --noreport --dirsfirst -F -I .git -I .idea -I .cadence "${repo_root_name}" | sed 's/^/     /' && cd "${repo_root_name}")
 ${MSG_END_FORMAT}
    You can delete the ${MSG_DIMMED_FORMAT}to_delete/${MSG_END_FORMAT} directory whenever you are ready.
 
