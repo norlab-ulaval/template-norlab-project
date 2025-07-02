@@ -447,6 +447,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
       if [[ ! -d "${super_project_path}/utilities/norlab-shell-script-tools"  ]]; then
         echo -e "[TNP] norlab-shell-script-tools is unreachable, cloning now in ${super_project_path}/utilities/norlab-shell-script-tools"
+        mkdir -p "${super_project_path}/utilities"
         git submodule \
           add https://github.com/norlab-ulaval/norlab-shell-script-tools.git \
           "${super_project_path}/utilities/norlab-shell-script-tools"
