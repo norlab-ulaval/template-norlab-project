@@ -1,6 +1,27 @@
 
 # Scratch
 
+Your plan `.junie/plans/test_updates_plan.md` is good but your implementation is bad and does not follow `.junie/guidelines.md`.
+Don't mock the logic that is actually tested.
+Copying the source code instead of using the real one fall into the mocking category, don't do that.
+Fix that please.
+Always follow guidelines at `.junie/guidelines.md`.
+
+---
+
+Given the last two commits: 
+- feat: enhance branch config, add JetBrains install logic and standalone mode Moments ago a0909d1a RedLeader962;
+- feat: enhance setup scripts with additional checks and tools installation Today 17:38 684cd593 RedLeader962;
+update unit-test and integration tests considering changes made to `configure_github_branch_protection.bash` and `initialize_norlab_project_template.bash`.
+Create at least one test case per new feature option, update current tests cases otherwise.
+Propose source code change if relevant. 
+Update Markdown documentation accordingly. 
+Check if it introduce any breaking change in the code base by running both unit-tests and integration tests.
+Always follow guidelines at `.junie/guidelines.md`.
+
+
+---
+
 Improve `configure_github_branch_protection.bash`: 
 - remove `gbp::status_check_configuration` function usage everywhere;
 - delete `gbp::status_check_configuration` function;

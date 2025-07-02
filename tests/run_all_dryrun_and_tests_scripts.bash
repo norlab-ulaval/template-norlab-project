@@ -50,8 +50,13 @@ tnp_root=$(git rev-parse --show-toplevel)
 bash "${tnp_root}/tests/tests_dryrun_and_tests_scripts/dryrun_configure_github_branch_protection.bash"
 EXIT_CODE1=$?
 
-bash "${tnp_root}/tests/tests_dryrun_and_tests_scripts/test_configure_github_branch_protection.bash"
-EXIT_CODE2=$?
+if [[ ${EXIT_CODE1} == 0 ]]; then
+  bash "${tnp_root}/tests/tests_dryrun_and_tests_scripts/test_configure_github_branch_protection.bash"
+  EXIT_CODE2=$?
+else
+  echo -e "${MSG_ERROR_FORMAT}Dry-run failure! Skip test_configure_github_branch_protection.bash execution${MSG_END_FORMAT}\n"
+  EXIT_CODE2=1
+fi
 
 # ....Teardown.....................................................................................
 

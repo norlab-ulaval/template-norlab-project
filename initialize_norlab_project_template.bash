@@ -21,20 +21,18 @@ function tnp::install_norlab_project_template(){
   local install_n2st
   local install_semantic_release
   local tmp_msg
-
-
-  # ....Pre-condition..............................................................................
-  if [[ ! -f  "README.norlab_template.md" ]]; then
-    echo -e "${MSG_ERROR_FORMAT}[ERROR]${MSG_END_FORMAT} 'initialize_norlab_project_template.bash' script should be executed from the project root!\n Current working directory is '$(pwd)'" 1>&2
-    return 1
-  fi
-
   local script_path
   local tmp_root
   script_path="$(realpath -q "${BASH_SOURCE[0]:-.}")"
   tmp_root="$(dirname "${script_path}")"
 
+
   # ....Load environment variables from file.......................................................
+  if [[ ! -f  ".env.template-norlab-project.template" ]]; then
+    echo -e "${MSG_ERROR_FORMAT}[ERROR]${MSG_END_FORMAT} 'initialize_norlab_project_template.bash' script should be executed from the project root!\n Current working directory is '$(pwd)'" 1>&2
+    return 1
+  fi
+
   cd "${tmp_root}" || return 1
   set -o allexport
   source .env.template-norlab-project.template
@@ -44,15 +42,71 @@ function tnp::install_norlab_project_template(){
 
   # ....Source NorLab Project Template dependencies................................................
 
-  # . . Import N2ST lib . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-  cd "${N2ST_PATH:?"Variable not set"}" || return 1
-  source "import_norlab_shell_script_tools_lib.bash"
+  source "${N2ST_PATH:?"Variable not set"}/import_norlab_shell_script_tools_lib.bash"
+  source configure_github_branch_protection.bash
+
+  # ....Pre-condition..............................................................................
+  gbp::validate_prerequisites
+
+  if ! command -v tree &> /dev/null; then
+    n2st::print_msg_error "Directory visualization command 'tree' is not installed. Please install it first:"
+    echo "See Requirements section -> https://github.com/norlab-ulaval/template-norlab-project?tab=readme-ov-file#requirements"
+    echo "See Requirements section -> https://github.com/norlab-ulaval/template-norlab-project/blob/main/README.md#requirements"
+    return 1
+  fi
 
   # ====Begin======================================================================================
 
   n2st::norlab_splash "Norlab-Project-Template 🦾"  https://github.com/norlab-ulaval/template-norlab-project
 
   n2st::print_formated_script_header 'initialize_norlab_project_template.bash' '='
+
+  # ....Force asking for password early............................................................
+  cd "${tmp_root}" || return 1
+  sudo tree -L 1 -a "${PWD}"
+
+  # ....Check branch protection feature repository compatibility...................................
+  local branch_configuration_enable=true
+  {
+    local repo_is_private
+    local repo_owner
+    local repo_name
+    repo_owner="$(gh repo view --json owner --jq '.owner.login')"
+    repo_is_private="$(gh repo view --json isPrivate --jq '.isPrivate')"
+    repo_name="$(gh repo view --json name --jq '.name')"
+    #local repo_is_in_organization
+    #repo_is_in_organization="$(gh repo view --json isInOrganization --jq '.isInOrganization')"
+
+    if [[ ${repo_is_private} == true ]] && [[ ${repo_owner} != "norlab-ulaval" ]]; then
+      n2st::print_msg_warning "${repo_name} is a private repository owned by ${repo_owner}.
+  ${MSG_WARNING_FORMAT}Be advised, enabling branch protection rule on a private repository require a GitHub Pro plan${MSG_END_FORMAT}.
+  Possible actions:
+    Make repository visibility public -> press 'P'
+    Skip branch configuration -> press 'S'
+    Try it any way (I feel lucky) -> press 'L'
+    Exit, change repo ownership to norlab-ulaval and try again -> press any other key
+  "
+      unset user_input
+      read -n 1 -r user_input
+      echo
+      if [[ "${user_input}" == "P" ]] || [[ "${user_input}" == "p" ]]; then
+        n2st::print_msg "Changing repository visibility to public"
+        gh repo edit --visibility public --accept-visibility-change-consequences > /dev/null || return 1
+        n2st::print_msg "${repo_name} is now $(gh repo view --json visibility --jq '.visibility')"
+      elif [[ "${user_input}" == "S" ]] || [[ "${user_input}" == "s" ]]; then
+        n2st::print_msg "Will skip branch configuration"
+        branch_configuration_enable=false
+      elif [[ "${user_input}" == "L" ]] || [[ "${user_input}" == "l" ]]; then
+        n2st::print_msg "Understood, you feel lucky ☘️"
+        :
+      else
+        n2st::print_msg "Understood, see you back when repository ownership is switched to norlab-ulaval."
+        return 0
+      fi
+    fi
+    
+    
+  }
 
   # ....Install NBS................................................................................
   {
@@ -155,9 +209,29 @@ function tnp::install_norlab_project_template(){
     fi
   }
 
+  # ....JetBrains files setup step.................................................................
+  local install_jetbrains_resources
+  {
+    n2st::print_msg_awaiting_input "Do you want to install JetBrains IDE resources i.e., run configurations and Junie AI guidelines?"
+    echo
+    tmp_msg="(press 'Y' to install, or press any other key to skip) "
+    n2st::echo_centering_str "${tmp_msg}" "\033[2m" " "
+    echo
+    unset user_input
+    read -n 1 -r user_input
+    echo
+
+    cd "${tmp_root}" || return 1
+    if [[ "${user_input}" == "Y" ]] || [[ "${user_input}" == "y" ]]; then
+      n2st::print_msg "Installing JetBrains IDE resources"
+      install_jetbrains_resources=true
+    else
+      n2st::print_msg "Skipping JetBrains IDE resources install"
+      install_jetbrains_resources=false
+    fi
+  }
 
   # ....Modify project prefix......................................................................
-
   {
     n2st::print_msg_awaiting_input "Choose a project wide environment variable prefix? (keep it short, two to four letters, alpha numeric only and no spacing)"
     echo
@@ -207,7 +281,6 @@ function tnp::install_norlab_project_template(){
   }
 
   # ....Set main readme file.......................................................................
-
   {
     n2st::print_msg_awaiting_input "Which readme file you want to use? NorLab (Default) or VAUL"
     echo
@@ -318,9 +391,9 @@ function tnp::install_norlab_project_template(){
   }
 
   # ....Execute branch protection rule setup.......................................................
-  source configure_github_branch_protection.bash
-  gbp::main "${gbp_args[@]}" || return 1
-
+  if [[ ${branch_configuration_enable} == true ]]; then
+    gbp::main "${gbp_args[@]}" || return 1
+  fi
 
   # ....Delayed N2ST deletion step.................................................................
   {
@@ -369,12 +442,23 @@ function tnp::install_norlab_project_template(){
     n2st::print_msg "Teardown clean-up"
     cd "${tmp_root}" || return 1
     mv initialize_norlab_project_template.bash "to_delete/initialize_norlab_project_template.bash"
-    mv configure_github_branch_protection.bash "to_delete/configure_github_branch_protection.bash"
+    if [[ ${branch_configuration_enable} == true ]]; then
+      mv configure_github_branch_protection.bash "to_delete/configure_github_branch_protection.bash"
+    fi
     git add "to_delete"
 
-    rm -Rf ".junie/plans"
-    mkdir -p ".junie/plans"
-    git add ".junie/plans"
+    if [[ ${install_jetbrains_resources} == true ]]; then
+      rm -Rf ".junie/plans"
+      mkdir -p ".junie/plans"
+      git add ".junie/plans"
+    else
+      rm -Rf ".run"
+      rm -Rf ".junie"
+      rm -Rf ".aiignore"
+      git add ".run"
+      git add ".junie"
+      git add ".aiignore"
+    fi
 
     rm -Rf "utilities/tmp"
     git add "utilities/tmp"
@@ -401,32 +485,41 @@ function tnp::install_norlab_project_template(){
   local remaining_config_steps_msg
   if [[ ${install_semantic_release} == true ]]; then
     remaining_config_steps_msg="Step 3 › Configure semantic-release GitHub token
-       https://github.com/norlab-ulaval/template-norlab-project/tree/main#step-3--optional-configure-semantic-release-github-token-detailed
-   -   Step 4 › Make it your own
-       https://github.com/norlab-ulaval/template-norlab-project/tree/main##step-4--make-it-your-own-detailed
+         https://github.com/norlab-ulaval/template-norlab-project/tree/main#step-3--optional-configure-semantic-release-github-token-detailed
+     -   Step 4 › Make it your own
+         https://github.com/norlab-ulaval/template-norlab-project/tree/main##step-4--make-it-your-own-detailed
 "
   else
     remaining_config_steps_msg="${MSG_DIMMED_FORMAT}Step 3 › (skip) Configure semantic-release GitHub token${MSG_END_FORMAT}
-   -   Step 4 › Make it your own
-       https://github.com/norlab-ulaval/template-norlab-project/tree/main##step-4--make-it-your-own-detailed
+     -   Step 4 › Make it your own
+         https://github.com/norlab-ulaval/template-norlab-project/tree/main##step-4--make-it-your-own-detailed
 "
   fi
 
-  n2st::print_msg_done "You can delete the ${MSG_DIMMED_FORMAT}to_delete/${MSG_END_FORMAT} directory whenever you are ready.
+  echo
+  n2st::draw_horizontal_line_across_the_terminal_window '='
+  n2st::print_msg_done "Repository initialization is complete. Your repository structure now look like this"
+
+  cd "${tmp_root}" || return 1
+  sudo tree -L 1 -a "${PWD}"
+
+  echo "
+   You can delete the ${MSG_DIMMED_FORMAT}to_delete/${MSG_END_FORMAT} directory whenever you are ready.
 
    NorLab project remaining configuration steps:
-   - ${MSG_DONE_FORMAT}✔ Step 1 › Generate the new repository${MSG_END_FORMAT}
-   - ${MSG_DONE_FORMAT}✔ Step 2 › Execute initialize_norlab_project_template.bash${MSG_END_FORMAT}
-   -   ${remaining_config_steps_msg}
+     - ${MSG_DONE_FORMAT}✔ Step 1 › Generate the new repository${MSG_END_FORMAT}
+     - ${MSG_DONE_FORMAT}✔ Step 2 › Execute initialize_norlab_project_template.bash${MSG_END_FORMAT}
+     -   ${remaining_config_steps_msg}"
+  if [[ ${branch_configuration_enable} == true ]]; then
+    echo "   Follow GitFlow branching scheme
+                                                                 tag:release-1
+     ┈┈ ${release_branch} ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈>
+          └┈ ${dev_branch} ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈┈┈>
+                        └┈ feature 1 ┈┈┈┘    └┈ feature 2 ┈┈┈┘"
+  fi
+  echo
+  echo "   Happy coding!"
 
-   Follow GitFlow branching scheme
-
-                                                               tag:release-1
-   ┈┈ ${release_branch} ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈→
-        └┈ ${dev_branch} ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈┈┈→
-                      └┈ feature 1 ┈┈┈┘    └┈ feature 2 ┈┈┈┘
-
-Happy coding!"
   n2st::print_formated_script_footer 'initialize_norlab_project_template.bash' '='
 
   cd "${tmp_root}" || return 1

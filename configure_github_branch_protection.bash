@@ -29,11 +29,6 @@ EOF
 )
 set -e
 
-# ====Dependencies=================================================================================
-tnp_error_prefix="\033[1;31m[TNP error]\033[0m"
-test -n "${N2ST_PATH}" || { echo -e "${tnp_error_prefix} The N2ST_PATH env var is not set!" 1>&2 && exit 1; }
-source "${N2ST_PATH:?err}/import_norlab_shell_script_tools_lib.bash"
-
 # ====Functions====================================================================================
 function gbp::validate_prerequisites() {
     local repo_url
@@ -278,11 +273,13 @@ function gbp::update_releaserc_json() {
 
     # Update the branches configuration using jq
     local updated_config
+    local jq_exit_code
     updated_config=$(jq --arg release_branch "${release_branch}" '
         .branches[0] = $release_branch
     ' .releaserc.json)
+    jq_exit_code=$?
 
-    if [[ $? -eq 0 ]]; then
+    if [[ ${jq_exit_code} -eq 0 ]]; then
         echo "${updated_config}" > .releaserc.json
         n2st::print_msg_done ".releaserc.json updated successfully"
         echo "Backup saved as .releaserc.json.backup"
@@ -386,7 +383,6 @@ function gbp::main() {
         esac
     done
 
-    ## Print header
     #n2st::norlab_splash "GitHub Branch Protection" "https://github.com/norlab-ulaval/template-norlab-project"
     #n2st::print_formated_script_header "$( basename $0)" "="
 
@@ -431,13 +427,58 @@ function gbp::main() {
 
     fi
 
-
     n2st::print_msg_done "Branch protection configuration completed"
     #n2st::print_formated_script_footer "$( basename $0)" "="
+    return 0
 }
 
+# ====Main=========================================================================================
 # Execute main function if script is run directly
+tnp_error_prefix="\033[1;31m[TNP error]\033[0m"
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-    gbp::main "$@"
+    arguments=( "$@" )
+    if [[ -n ${N2ST_PATH}  ]] || [[ -d "${N2ST_PATH}/utilities/norlab-shell-script-tools" ]]; then
+      :
+    else
+      echo -e "[TNP] The N2ST_PATH env var is not set! Assuming we are in stand alone mode"
+
+      # ....Stand alone logic......................................................................
+      super_project_path=$(git rev-parse --show-toplevel)
+
+      if [[ ! -d "${super_project_path}/utilities/norlab-shell-script-tools"  ]]; then
+        echo -e "[TNP] norlab-shell-script-tools is unreachable, cloning now in ${super_project_path}/utilities/norlab-shell-script-tools"
+        git submodule \
+          add https://github.com/norlab-ulaval/norlab-shell-script-tools.git \
+          "${super_project_path}/utilities/norlab-shell-script-tools"
+
+        {
+          _tmp_cwd=$(pwd)
+          cd "${super_project_path}" || exit 1
+
+          # Traverse the submodule recursively to fetch any sub-submodule
+          git submodule update --remote --recursive --init
+
+          # Commit the submodule to your repository
+          git add .gitmodules
+          git add utilities/norlab-shell-script-tools
+          git commit -m 'Added norlab-shell-script-tools submodule to repository'
+
+          cd "${_tmp_cwd}" || exit 1
+          unset _tmp_cwd
+        }
+      fi
+
+      export N2ST_PATH="${super_project_path}/utilities/norlab-shell-script-tools"
+    fi
+
+    # ....Load dependencies......................................................................
+    source "${N2ST_PATH:?err}/import_norlab_shell_script_tools_lib.bash"
+
+    # ....Execute branch configuration.............................................................
+    gbp::main "${arguments[@]}"
     exit $?
+else
+   # This script is being sourced, ie: __name__="__source__"
+   test -n "${N2ST_PATH}" || { echo -e "${tnp_error_prefix} The N2ST_PATH env var is not set!" 1>&2 && exit 1; }
+   source "${N2ST_PATH:?err}/import_norlab_shell_script_tools_lib.bash"
 fi

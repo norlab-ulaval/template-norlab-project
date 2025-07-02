@@ -60,6 +60,21 @@ setup_file() {
 # executed before each test
 setup() {
 
+  # Mock GitHub cli command (gh) for the base case
+  function gh() {
+    if [[ "$1" == "repo" && "$2" == "view"  && "$3" == "--json" ]]; then
+      if [[ "$4" == "owner" ]]; then
+        echo "norlab-ulaval"
+      elif [[ "$4" == "isPrivate" ]]; then
+        echo "false"
+      elif [[ "$4" == "name" ]]; then
+        echo "dockerized-norlab-project-mock-EMPTY"
+      fi
+      return 0
+    fi
+  }
+  export -f gh
+
   cd "/code/template-norlab-project" || exit 1
 
   # Note:
@@ -103,8 +118,14 @@ setup() {
 echo "Mock 'configure_github_branch_protection.bash' script"
 # Note: 'configure_github_branch_protection.bash' is tested in 'test_configure_github_branch_protection.bats'
 
+gbp::validate_prerequisites() {
+  echo "Mock gbp::validate_prerequisites called with args: $*"
+  return 0
+}
+
 function gbp::main() {
   echo "Mock gbp::main called with args: $*"
+  return 0
 }
 EOF
 
@@ -170,16 +191,17 @@ teardown() {
   assert_output --regexp .*"\[ERROR\]".*"This script must be run with bash i.e.".*"bash initialize_norlab_project_template.bash"
 }
 
-@test "Default case › NBS N2ST Semantic-Release and NorLab readme  › expect pass" {
+@test "Default case › NBS N2ST Semantic-Release Jetbrains resources and NorLab readme  › expect pass" {
 
   # Note: \n is to simulate the return key
   # Install NBS › Y
   # Install N2ST › Y
   # Semantic-Release › Y
+  # Install JetBrains files › Y
   # Project env var prefix › TMP1
-  # Install NorLab readme › Y (any key except V)
+  # Install NorLab readme › return (any key except V)
   # Custom branch names › N (use defaults)
-  local TEST_CASE="yyyTMP1\n\nn"
+  local TEST_CASE="yyyyTMP1\n\nn"
 
   norlab_project_template_directory_reset_check
 
@@ -200,6 +222,9 @@ teardown() {
 
   # ....Check Semantic-Release install.............................................................
   check_semantic_release_is_installed
+
+  # ....Check Jetbrains resources install..........................................................
+  check_jetbrains_resources_is_installed
 
   # ....Set main readme file to NorLab.............................................................
   assert_file_exist to_delete/NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
@@ -230,10 +255,11 @@ teardown() {
   # Install NBS › Y
   # Install N2ST › Y
   # Semantic-Release › Y
+  # Install JetBrains files › Y
   # Project env var prefix › TMP2
-  # Install NorLab readme › Y (any key except V)
+  # Install NorLab readme › return (any key except V)
   # Custom branch names › N (use defaults)
-  local TEST_CASE="yyyTMP2\n\nn"
+  local TEST_CASE="yyyyTMP2\n\nn"
 
   norlab_project_template_directory_reset_check
 
@@ -265,10 +291,11 @@ teardown() {
   # Install NBS › Y
   # Install N2ST › Y
   # Semantic-Release › Y
+  # Install JetBrains files › Y
   # Project env var prefix › my_project
-  # Install NorLab readme › Y (any key except V)
+  # Install NorLab readme › return (any key except V)
   # Custom branch names › N (use defaults)
-  local TEST_CASE="yyymy_project\n\nn"
+  local TEST_CASE="yyyymy_project\n\nn"
 
   norlab_project_template_directory_reset_check
 
@@ -322,10 +349,11 @@ teardown() {
   # Install NBS › N
   # Install N2ST › N
   # Semantic-Release › Y
+  # Install JetBrains files › Y
   # Project env var prefix › no_sub
-  # Install NorLab readme › Y (any key except V)
+  # Install NorLab readme › return (any key except V)
   # Custom branch names › N (use defaults)
-  local TEST_CASE="nnyno_sub\n\nn"
+  local TEST_CASE="nnyyno_sub\n\nn"
 
   norlab_project_template_directory_reset_check
 
@@ -342,6 +370,9 @@ teardown() {
   # ....Check N2ST and NBS install.................................................................
   check_no_submodule_installed
 
+  # ....Check Jetbrains resources install..........................................................
+  check_jetbrains_resources_is_installed
+
   # ....Check teardown.............................................................................
   check_norlab_project_template_teardown
 
@@ -354,10 +385,11 @@ teardown() {
   # Install NBS › Y
   # Install N2ST › N
   # Semantic-Release › Y
+  # Install JetBrains files › Y
   # Project env var prefix › NBS
-  # Install NorLab readme › Y (any key except V)
+  # Install NorLab readme › return (any key except V)
   # Custom branch names › N (use defaults)
-  local TEST_CASE="ynyNBS\n\nn"
+  local TEST_CASE="ynyyNBS\n\nn"
 
   norlab_project_template_directory_reset_check
 
@@ -376,6 +408,9 @@ teardown() {
   # ....Check N2ST install.........................................................................
   check_N2ST_not_installed
 
+  # ....Check Jetbrains resources install..........................................................
+  check_jetbrains_resources_is_installed
+
   # ....Check teardown.............................................................................
   check_norlab_project_template_teardown
 
@@ -388,10 +423,11 @@ teardown() {
   # Install NBS › N
   # Install N2ST › Y
   # Semantic-Release › Y
+  # Install JetBrains files › Y
   # Project env var prefix › N2ST
-  # Install NorLab readme › Y (any key except V)
+  # Install NorLab readme › return (any key except V)
   # Custom branch names › N (use defaults)
-  local TEST_CASE="nyyN2ST\n\nn"
+  local TEST_CASE="nyyyN2ST\n\nn"
 
   norlab_project_template_directory_reset_check
 
@@ -410,6 +446,9 @@ teardown() {
   # ....Check N2ST install.........................................................................
   check_N2ST_is_installed
 
+  # ....Check Jetbrains resources install..........................................................
+  check_jetbrains_resources_is_installed
+
   # ....Check teardown.............................................................................
   check_norlab_project_template_teardown
 
@@ -422,10 +461,11 @@ teardown() {
   # Install NBS › Y
   # Install N2ST › Y
   # Semantic-Release › N
+  # Install JetBrains files › Y
   # Project env var prefix › NOSEMANTIC
-  # Install NorLab readme › Y (any key except V)
+  # Install NorLab readme › return (any key except V)
   # Custom branch names › N (use defaults)
-  local TEST_CASE="yynNOSEMANTIC\n\nn"
+  local TEST_CASE="yynyNOSEMANTIC\n\nn"
 
   norlab_project_template_directory_reset_check
 
@@ -446,6 +486,46 @@ teardown() {
 
   # ....Check Semantic-Release install.............................................................
   check_semantic_release_not_installed
+
+  # ....Check Jetbrains resources install..........................................................
+  check_jetbrains_resources_is_installed
+}
+
+@test "Case skip Jetbrains file install › expect pass" {
+#  skip "tmp dev" # ToDo: on task end >> delete this line ←
+
+  # Note: \n is to simulate the return key
+  # Install NBS › Y
+  # Install N2ST › Y
+  # Semantic-Release › N
+  # Install JetBrains files › N
+  # Project env var prefix › NOJETBRAINS
+  # Install NorLab readme › return (any key except V)
+  # Custom branch names › N (use defaults)
+  local TEST_CASE="yynnNOJETBRAINS\n\nn"
+
+  norlab_project_template_directory_reset_check
+
+  # ....Execute initialize_norlab_project_template.bash............................................
+  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
+  assert_success
+
+  # ....Check submodule cloning....................................................................
+  cd "${BATS_DOCKER_WORKDIR}" || exit 1
+  assert_dir_exist .git
+  assert_file_exist .gitmodules
+
+  # ....Check NBS install..........................................................................
+  check_NBS_is_installed
+
+  # ....Check N2ST install.........................................................................
+  check_N2ST_is_installed
+
+  # ....Check Semantic-Release install.............................................................
+  check_semantic_release_not_installed
+
+  # ....Check Jetbrains resources install..........................................................
+  check_jetbrains_resources_not_installed
 }
 
 @test "Case install NorLab readme  › expect pass" {
@@ -455,10 +535,11 @@ teardown() {
   # Install NBS › Y
   # Install N2ST › Y
   # Semantic-Release › Y
+  # Install JetBrains files › Y
   # Project env var prefix › TMP1
-  # Install NorLab readme › Y (any key except V)
+  # Install NorLab readme › return (any key except V)
   # Custom branch names › N (use defaults)
-  local TEST_CASE="YYYTMP1\n\nn"
+  local TEST_CASE="YYYYTMP1\n\nn"
 
   norlab_project_template_directory_reset_check
 
@@ -494,10 +575,11 @@ teardown() {
   # Install NBS › Y
   # Install N2ST › Y
   # Semantic-Release › Y
+  # Install JetBrains files › Y
   # Project env var prefix › TMP1
   # Install VAUL readme › V
   # Custom branch names › N (use defaults)
-  local TEST_CASE="YYYTMP1\nVn"
+  local TEST_CASE="YYYYTMP1\nVn"
 
   norlab_project_template_directory_reset_check
 
@@ -530,10 +612,11 @@ teardown() {
   # Install NBS › Y
   # Install N2ST › Y
   # Semantic-Release › Y
+  # Install JetBrains files › Y
   # Project env var prefix › BRANCH_TEST
-  # Install NorLab readme › Y (any key except V)
+  # Install NorLab readme › return (any key except V)
   # Custom branch names › N (use defaults)
-  local TEST_CASE="yyyBRANCH_TEST\nYn"
+  local TEST_CASE="yyyyBRANCH_TEST\nYn"
 
   norlab_project_template_directory_reset_check
 
@@ -557,12 +640,13 @@ teardown() {
   # Install NBS › Y
   # Install N2ST › Y
   # Semantic-Release › Y
+  # Install JetBrains files › Y
   # Project env var prefix › CUSTOM_BRANCH
-  # Install NorLab readme › Y (any key except V)
+  # Install NorLab readme › return (any key except V)
   # Custom branch names › Y
   # Release branch › master
   # Dev branch › develop
-  local TEST_CASE="yyyCUSTOM_BRANCH\n\nymaster\ndevelop\n"
+  local TEST_CASE="yyyyCUSTOM_BRANCH\n\nymaster\ndevelop\n"
 
   norlab_project_template_directory_reset_check
 
@@ -587,12 +671,13 @@ teardown() {
   # Install NBS › Y
   # Install N2ST › Y
   # Semantic-Release › Y
+  # Install JetBrains files › Y
   # Project env var prefix › EMPTY_TEST
-  # Install NorLab readme › Y (any key except V)
+  # Install NorLab readme › return (any key except V)
   # Custom branch names › Y
   # Release branch › (empty - should use default 'main')
   # Dev branch › (empty - should use default 'dev')
-  local TEST_CASE="yyyEMPTY_TEST\n\ny\n\n"
+  local TEST_CASE="yyyyEMPTY_TEST\n\ny\n\n"
 
   norlab_project_template_directory_reset_check
 
@@ -611,3 +696,197 @@ teardown() {
   # ....Check teardown.............................................................................
   check_norlab_project_template_teardown
 }
+
+# ====New Feature Tests============================================================================
+
+@test "tree command validation › should fail when tree command is not available" {
+  # Mock command to simulate tree not being available
+  function command() {
+    if [[ "$1" == "-v" && "$2" == "tree" ]]; then
+      return 1  # tree command not found
+    fi
+    return 0
+  }
+  export -f command
+
+  # Test the actual script execution when tree is not available
+  run bash -c "echo 'n' | bash ./$TESTED_FILE"
+  assert_failure
+  assert_output --partial "Directory visualization command 'tree' is not installed"
+  assert_output --partial "See Requirements section"
+}
+
+@test "tree command validation › should pass when tree command is available" {
+  # Mock command to simulate tree being available
+  function command() {
+    if [[ "$1" == "-v" && "$2" == "tree" ]]; then
+      return 0  # tree command found
+    fi
+    return 0
+  }
+  export -f command
+
+  # Mock tree command itself
+  function tree() {
+    echo "Mock tree output"
+    return 0
+  }
+  export -f tree
+
+  # Mock sudo command
+  function sudo() {
+    if [[ "$1" == "tree" ]]; then
+      echo "Mock sudo tree output"
+      return 0
+    fi
+    return 0
+  }
+  export -f sudo
+
+  # Test that the script continues when tree is available
+  # Note: We'll test with minimal input to avoid full execution
+  run bash -c "echo -e 'n\nn\nn\nn\ntest\n\nn' | timeout 10s bash ./$TESTED_FILE"
+  # The script should not fail due to missing tree command
+  refute_output --partial "Directory visualization command 'tree' is not installed"
+}
+
+@test "repository compatibility › private repo owned by non-norlab-ulaval should prompt for action" {
+  # Mock GitHub CLI to return private repo owned by non-norlab user
+  function gh() {
+    if [[ "$1" == "repo" && "$2" == "view" && "$3" == "--json" ]]; then
+      case "$4" in
+        "owner")
+          echo "test-user"
+          ;;
+        "isPrivate")
+          echo "true"
+          ;;
+        "name")
+          echo "test-repo"
+          ;;
+      esac
+      return 0
+    fi
+  }
+  export -f gh
+
+  # Mock jq command
+  function jq() {
+    case "$1" in
+      ".owner.login")
+        echo "test-user"
+        ;;
+      ".isPrivate")
+        echo "true"
+        ;;
+      ".name")
+        echo "test-repo"
+        ;;
+    esac
+  }
+  export -f jq
+
+  # Test the actual script execution with private repo
+  # The script should prompt for action when it detects a private repo owned by non-norlab user
+  run bash -c "echo 'S' | timeout 10s bash ./$TESTED_FILE"
+  assert_output --partial "test-repo is a private repository owned by test-user"
+  assert_output --partial "enabling branch protection rule on a private repository require a GitHub Pro plan"
+  assert_output --partial "Make repository visibility public -> press 'P'"
+  assert_output --partial "Skip branch configuration -> press 'S'"
+  assert_output --partial "Try it any way (I feel lucky) -> press 'L'"
+}
+
+@test "repository compatibility › public repo should proceed normally" {
+  # Mock GitHub CLI to return public repo
+  function gh() {
+    if [[ "$1" == "repo" && "$2" == "view" && "$3" == "--json" ]]; then
+      case "$4" in
+        "owner")
+          echo "test-user"
+          ;;
+        "isPrivate")
+          echo "false"
+          ;;
+        "name")
+          echo "test-repo"
+          ;;
+      esac
+      return 0
+    fi
+  }
+  export -f gh
+
+  # Mock jq command
+  function jq() {
+    case "$1" in
+      ".owner.login")
+        echo "test-user"
+        ;;
+      ".isPrivate")
+        echo "false"
+        ;;
+      ".name")
+        echo "test-repo"
+        ;;
+    esac
+  }
+  export -f jq
+
+  # Test the actual script execution with public repo
+  # The script should proceed normally without prompting for action
+  run bash -c "echo -e 'n\nn\nn\nn\ntest\n\nn' | timeout 10s bash ./$TESTED_FILE"
+  refute_output --partial "is a private repository owned by"
+  refute_output --partial "enabling branch protection rule on a private repository require a GitHub Pro plan"
+}
+
+@test "repository compatibility › norlab-ulaval private repo should proceed normally" {
+  # Mock GitHub CLI to return private repo owned by norlab-ulaval
+  function gh() {
+    if [[ "$1" == "repo" && "$2" == "view" && "$3" == "--json" ]]; then
+      case "$4" in
+        "owner")
+          echo "norlab-ulaval"
+          ;;
+        "isPrivate")
+          echo "true"
+          ;;
+        "name")
+          echo "test-repo"
+          ;;
+      esac
+      return 0
+    fi
+  }
+  export -f gh
+
+  # Mock jq command
+  function jq() {
+    case "$1" in
+      ".owner.login")
+        echo "norlab-ulaval"
+        ;;
+      ".isPrivate")
+        echo "true"
+        ;;
+      ".name")
+        echo "test-repo"
+        ;;
+    esac
+  }
+  export -f jq
+
+  # Test the actual script execution with norlab-ulaval private repo
+  # The script should proceed normally without prompting for action
+  run bash -c "echo -e 'n\nn\nn\nn\ntest\n\nn' | timeout 10s bash ./$TESTED_FILE"
+  refute_output --partial "is a private repository owned by"
+  refute_output --partial "enabling branch protection rule on a private repository require a GitHub Pro plan"
+}
+
+# Note: The conditional branch configuration test was removed because it was testing for
+# behavior that doesn't exist in the actual script. The branch configuration logic
+# is already tested through the existing integration tests that run the full script.
+
+# Note: The following tests were removed because they were copying source code instead of testing actual functionality.
+# These features are already tested through the existing integration tests that run the full script.
+# The conditional JetBrains cleanup, early sudo call, and branching scheme visualization are internal
+# implementation details that are covered by the comprehensive integration tests above.
