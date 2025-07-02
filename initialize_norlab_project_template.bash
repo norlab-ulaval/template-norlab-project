@@ -63,9 +63,10 @@ function tnp::install_norlab_project_template(){
 
   # ....Force asking for password early............................................................
   cd "${tmp_root}" || return 1
+  # ★ Note: Keep 'sudo', its required for preserving user interaction flow
   n2st::print_msg "Current repository structure
 ${MSG_DIMMED_FORMAT}
-$(tree -L 1 -a --noreport --dirsfirst -I .git -I .idea -I .cadence "${PWD}")
+$(sudo tree -L 1 -a --noreport --dirsfirst -I .git -I .idea -I .cadence "${PWD}")
 ${MSG_END_FORMAT}"
 
   # ....Check branch protection feature repository compatibility...................................
@@ -337,6 +338,7 @@ ${MSG_END_FORMAT}"
   # ....Configure GitHub branch protection.....................................................
   local release_branch="main"
   local dev_branch="dev"
+  if [[ ${branch_configuration_enable} == true ]]; then
   {
     declare -a gbp_args=()
 
@@ -395,8 +397,7 @@ ${MSG_END_FORMAT}"
     echo
   }
 
-  # ....Execute branch protection rule setup.......................................................
-  if [[ ${branch_configuration_enable} == true ]]; then
+    # ....Execute branch protection rule setup.....................................................
     gbp::main "${gbp_args[@]}" || return 1
   fi
 
@@ -492,13 +493,11 @@ ${MSG_END_FORMAT}"
     remaining_config_steps_msg="Step 3 › Configure semantic-release GitHub token
          https://github.com/norlab-ulaval/template-norlab-project/tree/main#step-3--optional-configure-semantic-release-github-token-detailed
      -   Step 4 › Make it your own
-         https://github.com/norlab-ulaval/template-norlab-project/tree/main##step-4--make-it-your-own-detailed
-"
+         https://github.com/norlab-ulaval/template-norlab-project/tree/main##step-4--make-it-your-own-detailed"
   else
     remaining_config_steps_msg="${MSG_DIMMED_FORMAT}Step 3 › (skip) Configure semantic-release GitHub token${MSG_END_FORMAT}
      -   Step 4 › Make it your own
-         https://github.com/norlab-ulaval/template-norlab-project/tree/main##step-4--make-it-your-own-detailed
-"
+         https://github.com/norlab-ulaval/template-norlab-project/tree/main##step-4--make-it-your-own-detailed"
   fi
 
   echo
@@ -515,7 +514,8 @@ ${MSG_END_FORMAT}
      - ${MSG_DONE_FORMAT}✔ Step 2 › Execute initialize_norlab_project_template.bash${MSG_END_FORMAT}
      -   ${remaining_config_steps_msg}"
   if [[ ${branch_configuration_enable} == true ]]; then
-    echo -e "   Follow GitFlow branching scheme
+    echo -e "
+   Follow GitFlow branching scheme
                                                                  tag:release-1
      ┈┈ ${release_branch} ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈>
           └┈ ${dev_branch} ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈┈┈>
