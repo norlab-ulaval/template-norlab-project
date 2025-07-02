@@ -194,6 +194,34 @@ function gbp::create_branch_if_not_exists() {
     fi
 }
 
+function gbp::configure_repository_settings() {
+    local dry_run="$1"
+
+    n2st::print_msg "Configuring repository-wide settings"
+
+    declare -a gh_repo_edit_flags=(gh repo edit)
+    gh_repo_edit_flags+=( --enable-auto-merge
+                          --delete-branch-on-merge
+                          --enable-merge-commit
+                          --enable-squash-merge
+                          --allow-update-branch
+                          )
+
+    if [[ "$dry_run" == "true" ]]; then
+        n2st::print_msg "DRY RUN: Would configure repository with:"
+        echo "${gh_repo_edit_flags[*]}"
+        return 0
+    fi
+
+    # Apply repository-wide settings using gh repo edit
+    if "${gh_repo_edit_flags[@]}" > /dev/null 2>&1; then
+        n2st::print_msg_done "Repository-wide settings configured"
+    else
+        n2st::print_msg_error "Failed to configure repository-wide settings"
+        return 1
+    fi
+}
+
 function gbp::configure_branch_protection() {
     local branch_name="$1"
     local dry_run="$2"
@@ -394,6 +422,9 @@ function gbp::main() {
     test -n "${REPO_OWNER:?err}" || n2st::print_msg_error_and_exit "Env variable REPO_OWNER need to be set and non-empty."
     test -n "${REPO_NAME:?err}" || n2st::print_msg_error_and_exit "Env variable REPO_NAME need to be set and non-empty."
     test -n "${REPO_DEFAULT_BRANCH:?err}" || n2st::print_msg_error_and_exit "Env variable REPO_DEFAULT_BRANCH need to be set and non-empty."
+
+    # Configure repository-wide settings
+    gbp::configure_repository_settings "${dry_run}" || return 1
 
     # Set release branch to repository default if not specified by user
     if [[ "$release_branch_specified" == "false" ]]; then
