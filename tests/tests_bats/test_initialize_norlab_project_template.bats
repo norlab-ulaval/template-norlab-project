@@ -60,6 +60,21 @@ setup_file() {
 # executed before each test
 setup() {
 
+  # Mock GitHub cli command (gh) for the base case
+  function gh() {
+    if [[ "$1" == "repo" && "$2" == "view"  && "$3" == "--json" ]]; then
+      if [[ "$4" == "owner" ]]; then
+        echo "norlab-ulaval"
+      elif [[ "$4" == "isPrivate" ]]; then
+        echo "false"
+      elif [[ "$4" == "name" ]]; then
+        echo "dockerized-norlab-project-mock-EMPTY"
+      fi
+      return 0
+    fi
+  }
+  export -f gh
+
   cd "/code/template-norlab-project" || exit 1
 
   # Note:
@@ -176,16 +191,17 @@ teardown() {
   assert_output --regexp .*"\[ERROR\]".*"This script must be run with bash i.e.".*"bash initialize_norlab_project_template.bash"
 }
 
-@test "Default case › NBS N2ST Semantic-Release and NorLab readme  › expect pass" {
+@test "Default case › NBS N2ST Semantic-Release Jetbrains resources and NorLab readme  › expect pass" {
 
   # Note: \n is to simulate the return key
   # Install NBS › Y
   # Install N2ST › Y
   # Semantic-Release › Y
+  # Install JetBrains files › Y
   # Project env var prefix › TMP1
-  # Install NorLab readme › Y (any key except V)
+  # Install NorLab readme › return (any key except V)
   # Custom branch names › N (use defaults)
-  local TEST_CASE="yyyTMP1\n\nn"
+  local TEST_CASE="yyyyTMP1\n\nn"
 
   norlab_project_template_directory_reset_check
 
@@ -206,6 +222,9 @@ teardown() {
 
   # ....Check Semantic-Release install.............................................................
   check_semantic_release_is_installed
+
+  # ....Check Jetbrains resources install..........................................................
+  check_jetbrains_resources_is_installed
 
   # ....Set main readme file to NorLab.............................................................
   assert_file_exist to_delete/NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
@@ -236,10 +255,11 @@ teardown() {
   # Install NBS › Y
   # Install N2ST › Y
   # Semantic-Release › Y
+  # Install JetBrains files › Y
   # Project env var prefix › TMP2
-  # Install NorLab readme › Y (any key except V)
+  # Install NorLab readme › return (any key except V)
   # Custom branch names › N (use defaults)
-  local TEST_CASE="yyyTMP2\n\nn"
+  local TEST_CASE="yyyyTMP2\n\nn"
 
   norlab_project_template_directory_reset_check
 
@@ -271,10 +291,11 @@ teardown() {
   # Install NBS › Y
   # Install N2ST › Y
   # Semantic-Release › Y
+  # Install JetBrains files › Y
   # Project env var prefix › my_project
-  # Install NorLab readme › Y (any key except V)
+  # Install NorLab readme › return (any key except V)
   # Custom branch names › N (use defaults)
-  local TEST_CASE="yyymy_project\n\nn"
+  local TEST_CASE="yyyymy_project\n\nn"
 
   norlab_project_template_directory_reset_check
 
@@ -328,10 +349,11 @@ teardown() {
   # Install NBS › N
   # Install N2ST › N
   # Semantic-Release › Y
+  # Install JetBrains files › Y
   # Project env var prefix › no_sub
-  # Install NorLab readme › Y (any key except V)
+  # Install NorLab readme › return (any key except V)
   # Custom branch names › N (use defaults)
-  local TEST_CASE="nnyno_sub\n\nn"
+  local TEST_CASE="nnyyno_sub\n\nn"
 
   norlab_project_template_directory_reset_check
 
@@ -348,6 +370,9 @@ teardown() {
   # ....Check N2ST and NBS install.................................................................
   check_no_submodule_installed
 
+  # ....Check Jetbrains resources install..........................................................
+  check_jetbrains_resources_is_installed
+
   # ....Check teardown.............................................................................
   check_norlab_project_template_teardown
 
@@ -360,10 +385,11 @@ teardown() {
   # Install NBS › Y
   # Install N2ST › N
   # Semantic-Release › Y
+  # Install JetBrains files › Y
   # Project env var prefix › NBS
-  # Install NorLab readme › Y (any key except V)
+  # Install NorLab readme › return (any key except V)
   # Custom branch names › N (use defaults)
-  local TEST_CASE="ynyNBS\n\nn"
+  local TEST_CASE="ynyyNBS\n\nn"
 
   norlab_project_template_directory_reset_check
 
@@ -382,6 +408,9 @@ teardown() {
   # ....Check N2ST install.........................................................................
   check_N2ST_not_installed
 
+  # ....Check Jetbrains resources install..........................................................
+  check_jetbrains_resources_is_installed
+
   # ....Check teardown.............................................................................
   check_norlab_project_template_teardown
 
@@ -394,10 +423,11 @@ teardown() {
   # Install NBS › N
   # Install N2ST › Y
   # Semantic-Release › Y
+  # Install JetBrains files › Y
   # Project env var prefix › N2ST
-  # Install NorLab readme › Y (any key except V)
+  # Install NorLab readme › return (any key except V)
   # Custom branch names › N (use defaults)
-  local TEST_CASE="nyyN2ST\n\nn"
+  local TEST_CASE="nyyyN2ST\n\nn"
 
   norlab_project_template_directory_reset_check
 
@@ -416,6 +446,9 @@ teardown() {
   # ....Check N2ST install.........................................................................
   check_N2ST_is_installed
 
+  # ....Check Jetbrains resources install..........................................................
+  check_jetbrains_resources_is_installed
+
   # ....Check teardown.............................................................................
   check_norlab_project_template_teardown
 
@@ -428,10 +461,11 @@ teardown() {
   # Install NBS › Y
   # Install N2ST › Y
   # Semantic-Release › N
+  # Install JetBrains files › Y
   # Project env var prefix › NOSEMANTIC
-  # Install NorLab readme › Y (any key except V)
+  # Install NorLab readme › return (any key except V)
   # Custom branch names › N (use defaults)
-  local TEST_CASE="yynNOSEMANTIC\n\nn"
+  local TEST_CASE="yynyNOSEMANTIC\n\nn"
 
   norlab_project_template_directory_reset_check
 
@@ -452,6 +486,46 @@ teardown() {
 
   # ....Check Semantic-Release install.............................................................
   check_semantic_release_not_installed
+
+  # ....Check Jetbrains resources install..........................................................
+  check_jetbrains_resources_is_installed
+}
+
+@test "Case skip Jetbrains file install › expect pass" {
+#  skip "tmp dev" # ToDo: on task end >> delete this line ←
+
+  # Note: \n is to simulate the return key
+  # Install NBS › Y
+  # Install N2ST › Y
+  # Semantic-Release › N
+  # Install JetBrains files › N
+  # Project env var prefix › NOJETBRAINS
+  # Install NorLab readme › return (any key except V)
+  # Custom branch names › N (use defaults)
+  local TEST_CASE="yynnNOJETBRAINS\n\nn"
+
+  norlab_project_template_directory_reset_check
+
+  # ....Execute initialize_norlab_project_template.bash............................................
+  run bash -c "echo -e \"${TEST_CASE}\" | bash ./$TESTED_FILE"
+  assert_success
+
+  # ....Check submodule cloning....................................................................
+  cd "${BATS_DOCKER_WORKDIR}" || exit 1
+  assert_dir_exist .git
+  assert_file_exist .gitmodules
+
+  # ....Check NBS install..........................................................................
+  check_NBS_is_installed
+
+  # ....Check N2ST install.........................................................................
+  check_N2ST_is_installed
+
+  # ....Check Semantic-Release install.............................................................
+  check_semantic_release_not_installed
+
+  # ....Check Jetbrains resources install..........................................................
+  check_jetbrains_resources_not_installed
 }
 
 @test "Case install NorLab readme  › expect pass" {
@@ -461,10 +535,11 @@ teardown() {
   # Install NBS › Y
   # Install N2ST › Y
   # Semantic-Release › Y
+  # Install JetBrains files › Y
   # Project env var prefix › TMP1
-  # Install NorLab readme › Y (any key except V)
+  # Install NorLab readme › return (any key except V)
   # Custom branch names › N (use defaults)
-  local TEST_CASE="YYYTMP1\n\nn"
+  local TEST_CASE="YYYYTMP1\n\nn"
 
   norlab_project_template_directory_reset_check
 
@@ -500,10 +575,11 @@ teardown() {
   # Install NBS › Y
   # Install N2ST › Y
   # Semantic-Release › Y
+  # Install JetBrains files › Y
   # Project env var prefix › TMP1
   # Install VAUL readme › V
   # Custom branch names › N (use defaults)
-  local TEST_CASE="YYYTMP1\nVn"
+  local TEST_CASE="YYYYTMP1\nVn"
 
   norlab_project_template_directory_reset_check
 
@@ -536,10 +612,11 @@ teardown() {
   # Install NBS › Y
   # Install N2ST › Y
   # Semantic-Release › Y
+  # Install JetBrains files › Y
   # Project env var prefix › BRANCH_TEST
-  # Install NorLab readme › Y (any key except V)
+  # Install NorLab readme › return (any key except V)
   # Custom branch names › N (use defaults)
-  local TEST_CASE="yyyBRANCH_TEST\nYn"
+  local TEST_CASE="yyyyBRANCH_TEST\nYn"
 
   norlab_project_template_directory_reset_check
 
@@ -563,12 +640,13 @@ teardown() {
   # Install NBS › Y
   # Install N2ST › Y
   # Semantic-Release › Y
+  # Install JetBrains files › Y
   # Project env var prefix › CUSTOM_BRANCH
-  # Install NorLab readme › Y (any key except V)
+  # Install NorLab readme › return (any key except V)
   # Custom branch names › Y
   # Release branch › master
   # Dev branch › develop
-  local TEST_CASE="yyyCUSTOM_BRANCH\n\nymaster\ndevelop\n"
+  local TEST_CASE="yyyyCUSTOM_BRANCH\n\nymaster\ndevelop\n"
 
   norlab_project_template_directory_reset_check
 
@@ -593,12 +671,13 @@ teardown() {
   # Install NBS › Y
   # Install N2ST › Y
   # Semantic-Release › Y
+  # Install JetBrains files › Y
   # Project env var prefix › EMPTY_TEST
-  # Install NorLab readme › Y (any key except V)
+  # Install NorLab readme › return (any key except V)
   # Custom branch names › Y
   # Release branch › (empty - should use default 'main')
   # Dev branch › (empty - should use default 'dev')
-  local TEST_CASE="yyyEMPTY_TEST\n\ny\n\n"
+  local TEST_CASE="yyyyEMPTY_TEST\n\ny\n\n"
 
   norlab_project_template_directory_reset_check
 

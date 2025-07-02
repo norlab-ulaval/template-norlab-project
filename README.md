@@ -52,8 +52,45 @@ Maintainer <a href="https://redleader962.github.io">Luc Coupal</a>
 </div>
 
 
-[//]: # ( ==== Body ================================================== ) 
+[//]: # ( ==== Body ================================================== )
 
+<details>
+  <summary style="font-weight: bolder;font-size: medium;">Table Of Contents</summary>
+
+<!-- TOC -->
+* [_NorLab Project Template_](#_norlab-project-template_)
+  * [Getting started (fast)](#getting-started-fast)
+    * [Requirements:](#requirements)
+    * [Install steps:](#install-steps)
+      * [Step 1 › Generate the new repository from template and clone it](#step-1--generate-the-new-repository-from-template-and-clone-it)
+      * [Step 2 › Execute initialization script](#step-2--execute-initialization-script)
+      * [Step 3 › (Optional) Configure semantic-release GitHub token](#step-3--optional-configure-semantic-release-github-token)
+      * [Step 4 › Make it your own](#step-4--make-it-your-own)
+  * [What it does](#what-it-does)
+  * [Instructions (detailed)](#instructions-detailed)
+  * [Step 1 › Generate the new repository (detailed)](#step-1--generate-the-new-repository-detailed)
+  * [Step 2 › Execute initialization script (detailed)](#step-2--execute-initialization-script-detailed)
+  * [Step 3 › (Optional) Configure semantic-release GitHub token (detailed)](#step-3--optional-configure-semantic-release-github-token-detailed)
+  * [Step 4 › Make it your own (detailed)](#step-4--make-it-your-own-detailed)
+  * [Documentation](#documentation)
+    * [Configure the _GitHub_ repository settings manually](#configure-the-_github_-repository-settings-manually)
+      * [Why](#why)
+      * [What](#what)
+      * [Configuration](#configuration)
+      * [Method 1: Automated configuration](#method-1-automated-configuration)
+      * [Method 2: Manual configuration](#method-2-manual-configuration)
+    * [Enable release automation tools (semantic versioning)](#enable-release-automation-tools-semantic-versioning-)
+      * [Why](#why-1)
+      * [How it work](#how-it-work)
+      * [Configuration](#configuration-1)
+      * [References](#references-)
+  * [Questions](#questions)
+      * [I'm concern using _conventional-commit_ will slow me down:](#im-concern-using-_conventional-commit_-will-slow-me-down-)
+      * [What if I want to revert a buggy release:](#what-if-i-want-to-revert-a-buggy-release)
+      * [I don't want to use _semantic-release_ or _conventional-commit_ in my development workflow:](#i-dont-want-to-use-_semantic-release_-or-_conventional-commit_-in-my-development-workflow)
+<!-- TOC -->
+
+</details>
 
 ## Getting started (fast)
 
@@ -117,7 +154,7 @@ This template repository has a few preconfigured tools such as
 - a git ignore file with common file/directory entries, 
 - a pull request template, 
 - a code owner designation file, 
-- a JetBrains IDE run configurations and junie guidelines 
+- a JetBrains IDE run configurations and Junie AI guidelines 
 - and the basic directory structure. 
 
 The initialization script perform the following: 
@@ -179,6 +216,7 @@ The initialization script will execute the following steps:
     2. (optional) [NorLab Shell Script Tools (N2ST)](https://github.com/norlab-ulaval/norlab-shell-script-tools)
        submodule
     3. (optional) [_semantic-release_](https://semantic-release.gitbook.io) 
+    4. (optional) JetBrains IDE resources: run configuration and Junie AI guidelines 
 2. Customize 
    1. environment variable prefixes and shell functions project wide
    2. repository name references project wide
@@ -198,13 +236,6 @@ my_new_cool_repo/
  ├── .github/
  │   ├── CODEOWNERS
  │   └── pull_request_template.md
- ├── .junie/                                      <-- LLM/AI agent instructions
- │   ├── plans/
- │   ├── guidelines.md
- │   ├── recipes.md
- │   └── scratch.md
- ├── .run/                                        <-- JetBrains run configuration
- │   └── openATerminalInUbuntuContainer.run.xml
  ├── src/
  │   ├── README.md
  │   └── dummy.bash
@@ -219,7 +250,6 @@ my_new_cool_repo/
  │   ├── NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md 
  │   ├── configure_github_branch_protection.bash 
  │   └── initialize_norlab_project_template.bash 
- ├── .aiignore
  ├── .gitignore
  ├── .gitmodules
  ├── commit_msg_reference.md

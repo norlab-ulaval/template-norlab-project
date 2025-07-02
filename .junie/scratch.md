@@ -1,6 +1,17 @@
 
 # Scratch
 
+
+Update unit-test and integration tests considering changes made to `configure_github_branch_protection.bash` and `initialize_norlab_project_template.bash`.
+Create at least one test case per new feature option, update current tests cases otherwise.
+Propose source code change if relevant. 
+Update Markdown documentation accordingly. 
+Check if it introduce any breaking change in the code base by running both unit-tests and integration tests.
+Always follow guidelines at `.junie/guidelines.md`.
+
+
+---
+
 Improve `configure_github_branch_protection.bash`: 
 - remove `gbp::status_check_configuration` function usage everywhere;
 - delete `gbp::status_check_configuration` function;

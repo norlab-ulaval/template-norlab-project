@@ -153,6 +153,28 @@ function check_semantic_release_not_installed() {
   assert_file_not_exist .github/workflows/semantic_release.yml
 }
 
+function check_jetbrains_resources_is_installed() {
+  cd "${BATS_DOCKER_WORKDIR}" || exit 1
+  assert_output --regexp .*"\[Norlab-Project-Template\]".*"Installing JetBrains IDE resources"
+  assert_dir_exist .run
+  assert_dir_exist .junie
+  assert_dir_exist .junie/plans
+  assert_file_exist .run/open-a-terminal-in-ubuntu-container.run.xml
+  assert_file_exist .junie/guidelines.md
+  assert_file_exist .junie/recipes.md
+  assert_file_exist .junie/scratch.md
+  assert_file_exist .aiignore
+}
+
+function check_jetbrains_resources_not_installed() {
+  cd "${BATS_DOCKER_WORKDIR}" || exit 1
+  assert_output --regexp .*"\[Norlab-Project-Template\]".*"Skipping JetBrains IDE resources install"
+  assert_dir_not_exist .run
+  assert_dir_not_exist .junie
+  assert_file_not_exist .aiignore
+}
+
+
 function check_norlab_project_template_teardown() {
   assert_output --regexp .*"\[Norlab-Project-Template\]".*"Teardown clean-up"
 
