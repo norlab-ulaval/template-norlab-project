@@ -541,3 +541,4 @@ else
   echo -e "${MSG_ERROR_FORMAT}[ERROR]${MSG_END_FORMAT} This script must be run with bash i.e.: $ bash initialize_norlab_project_template.bash" 1>&2
   exit 1
 fi
+
