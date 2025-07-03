@@ -349,9 +349,9 @@ VCS conventions:
 We **strongly recommend** you configure your repository following [**_Gitflow_**](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) branching scheme
 ```
                                                       tag:release-1
-┈┈ main ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈>
-     └┈ develop ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈┈┈>  
-                   └┈ feature 1 ┈┈┈┘    └┈ feature 2 ┈┈┈┘
+── main ────────────────────────────────────────────────────┴─────▶︎
+     └─ develop ──────────────────────────────────────────┴──────▶︎
+                   └─ feature 1 ───┘    └─ feature 2 ───┘
 
 ```
 with _**Branch Protection Rule**_ enable for the _release_, _pre-release_ and _bleeding edge_ branches.

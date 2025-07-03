@@ -67,7 +67,7 @@ function tnp::install_norlab_project_template(){
   # ★ Note: Keep 'sudo', its required for preserving user interaction flow
   n2st::print_msg "Current repository structure
 ${MSG_DIMMED_FORMAT}
-$(cd .. && sudo tree -L 2 -a --noreport --dirsfirst -F -I .git -I .idea -I .cadence "${repo_root_name}" | sed 's/^/     /' && cd "${repo_root_name}")
+$(sudo tree -L 2 -a --noreport --dirsfirst -F -I .git -I .idea -I .cadence "${tmp_root}" | sed "s;^${tmp_root%/};${repo_root_name};" | sed 's/^/     /')
 ${MSG_END_FORMAT}"
 
   # ....Check branch protection feature repository compatibility...................................
@@ -505,7 +505,7 @@ EOF
   n2st::print_msg_done "Repository initialization is complete.
    Your repository structure now look like this
 ${MSG_DIMMED_FORMAT}
-$(cd .. && tree -L 2 -a --noreport --dirsfirst -F -I .git -I .idea -I .cadence "${repo_root_name}" | sed 's/^/     /' && cd "${repo_root_name}")
+$(tree -L 2 -a --noreport --dirsfirst -F -I .git -I .idea -I .cadence "${tmp_root}" | sed "s;^${tmp_root%/};${repo_root_name};" | sed 's/^/     /')
 ${MSG_END_FORMAT}
    You can delete the ${MSG_DIMMED_FORMAT}to_delete/${MSG_END_FORMAT} directory whenever you are ready.
 
@@ -517,9 +517,9 @@ ${MSG_END_FORMAT}
     echo -e "
    Follow GitFlow branching scheme
                                                                  tag:release-1
-     ┈┈ ${release_branch} ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈>
-          └┈ ${dev_branch} ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┴┈┈┈┈┈┈>
-                        └┈ feature 1 ┈┈┈┘    └┈ feature 2 ┈┈┈┘"
+     ── ${release_branch} ──────────────────────────────────────────────────────────┴────▶︎
+          └─ ${dev_branch} ────────────────────────────────────────────────┴──────▶︎
+                        └─ feature 1 ───┘    └─ feature 2 ───┘"
   fi
   echo
   echo "   Happy coding!"
