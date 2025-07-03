@@ -450,7 +450,12 @@ ${MSG_END_FORMAT}"
     if [[ ${install_jetbrains_resources} == true ]]; then
       rm -Rf ".junie/plans"
       mkdir -p ".junie/plans"
-      git add ".junie/plans"
+      cat > ".junie/scratch.md" <<EOF
+# Scratch file for prompt redaction
+Is vcs ignore
+
+EOF
+      git add ".junie/"
     else
       rm -Rf ".run"
       rm -Rf ".junie"
