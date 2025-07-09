@@ -5,6 +5,7 @@
 **/artifact/
 
 # ....Dev required.................................................................................
+**/ai_agent_guidelines/
 /utilities/tmp/dockerized-norlab-project-mock-EMPTY/
 /tests/.env.tnp_test_values
 
@@ -15,9 +16,9 @@
 *.iml
 
 # ....Jetbrains AI.................................................................................
-/.junie/iceboxed_plans/
-/.junie/scratch.md
 !/.junie/
+!/.junie/ai_ignored/
+/.junie/ai_ignored/scratch.md
 
 # ....VM...........................................................................................
 **/.vagrant/

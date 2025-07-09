@@ -1,4 +1,5 @@
 # Prompt Instruction Recipes
+Is AI ignore
 
 ## General
 
@@ -55,11 +56,11 @@ You only need a test case for TODO
 
 ---
 
-The following proposed code in `TODO.bash` is overcomplicated 
+The following proposed code in `TODO` is overcomplicated 
 ```shell
 TODO
 ```
-Instead, inspire yourself with `TODO.bash` cli implementation:
+Instead, inspire yourself with `TODO` implementation:
 ```shell
 TODO
 ```
