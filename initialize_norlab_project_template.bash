@@ -299,8 +299,8 @@ ${MSG_END_FORMAT}"
       mv README.md "${tmp_root}/to_delete/NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md"
       mv README.vaul_template.md README.md
 
-      n2st::seek_and_modify_string_in_file "img.shields.io/github/v/release/vaul-ulaval/template-norlab-project" "img.shields.io/github/v/release/vaul-ulaval/${new_project_git_name}" README.md
-      n2st::seek_and_modify_string_in_file "vaul-ulaval/template-norlab-project.git" "vaul-ulaval/${new_project_git_name}.git" README.md
+      n2st::seek_and_modify_string_in_file "img.shields.io/github/v/release/vaul-ulaval/template-norlab-project" "img.shields.io/github/v/release/${repo_owner}/${new_project_git_name}" README.md
+      n2st::seek_and_modify_string_in_file "vaul-ulaval/template-norlab-project.git" "${repo_owner}/${new_project_git_name}.git" README.md
 
       rm README.norlab_template.md
 
@@ -310,14 +310,14 @@ ${MSG_END_FORMAT}"
       mv README.md "${tmp_root}/to_delete/NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md"
       mv README.norlab_template.md README.md
 
-      n2st::seek_and_modify_string_in_file "img.shields.io/github/v/release/norlab-ulaval/template-norlab-project" "img.shields.io/github/v/release/norlab-ulaval/${new_project_git_name}" README.md
-      n2st::seek_and_modify_string_in_file "norlab-ulaval/template-norlab-project.git" "norlab-ulaval/${new_project_git_name}.git" README.md
+      n2st::seek_and_modify_string_in_file "img.shields.io/github/v/release/norlab-ulaval/template-norlab-project" "img.shields.io/github/v/release/${repo_owner}/${new_project_git_name}" README.md
+      n2st::seek_and_modify_string_in_file "norlab-ulaval/template-norlab-project.git" "${repo_owner}/${new_project_git_name}.git" README.md
 
       rm README.vaul_template.md
 
     fi
 
-    n2st::seek_and_modify_string_in_file "https://github.com/TNP_GIT_USER_NAME_PLACEHOLDER\">TNP_GIT_USER_NAME_PLACEHOLDER" "https://github.com/${git_user_name:-'TODO-CHANGE-MAINTAINER'}\">${git_user_name:-'TODO-CHANGE-MAINTAINER'}*" README.md
+    n2st::seek_and_modify_string_in_file "https://github.com/TNP_GIT_USER_NAME_PLACEHOLDER\">TNP_GIT_USER_NAME_PLACEHOLDER" "https://github.com/${git_user_name:-'TODO-CHANGE-MAINTAINER'}\">${git_user_name:-'TODO-CHANGE-MAINTAINER'}" README.md
     n2st::seek_and_modify_string_in_file "TNP_PROJECT_NAME_PLACEHOLDER" "${new_project_git_name}" README.md
 
   }
@@ -431,6 +431,7 @@ ${MSG_END_FORMAT}"
   # ....Update ignore files........................................................................
   {
     n2st::seek_and_modify_string_in_file "# .*Dev required.*" " " ".gitignore"
+    n2st::seek_and_modify_string_in_file "/utilities/ai_agent_guidelines/" " " ".gitignore"
     n2st::seek_and_modify_string_in_file "/utilities/tmp/dockerized-norlab-project-mock-EMPTY/" " " ".gitignore"
     n2st::seek_and_modify_string_in_file "/tests/.env.tnp_test_values" " " ".gitignore"
     git add ".gitignore"

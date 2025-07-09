@@ -1,4 +1,7 @@
 
+# Remove ai_agent_guidelines directory for tests
+rm -rf utilities/ai_agent_guidelines
+
 # ====Norlab Project Template======================================================================
 
 function norlab_project_template_directory_reset_check() {
@@ -7,6 +10,7 @@ function norlab_project_template_directory_reset_check() {
     assert_dir_exist "/code/template-norlab-project"
     assert_dir_exist "${TEST_TEMP_DIR}/template-norlab-project"
     assert_equal $(pwd) "${TEST_TEMP_DIR}/template-norlab-project"
+    assert_dir_not_exist utilities/ai_agent_guidelines
 
     # ....Check git related........................................................................
     assert_dir_exist .git
@@ -193,4 +197,5 @@ function check_norlab_project_template_teardown() {
   assert_file_not_exist initialize_norlab_project_template.bash
   assert_file_not_exist configure_github_branch_protection.bash
 
+  assert_dir_not_exist utilities/ai_agent_guidelines
 }
