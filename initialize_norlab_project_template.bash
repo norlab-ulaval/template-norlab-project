@@ -431,7 +431,7 @@ ${MSG_END_FORMAT}"
   # ....Update ignore files........................................................................
   {
     n2st::seek_and_modify_string_in_file "# .*Dev required.*" " " ".gitignore"
-    n2st::seek_and_modify_string_in_file "/utilities/tmp/dockerized-norlab-project-mock-EMPTY" " " ".gitignore"
+    n2st::seek_and_modify_string_in_file "/utilities/tmp/dockerized-norlab-project-mock-EMPTY/" " " ".gitignore"
     n2st::seek_and_modify_string_in_file "/tests/.env.tnp_test_values" " " ".gitignore"
     git add ".gitignore"
   }
