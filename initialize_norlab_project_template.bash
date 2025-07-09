@@ -431,7 +431,7 @@ ${MSG_END_FORMAT}"
   # ....Update ignore files........................................................................
   {
     n2st::seek_and_modify_string_in_file "# .*Dev required.*" " " ".gitignore"
-    n2st::seek_and_modify_string_in_file "/utilities/ai_agent_guidelines/" " " ".gitignore"
+    n2st::seek_and_modify_string_in_file "\*\*/ai_agent_guidelines/" " " ".gitignore"
     n2st::seek_and_modify_string_in_file "/utilities/tmp/dockerized-norlab-project-mock-EMPTY/" " " ".gitignore"
     n2st::seek_and_modify_string_in_file "/tests/.env.tnp_test_values" " " ".gitignore"
     git add ".gitignore"
@@ -449,20 +449,53 @@ ${MSG_END_FORMAT}"
     git add "to_delete"
 
     if [[ ${install_jetbrains_resources} == true ]]; then
-      rm -Rf ".junie/plans"
-      mkdir -p ".junie/plans"
-      cat > ".junie/scratch.md" <<EOF
-# Scratch file for prompt redaction
-Is vcs ignore
+      rm -Rf ".junie"
+      mkdir -p ".junie/active_plans"
+      mkdir -p ".junie/ai_ignored"
+      cat > ".junie/ai_ignored/scratch.md" <<EOF
+# Prompt Redaction Scratch File
+Is vcs ignore and AI ignore
+
+EOF
+      cat > ".junie/ai_ignored/recipes.md" <<EOF
+# Prompt Instruction Recipes
+Is AI ignore
+
+EOF
+      cat > ".junie/guidelines.md" <<'EOF'
+# Repository Guidelines
+
+## Repository Organization
+
+- `.junie/` contain AI agent files
+- `src/` contain repository source code
+- `tests/` contain tests files
+- `artifact/` contain project artifact such as experimental log, plot, rosbag, ...
+- `utilities/` contain external libraries
+
+## General Instructions
+TODO
+
+## Coding instructions
+TODO
+
+## Testing Instructions
+TODO
+
+## Planning instructions
+- Always put plan ready for review in the `.junie/active_plans` directory.
+
+## Version Control Instructions
+- Never `git add` or `git commit` changes, all changes require explicit code review and acceptance by the code owner.
 
 EOF
       git add ".junie/"
     else
-      rm -Rf ".run"
-      rm -Rf ".junie"
-      rm -Rf ".aiignore"
-      git add ".run"
-      git add ".junie"
+      rm -Rf ".run/"
+      rm -Rf ".junie/"
+      rm -f ".aiignore"
+      git add ".run/"
+      git add ".junie/"
       git add ".aiignore"
     fi
 

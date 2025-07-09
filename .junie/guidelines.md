@@ -4,16 +4,18 @@
 ## Repository Organization
 - `src/` contain repository source code
 - `tests/` contain tests files
+- `artifact/` contain project artifact such as experimental log, plot, rosbag, ...
 - `tests/tests_bats/` contain N2ST bats framework files that are mainly used for unit-testing
 - `tests/tests_dryrun_and_tests_scripts/` contain integration tests
 - `utilities/` contain external libraries such as N2ST and NBS
 - `utilities/tmp/dockerized-norlab-project-mock-EMPTY` is use for cloning a fresh copy of a mock "super project" from https://github.com/norlab-ulaval/dockerized-norlab-project-mock-EMPTY.git on test execution.
   `dockerized-norlab-project-mock-EMPTY` is a mock of how a user would install and uses TNP. We refer to this as a "super project".
 
+
 ## General Instructions:
 
 ### Planning instructions
-- Always put plan ready for review in the `.junie/plans` directory.
+- Always put plan ready for review in the `.junie/active_plans` directory.
 
 ### Coding instructions
 - Don't repeat yourself: 
@@ -71,8 +73,8 @@ All instructions in sections _General Testing Instructions_ plus the following:
 
 ### Shell Script specific Mocking Instructions
 All instructions in sections _General Mocking Instruction_ plus the following:
-- You can mock shell core command an docker command.
 - You can mock `docker [OPTIONS|COMMAND]` commands and `git [OPTIONS|COMMAND]` commands.
+- Ask permission before mocking shell builtin commands.
 - Avoid mocking N2ST functions, at the exception of those in `${N2ST_PATH}/src/function_library/prompt_utilities.bash`. For example, instead of re-implementing `n2st::seek_and_modify_string_in_file`, just load the real one and test that the content of the file at `file_path` has been updated? You can find the real one in `${N2ST_PATH}/src/function_library/general_utilities.bash`.
 - Avoid mocking the `read` command. Instead use `echo 'y'` or `echo 'N'` for piping a keyboard input to the function who use the `read` command which in turn expect a single character, example: `run bash -c "echo 'y' | <the-tested-function>"`. Alternatively, use the `yes [n]` shell command which optionaly send [y|Y|yes] n time, example: `run bash -c "yes 2 | <the-tested-function>"`.
 - Use `timeouts 10 ` in integration tests that execute real scripts with mocked dependencies to prevent test hangs.

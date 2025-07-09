@@ -278,7 +278,7 @@ teardown() {
   # ....Check .gitignore content...................................................................
   assert_file_exist .gitignore
   assert_file_not_contains .gitignore "Dev required"
-  assert_file_not_contains .gitignore "/utilities/ai_agent_guidelines/"
+  assert_file_not_contains .gitignore "\*\*/ai_agent_guidelines/"
   assert_file_not_contains .gitignore "/utilities/tmp/dockerized-norlab-project-mock-EMPTY/"
   assert_file_not_contains .gitignore "/tests/.env.tnp_test_values"
   assert_file_contains .gitignore "**/artifact/"
