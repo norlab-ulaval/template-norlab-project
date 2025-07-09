@@ -5,6 +5,7 @@
 **/artifact/
 
 # ....Dev required.................................................................................
+/utilities/ai_agent_guidelines/
 /utilities/tmp/dockerized-norlab-project-mock-EMPTY/
 /tests/.env.tnp_test_values
 
