@@ -64,7 +64,7 @@ setup() {
   function gh() {
     if [[ "$1" == "repo" && "$2" == "view"  && "$3" == "--json" ]]; then
       if [[ "$4" == "owner" ]]; then
-        echo "norlab-ulaval"
+        echo "mock-owner"
       elif [[ "$4" == "isPrivate" ]]; then
         echo "false"
       elif [[ "$4" == "name" ]]; then
@@ -278,7 +278,8 @@ teardown() {
   # ....Check .gitignore content...................................................................
   assert_file_exist .gitignore
   assert_file_not_contains .gitignore "Dev required"
-  assert_file_not_contains .gitignore "/utilities/tmp/dockerized-norlab-project-mock-EMPTY"
+  assert_file_not_contains .gitignore "\*\*/ai_agent_guidelines/"
+  assert_file_not_contains .gitignore "/utilities/tmp/dockerized-norlab-project-mock-EMPTY/"
   assert_file_not_contains .gitignore "/tests/.env.tnp_test_values"
   assert_file_contains .gitignore "**/artifact/"
 
@@ -560,8 +561,8 @@ teardown() {
   assert_file_exist visual/norlab_logo_acronym_dark.png
   assert_file_exist visual/norlab_logo_acronym_light.png
 
-  assert_file_contains README.md "img.shields.io/github/v/release/norlab-ulaval/template-norlab-project"
-  assert_file_contains README.md "norlab-ulaval/template-norlab-project.git"
+  assert_file_contains README.md "img.shields.io/github/v/release/mock-owner/template-norlab-project"
+  assert_file_contains README.md "mock-owner/template-norlab-project.git"
 
   assert_file_not_contains README.md "TNP_GIT_USER_NAME_PLACEHOLDER"
   assert_file_not_contains README.md "TNP_PROJECT_NAME_PLACEHOLDER"
@@ -599,8 +600,8 @@ teardown() {
   assert_file_contains README.md "img src=\"./visual/VAUL_Logo_patch.png"
   assert_file_exist visual/VAUL_Logo_patch.png
 
-  assert_file_contains README.md "img.shields.io/github/v/release/vaul-ulaval/template-norlab-project"
-  assert_file_contains README.md "vaul-ulaval/template-norlab-project.git"
+  assert_file_contains README.md "img.shields.io/github/v/release/mock-owner/template-norlab-project"
+  assert_file_contains README.md "mock-owner/template-norlab-project.git"
 
   assert_file_not_contains README.md "TNP_GIT_USER_NAME_PLACEHOLDER"
   assert_file_not_contains README.md "TNP_PROJECT_NAME_PLACEHOLDER"

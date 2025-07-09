@@ -2,9 +2,15 @@
 # .gitignore documentation: https://git-scm.com/docs/gitignore
 
 # ....Junie related................................................................................
-/.junie/iceboxed_plans/
-/.junie/scratch.md
-/.junie/recipes.md
+/.junie/ai_ignored/
+!/.junie/active_plans/
+!/.junie/guidelines.md
+!/.junie/guidelines.a2g.md
+
+# ....A2G related..................................................................................
+!**/ai_agent_guidelines/specialized_guidelines/
+**/ai_agent_guidelines/specialized_recipes/
+**/ai_agent_guidelines/template/
 
 # ....repository structure related.................................................................
 /artifact/

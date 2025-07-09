@@ -265,10 +265,11 @@ my_new_cool_repo/
  │   └── workflows
  │       └── semantic_release.yml                 <-- Semantic-versioning (optional)
  ├── .junie/                                      <-- LLM/AI agent instructions
- │   ├── plans/
- │   ├── guidelines.md
- │   ├── recipes.md
- │   └── scratch.md
+ │   ├── ai_ignored/
+ │   │   ├── recipes.md
+ │   │   └── scratch.md
+ │   ├── active_plans/
+ │   └── guidelines.md
  ├── .run/                                        <-- JetBrains run configuration
  │   ├── openATerminalInUbuntuContainer.run.xml
  │   └── runBatsTestsAll.run.xml                  <-- norlab-shell-script-tools (optional)

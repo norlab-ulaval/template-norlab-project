@@ -1,4 +1,7 @@
 
+# Remove ai_agent_guidelines directory for tests
+rm -rf utilities/ai_agent_guidelines
+
 # ====Norlab Project Template======================================================================
 
 function norlab_project_template_directory_reset_check() {
@@ -7,6 +10,7 @@ function norlab_project_template_directory_reset_check() {
     assert_dir_exist "/code/template-norlab-project"
     assert_dir_exist "${TEST_TEMP_DIR}/template-norlab-project"
     assert_equal $(pwd) "${TEST_TEMP_DIR}/template-norlab-project"
+    assert_dir_not_exist utilities/ai_agent_guidelines
 
     # ....Check git related........................................................................
     assert_dir_exist .git
@@ -156,13 +160,16 @@ function check_semantic_release_not_installed() {
 function check_jetbrains_resources_is_installed() {
   cd "${BATS_DOCKER_WORKDIR}" || exit 1
   assert_output --regexp .*"\[Norlab-Project-Template\]".*"Installing JetBrains IDE resources"
+
   assert_dir_exist .run
-  assert_dir_exist .junie
-  assert_dir_exist .junie/plans
   assert_file_exist .run/open-a-terminal-in-ubuntu-container.run.xml
+
+  assert_dir_exist .junie
   assert_file_exist .junie/guidelines.md
-  assert_file_exist .junie/recipes.md
-  assert_file_exist .junie/scratch.md
+  assert_dir_exist .junie/active_plans
+  assert_dir_exist .junie/ai_ignored
+  assert_file_exist .junie/ai_ignored/recipes.md
+  assert_file_exist .junie/ai_ignored/scratch.md
   assert_file_exist .aiignore
 }
 
@@ -193,4 +200,5 @@ function check_norlab_project_template_teardown() {
   assert_file_not_exist initialize_norlab_project_template.bash
   assert_file_not_exist configure_github_branch_protection.bash
 
+  assert_dir_not_exist utilities/ai_agent_guidelines
 }
