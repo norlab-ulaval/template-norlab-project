@@ -3,14 +3,11 @@
 
 # ....Junie related................................................................................
 /.junie/ai_ignored/
-!/.junie/active_plans/
-!/.junie/guidelines.md
-!/.junie/guidelines.a2g.md
 
 # ....A2G related..................................................................................
-!**/ai_agent_guidelines/specialized_guidelines/
-**/ai_agent_guidelines/specialized_recipes/
-**/ai_agent_guidelines/template/
+/.junie/ai_agent_guidelines/specialized_recipes/
+/.junie/ai_agent_guidelines/template/
+/.junie/ai_agent_guidelines/.junie/
 
 # ....repository structure related.................................................................
 /artifact/
