@@ -8,7 +8,7 @@
 # Initial setup
 #   1. ToDo: Write some .bats tests.
 #      See 'utilities/norlab-shell-script-tools/tests/tests_template/test_template.bats' for inspiration.
-#   3. Execute the script and let the magic hapen
+#   3. Execute the script and let the magic happen
 #
 # Usage:
 #  $ bash run_bats_core_test_in_n2st.bash [--mount-src-code-as-a-volume] [--help]
@@ -28,7 +28,7 @@
 #   '<image-distro>'                  ubuntu or alpine (default ubuntu)
 #
 # Globals:
-#   Read N2ST_PATH    Default to "utilities/norlab-shell-script-tools"
+#   Read N2ST_PATH                    Default to "utilities/norlab-shell-script-tools"
 #
 # =================================================================================================
 params=( "$@" )

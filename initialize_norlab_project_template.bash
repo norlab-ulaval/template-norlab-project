@@ -263,8 +263,6 @@ ${MSG_END_FORMAT}"
     n2st::seek_and_modify_string_in_file "folderName=\"\[TNP\]" "folderName=\"\[${env_prefix}\]" .run/open-a-terminal-in-ubuntu-container.run.xml
     n2st::seek_and_modify_string_in_file "folderName=\"\[TNP\]" "folderName=\"\[${env_prefix}\]" .run/run-Bats-Tests-All.run.xml
 
-    n2st::seek_and_modify_string_in_file "tests/run_bats_core_test_in_n2st.tnp.bash" "tests/run_bats_core_test_in_n2st.bash" .run/run-Bats-Tests-All.run.xml
-
     if [[ ${install_n2st} == true ]]; then
       n2st::seek_and_modify_string_in_file "function n2st::" "function ${fct_prefix}::" src/dummy.bash
       n2st::seek_and_modify_string_in_file "n2st::" "${fct_prefix}::" tests/tests_bats/test_template.bats
@@ -518,11 +516,11 @@ EOF
     if [[ ${install_n2st} == true ]]; then
       mkdir -p tests_FINAL/tests_bats/bats_testing_tools
 
+      mv tests/run_bats_core_test_in_n2st.bash tests_FINAL/run_bats_core_test_in_n2st.bash
       mv tests/tests_bats/bats_testing_tools/bats_helper_functions_local.bash tests_FINAL/tests_bats/bats_testing_tools/bats_helper_functions_local.bash
       mv tests/tests_bats/test_template.bats tests_FINAL/tests_bats/test_template.bats
-      mv tests/run_bats_core_test_in_n2st.bash tests_FINAL/run_bats_core_test_in_n2st.bash
 
-      rm -R tests
+      rm -Rf tests
       mv tests_FINAL tests
 
       git add "tests"

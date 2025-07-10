@@ -62,7 +62,7 @@
 All instructions in sections _General Testing Instructions_ plus the following:
 - All new scripts or functionalities need to have (either or both):
   - **Unit-tests**: 
-    - Use [N2ST](https://github.com/norlab-ulaval/norlab-shell-script-tools) bats tests tools for unit-test (See `tests/run_bats_core_test_in_n2st.tnp.bash` script) and a corresponding bats unit-test `.bats` file in the `tests/tests_bats/` directory. N2ST Bats tests are running in a docker container in complete isolation with a copy of the source code.
+    - Use [N2ST](https://github.com/norlab-ulaval/norlab-shell-script-tools) bats tests tools for unit-test (See `tests/run_bats_core_test_in_n2st.bash` script) and a corresponding bats unit-test `.bats` file in the `tests/tests_bats/` directory. N2ST Bats tests are running in a docker container in complete isolation with a copy of the source code.
   - **Integration tests**: 
     - Those tests are divided in two categories: 
       - Dryrun: either make use of a `--dry-run` flag implemented in the script when available or make use of the docker `--dry-run` flag;  
@@ -94,7 +94,7 @@ Bats helper library documentation:
 
 ### Shell Script specific Instructions On Tests Execution
 All instructions in sections _General Instruction On Tests Execution_ plus the following:
-- Don't directly execute `.bats` files, instead execute from the repository root `bash ./tests/run_bats_core_test_in_n2st.tnp.bash tests/tests_bats/<bats-file-name>.bats`.
+- Don't directly execute `.bats` files, instead execute from the repository root `bash ./tests/run_bats_core_test_in_n2st.bash tests/tests_bats/<bats-file-name>.bats`.
 - Don't set tests script in executable mode, instead execute them with `bash <the-script-name>.bash`. 
 
 
