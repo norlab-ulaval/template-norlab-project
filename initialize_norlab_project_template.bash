@@ -431,24 +431,19 @@ ${MSG_END_FORMAT}"
   # ....Update ignore files........................................................................
   {
     n2st::seek_and_modify_string_in_file "# .*Dev required.*" " " ".gitignore"
-    n2st::seek_and_modify_string_in_file "\*\*/ai_agent_guidelines/" " " ".gitignore"
     n2st::seek_and_modify_string_in_file "/utilities/tmp/dockerized-norlab-project-mock-EMPTY/" " " ".gitignore"
     n2st::seek_and_modify_string_in_file "/tests/.env.tnp_test_values" " " ".gitignore"
     git add ".gitignore"
   }
 
-
-  # ====Teardown===================================================================================
+  # ....Setup Jetbrains related features...........................................................
   {
-    n2st::print_msg "Teardown clean-up"
     cd "${tmp_root}" || return 1
-    mv initialize_norlab_project_template.bash "to_delete/initialize_norlab_project_template.bash"
-    if [[ ${branch_configuration_enable} == true ]]; then
-      mv configure_github_branch_protection.bash "to_delete/configure_github_branch_protection.bash"
-    fi
-    git add "to_delete"
-
-    if [[ ${install_jetbrains_resources} == true ]]; then
+    if [[ ${install_jetbrains_resources} == true ]] && [[ -d ~/PycharmProjects/ai_agent_guidelines ]] && [[ "$(whoami)" == "redleader" ]]; then
+      rm -Rf ".junie"
+      bash ~/PycharmProjects/ai_agent_guidelines/tools/initialize_super_project.bash "${tmp_root}"
+      git add "${tmp_root}/.junie/"
+    elif [[ ${install_jetbrains_resources} == true ]]; then
       rm -Rf ".junie"
       mkdir -p ".junie/active_plans"
       mkdir -p ".junie/ai_ignored"
@@ -489,7 +484,14 @@ TODO
 - Never `git add` or `git commit` changes, all changes require explicit code review and acceptance by the code owner.
 
 EOF
+      # ....Update ai ignore files.................................................................
+      n2st::seek_and_modify_string_in_file "# .*A2G related.*" " " ".aiignore"
+      n2st::seek_and_modify_string_in_file "/.junie/ai_agent_guidelines/specialized_recipes/" " " ".aiignore"
+      n2st::seek_and_modify_string_in_file "/.junie/ai_agent_guidelines/template/" " " ".aiignore"
+      n2st::seek_and_modify_string_in_file "/.junie/ai_agent_guidelines/.junie/" " " ".aiignore"
+
       git add ".junie/"
+      git add ".aiignore"
     else
       rm -Rf ".run/"
       rm -Rf ".junie/"
@@ -498,6 +500,17 @@ EOF
       git add ".junie/"
       git add ".aiignore"
     fi
+  }
+
+  # ====Teardown===================================================================================
+  {
+    n2st::print_msg "Teardown clean-up"
+    cd "${tmp_root}" || return 1
+    mv initialize_norlab_project_template.bash "to_delete/initialize_norlab_project_template.bash"
+    if [[ ${branch_configuration_enable} == true ]]; then
+      mv configure_github_branch_protection.bash "to_delete/configure_github_branch_protection.bash"
+    fi
+    git add "to_delete"
 
     rm -Rf "utilities/tmp"
     git add "utilities/tmp"
