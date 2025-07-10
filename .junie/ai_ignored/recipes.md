@@ -8,7 +8,7 @@ Read and implement the plan at `.junie/plans/readme_improvement_plan.md`.
 ```
 
 ```markdown
-Prime directive: comply with `.junie/guidelines.md` guidelines at all time.
+Review guidelines at `.junie/guidelines.md`.
 Execute all unit-tests and all integration tests before submitting.
 ```
 
@@ -27,7 +27,7 @@ Inspire yourself with `TODO`.
 
 ```markdown
 Implement a bats test for `TODO`.
-Prime directive: comply with `.junie/guidelines.md` guidelines at all time.
+Review guidelines at `.junie/guidelines.md`.
 Inspire yourself with `tests/test_TODO`.
 Create at least one test case per command argument and/or options.
 Test relevant option and arguments combination.
@@ -42,7 +42,7 @@ Execute all unit-tests and all integration tests before submiting.
 ```markdown
 Refactor/improve `src/TODO`.
 TODO
-Prime directive: comply with `.junie/guidelines.md` guidelines at all time.
+Review guidelines at `.junie/guidelines.md`.
 Update `test_TODO` accordingly.
 Create at least one test case per new command argument and/or options, update current tests cases otherwise.
 Test relevant option and arguments combination.
@@ -61,7 +61,7 @@ In `test_TODO.bats`, instead of mocking `find`, `grep`, `cut`, `cd`, `pwd`, `com
 ```markdown
 Integration tests `TODO` and `TODO` are all failing. 
 Please investigate and make the required changes. 
-Prime directive: comply with `.junie/guidelines.md` guidelines at all time.
+Review guidelines at `.junie/guidelines.md`.
 ```
 
 ```markdown
