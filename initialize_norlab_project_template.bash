@@ -444,15 +444,20 @@ ${MSG_END_FORMAT}"
     elif [[ ${install_jetbrains_resources} == true ]]; then
       rm -Rf ".junie"
       mkdir -p ".junie/active_plans"
+      mkdir -p ".junie/junie_artifact"
       mkdir -p ".junie/ai_ignored"
       cat > ".junie/ai_ignored/scratch.md" <<EOF
 # Prompt Redaction Scratch File
+
 Is vcs ignore and AI ignore
+@formatter:off
 
 EOF
       cat > ".junie/ai_ignored/recipes.md" <<EOF
 # Prompt Instruction Recipes
+
 Is AI ignore
+@formatter:off
 
 EOF
       cat > ".junie/guidelines.md" <<'EOF'
@@ -467,19 +472,23 @@ EOF
 - `utilities/` contain external libraries
 
 ## General Instructions
-TODO
 
-## Coding instructions
-TODO
-
-## Testing Instructions
-TODO
-
-## Planning instructions
+- Always put report, summary and analysis document that are ready for review in the
+  `.junie/junie_artifact` directory unless explicitly mentioned otherwise.
 - Always put plan ready for review in the `.junie/active_plans` directory.
 
+## Coding instructions
+
+None
+
+## Testing Instructions
+
+None
+
 ## Version Control Instructions
-- Never `git add` or `git commit` changes, all changes require explicit code review and acceptance by the code owner.
+
+- Never execute `git add` or `git commit` command. All changes made by AI agent require explicit
+  code review and acceptance by the code owner before being commited to code base remote origin.
 
 EOF
       # ....Update ai ignore files.................................................................
