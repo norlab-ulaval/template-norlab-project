@@ -5,7 +5,7 @@
 
 # ....Jetbrains AI.................................................................................
 /.junie/ai_ignored/scratch.md
-/.junie/junie_artifact/
+/.junie/ai_artifact/
 
 # ....Dev required.................................................................................
 /utilities/tmp/dockerized-norlab-project-mock-EMPTY/

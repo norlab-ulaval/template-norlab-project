@@ -444,7 +444,7 @@ ${MSG_END_FORMAT}"
     elif [[ ${install_jetbrains_resources} == true ]]; then
       rm -Rf ".junie"
       mkdir -p ".junie/active_plans"
-      mkdir -p ".junie/junie_artifact"
+      mkdir -p ".junie/ai_artifact"
       mkdir -p ".junie/ai_ignored"
       cat > ".junie/ai_ignored/scratch.md" <<EOF
 # Prompt Redaction Scratch File
@@ -474,7 +474,7 @@ EOF
 ## General Instructions
 
 - Always put report, summary and analysis document that are ready for review in the
-  `.junie/junie_artifact` directory unless explicitly mentioned otherwise.
+  `.junie/ai_artifact` directory unless explicitly mentioned otherwise.
 - Always put plan ready for review in the `.junie/active_plans` directory.
 
 ## Coding instructions
