@@ -27,7 +27,6 @@ None
 
 - Path management: each script can optionally use the env var `PLACEHOLDER_PATH`, `*_PATH` (assuming `PLACEHOLDER_PATH` was renamed), `PROJECT_PATH`, `NBS_PATH` (if available), `N2ST_PATH` (if available) and others define in `.env.*` (assuming `.env.template-norlab-project.template` was renamed).
 
-
 ## Testing Instructions
 
 None
