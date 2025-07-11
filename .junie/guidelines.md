@@ -19,19 +19,20 @@ Always comply with guidelines and instructions.
   `dockerized-norlab-project-mock-EMPTY` is a mock of how a user would install and uses TNP. We refer to this as a "super project."
 
 
-## General Instructions
+## Repository General Instructions
 
-None
+Skip repository level general instructions.
 
-## Coding instructions
+## Repository Coding instructions
 
-- Path management: each script can optionally use the env var `PLACEHOLDER_PATH`, `*_PATH` (assuming `PLACEHOLDER_PATH` was renamed), `PROJECT_PATH`, `NBS_PATH` (if available), `N2ST_PATH` (if available) and others define in `.env.*` (assuming `.env.template-norlab-project.template` was renamed).
+- Path management: 
+  - each script can optionally use environment variables `PLACEHOLDER_PATH`, `*_PATH`, `PROJECT_PATH`, `NBS_PATH` (if available), `N2ST_PATH` (if available) or any others environment variables define in dotenv file `.env.*`.
 
-## Testing Instructions
+## Repository Testing Instructions
 
-None
+Skip repository level testing instructions.
 
-## Final Instructions
+## Repository Final Instructions
 
 - In addition to repository guidelines, also review _A2G super project guidelines configuration_
   specified in `.junie/guidelines.a2g.md`.

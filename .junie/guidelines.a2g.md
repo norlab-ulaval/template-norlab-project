@@ -10,7 +10,7 @@ Super project _AI Agent Guidelines_ customized configuration.
 
 ## A2G Active Specialized Guidelines
 
-Set the following A2G specialized guidelines as _active_:
+Set the following A2G specialized guidelines to _active_:
 
 - guidelines.docker.md
 - guidelines.markdown.md
