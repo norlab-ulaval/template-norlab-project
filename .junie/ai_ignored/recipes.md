@@ -1,5 +1,4 @@
 # Prompt Instruction Recipes
-@formatter:off
 
 Is AI ignore
 

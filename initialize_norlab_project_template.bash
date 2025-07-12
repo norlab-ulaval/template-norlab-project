@@ -465,30 +465,33 @@ EOF
 
 ## Repository Organization
 
-- `.junie/` contains AI agent files
-- `src/` contains repository source code
-- `tests/` contains tests files
-- `artifact/` contains project artifact such as experimental log, plot, rosbag, ...
-- `utilities/` contains external libraries
+- `.junie/` contains AI agent related files.
+- `src/` contains repository source code.
+- `tests/` contains tests files.
+- `artifact/` contains project artifact such as experimental log, plot and rosbag.
+- `utilities/` contains external libraries.
 
 ## General Instructions
 
-- Always put report, summary and analysis document that are ready for review in the
-  `.junie/ai_artifact` directory unless explicitly mentioned otherwise.
-- Always put plan ready for review in the `.junie/active_plans` directory.
+- Unless explicitly mentioned otherwise:
+  - Always put plan, report, summary and analysis document that are ready for review in the `.junie/ai_artifact` directory.
+  - Put AI agent runtime generated artifact not related to implementation such as log file, temporary file or script output in the `.junie/ai_artifact` directory.
 
 ## Coding instructions
 
-None
+- Don't repeat yourself:
+    - Use already implemented code whenever possible;
+    - Leverage functionality provided by submodule and available libraries whenever possible.
 
 ## Testing Instructions
 
-None
+- Write tests who challenge the intended functionality or behavior.
+- Write at least one test file per corresponding source code file.
 
 ## Version Control Instructions
 
 - Never execute `git add` or `git commit` command. All changes made by AI agent require explicit
-  code review and acceptance by the code owner before being commited to code base remote origin.
+  code review and acceptance by the AI agent User before being commited to code base remote origin.
 
 EOF
       # ....Update ai ignore files.................................................................
