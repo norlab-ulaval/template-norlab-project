@@ -1,7 +1,7 @@
 # Prompt Instruction Recipes
+@formatter:off
 
 Is AI ignore
-@formatter:off
 
 ## General
 

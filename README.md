@@ -115,7 +115,7 @@ git clone --recurse-submodule https://github.com/<your-new-git-repository-url>
 
 #### Step 2 › Execute initialization script
 
-Execute the inititialization script and follow the instruction on console
+Execute the initialization script and follow the instruction on console
 ```shell
 cd /your/new/git/repository/root/
 bash initialize_norlab_project_template.bash

@@ -1,40 +1,29 @@
 # Repository Guidelines
 
-Super project guidelines and instructions
+
+_template-norlab-project (TNP)_ guidelines and instructions
+
+## Repository Description
+
+TNP is a template repository for code-related research projects. 
+It’s meant to help kick-start repository creation by enabling software engineering research-oriented best practice.
+
+## Repository Organization
+
+- `.junie/` contains AI agent related files.
+- `.junie/ai_agent_guidelines` contains _AI Agent Guidelines (A2G)_.
+- `src/` contains repository source code.
+- `tests/` contains tests files.
+- `artifact/` contains project artifact such as experimental log, plot and rosbag.
+- `tests/tests_bats/` contains N2ST bats framework files that are mainly used for unit-testing
+- `tests/tests_dryrun_and_tests_scripts/` contains integration tests
+- `utilities/` contains external libraries such as N2ST, NBS and a mock repository
+- `utilities/tmp/dockerized-norlab-project-mock-EMPTY` is use for cloning a fresh copy of a mock "super project" from https://github.com/norlab-ulaval/dockerized-norlab-project-mock-EMPTY.git on test execution. `dockerized-norlab-project-mock-EMPTY` is a mock repository of how a user would install and uses TNP. We refer to this as a "super project."
 
 ## Prime directive:
 
 Always comply with guidelines and instructions.
 
-## Repository Organization
+## Repository Instructions
 
-- `.junie/` contain AI agent related files.
-- `src/` contain repository source code.
-- `tests/` contain tests files.
-- `artifact/` contain project artifact such as experimental log, plot and rosbag.
-- `tests/tests_bats/` contain N2ST bats framework files that are mainly used for unit-testing
-- `tests/tests_dryrun_and_tests_scripts/` contain integration tests
-- `utilities/` contain external libraries such as N2ST, NBS and mock repository
-- `utilities/tmp/dockerized-norlab-project-mock-EMPTY` is use for cloning a fresh copy of a mock "super project" from https://github.com/norlab-ulaval/dockerized-norlab-project-mock-EMPTY.git on test execution.
-  `dockerized-norlab-project-mock-EMPTY` is a mock of how a user would install and uses TNP. We refer to this as a "super project."
-
-
-## Repository General Instructions
-
-Skip repository level general instructions.
-
-## Repository Coding instructions
-
-- Path management: 
-  - each script can optionally use environment variables `PLACEHOLDER_PATH`, `*_PATH`, `PROJECT_PATH`, `NBS_PATH` (if available), `N2ST_PATH` (if available) or any others environment variables define in dotenv file `.env.*`.
-
-## Repository Testing Instructions
-
-Skip repository level testing instructions.
-
-## Repository Final Instructions
-
-- In addition to repository guidelines, also review _A2G super project guidelines configuration_
-  specified in `.junie/guidelines.a2g.md`.
-- If any guideline instructions are ambiguous or contradict each others, ask for clarification or
-  additional instructions instead of guessing.
+In addition, review _A2G super project guidelines configuration_ specified in `.junie/guidelines.a2g_config.md`.

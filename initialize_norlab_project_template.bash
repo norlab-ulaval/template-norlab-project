@@ -465,11 +465,11 @@ EOF
 
 ## Repository Organization
 
-- `.junie/` contain AI agent files
-- `src/` contain repository source code
-- `tests/` contain tests files
-- `artifact/` contain project artifact such as experimental log, plot, rosbag, ...
-- `utilities/` contain external libraries
+- `.junie/` contains AI agent files
+- `src/` contains repository source code
+- `tests/` contains tests files
+- `artifact/` contains project artifact such as experimental log, plot, rosbag, ...
+- `utilities/` contains external libraries
 
 ## General Instructions
 
@@ -493,9 +493,12 @@ None
 EOF
       # ....Update ai ignore files.................................................................
       n2st::seek_and_modify_string_in_file "# .*A2G related.*" " " ".aiignore"
-      n2st::seek_and_modify_string_in_file "/.junie/ai_agent_guidelines/specialized_recipes/" " " ".aiignore"
-      n2st::seek_and_modify_string_in_file "/.junie/ai_agent_guidelines/template/" " " ".aiignore"
-      n2st::seek_and_modify_string_in_file "/.junie/ai_agent_guidelines/.junie/" " " ".aiignore"
+      # Remove all five lines no mather the specific ending
+      n2st::seek_and_modify_string_in_file "/.junie/ai_agent_guidelines/*" " " ".aiignore"
+      n2st::seek_and_modify_string_in_file "/.junie/ai_agent_guidelines/*" " " ".aiignore"
+      n2st::seek_and_modify_string_in_file "/.junie/ai_agent_guidelines/*" " " ".aiignore"
+      n2st::seek_and_modify_string_in_file "/.junie/ai_agent_guidelines/*" " " ".aiignore"
+      n2st::seek_and_modify_string_in_file "/.junie/ai_agent_guidelines/*" " " ".aiignore"
 
       git add ".junie/"
       git add ".aiignore"

@@ -170,10 +170,10 @@ function check_jetbrains_resources_is_installed() {
   assert_file_exist .junie/ai_ignored/scratch.md
   assert_file_exist .aiignore
 
-  assert_file_not_contains ".aiignore" "^# ....A2G related..."
-  assert_file_not_contains ".aiignore" "^/.junie/ai_agent_guidelines/specialized_recipes/"
-  assert_file_not_contains ".aiignore" "^/.junie/ai_agent_guidelines/template/"
-  assert_file_not_contains ".aiignore" "^/.junie/ai_agent_guidelines/.junie/"
+  assert_file_not_contains ".aiignore" "A2G related"
+  assert_file_not_contains ".aiignore" "ai_agent_guidelines"
+  assert_file_not_contains ".aiignore" "^\*$"
+  assert_file_not_contains ".aiignore" "^/$"
 
   assert_dir_not_exist .junie/ai_agent_guidelines
 }
