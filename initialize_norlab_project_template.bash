@@ -493,12 +493,12 @@ None
 EOF
       # ....Update ai ignore files.................................................................
       n2st::seek_and_modify_string_in_file "# .*A2G related.*" " " ".aiignore"
-      # Remove all five lines no mather the specific ending
-      n2st::seek_and_modify_string_in_file "/.junie/ai_agent_guidelines/*" " " ".aiignore"
-      n2st::seek_and_modify_string_in_file "/.junie/ai_agent_guidelines/*" " " ".aiignore"
-      n2st::seek_and_modify_string_in_file "/.junie/ai_agent_guidelines/*" " " ".aiignore"
-      n2st::seek_and_modify_string_in_file "/.junie/ai_agent_guidelines/*" " " ".aiignore"
-      n2st::seek_and_modify_string_in_file "/.junie/ai_agent_guidelines/*" " " ".aiignore"
+      if grep -q "/.junie/ai_agent_guidelines/*" ".aiignore"; then
+        n2st::seek_and_modify_string_in_file "/.junie/ai_agent_guidelines/*" " " ".aiignore"
+      fi
+      if grep -q "\!/.junie/ai_agent_guidelines/*" ".aiignore"; then
+        n2st::seek_and_modify_string_in_file "\!/.junie/ai_agent_guidelines/*" " " ".aiignore"
+      fi
 
       git add ".junie/"
       git add ".aiignore"

@@ -9,7 +9,7 @@
 ## A2G Instructions
 
 - In addition to the A2G-super repository guidelines at `.junie/guidelines.md`:  
-  - review A2G _general_ guidelines specified in `.junie/ai_agent_guidelines/guidelines.a2g_general.md` 
+  - review A2G _framework_ guidelines specified in `.junie/ai_agent_guidelines/guidelines.a2g_framework.md` 
   - review the following A2G specialized guidelines from directory `.junie/ai_agent_guidelines/specialized_guidelines`:
     - `guidelines.markdown.md` -> markdown
     - `guidelines.n2st.md` -> n2st library

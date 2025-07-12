@@ -5,11 +5,11 @@
 /.junie/ai_ignored/
 
 # ....A2G related..................................................................................
-/.junie/ai_agent_guidelines/specialized_recipes/
-/.junie/ai_agent_guidelines/template/
-/.junie/ai_agent_guidelines/tools/
-/.junie/ai_agent_guidelines/.junie/**/*.md
-/.junie/ai_agent_guidelines/.aiignore
+/.junie/ai_agent_guidelines/**/*
+!/.junie/ai_agent_guidelines/specialized_guidelines/*
+!/.junie/ai_agent_guidelines/guidelines.a2g_framework.md
+!/.junie/ai_agent_guidelines/guidelines.a2g_general.md
+!/.junie/ai_agent_guidelines/version.txt
 
 
 # ....repository structure related.................................................................
