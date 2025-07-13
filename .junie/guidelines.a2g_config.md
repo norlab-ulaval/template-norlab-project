@@ -1,6 +1,6 @@
-# A2G Super Project Guidelines Configuration (A2G-super-config)
+# A2G Guidelines Configuration (A2G-super-config)
 
-## A2G Super Project Declaration
+## Declaration
 
 - Current _A2G super project (A2G-super)_: template-norlab-project
 - Current _A2G-workflow_ mode: supervised

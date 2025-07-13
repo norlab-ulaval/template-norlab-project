@@ -13,7 +13,7 @@ Always comply with guidelines and instructions.
 
 ## Repository Guidelines Instructions
 
-- First, review _A2G super project guidelines configuration_ specified in `.junie/guidelines.a2g_config.md` for additional guidelines.
+- First, review _A2G Guidelines Configuration_ specified in `.junie/guidelines.a2g_config.md` for additional guidelines.
 - Then proceed with the remaining repository guidelines instructions.
 
 ## Repository Organization
@@ -26,5 +26,11 @@ Always comply with guidelines and instructions.
 - `tests/tests_bats/` contains N2ST bats framework files that are mainly used for unit-testing
 - `tests/tests_dryrun_and_tests_scripts/` contains integration tests
 - `utilities/` contains external libraries such as N2ST, NBS and a mock repository
-- `utilities/tmp/dockerized-norlab-project-mock-EMPTY` is use for cloning a fresh copy of a mock "super project" from https://github.com/norlab-ulaval/dockerized-norlab-project-mock-EMPTY.git on test execution. `dockerized-norlab-project-mock-EMPTY` is a mock repository of how a user would install and uses TNP. We refer to this as a "super project."
+- `utilities/tmp/dockerized-norlab-project-mock-EMPTY` is use for cloning a fresh copy of a mock "super project" from https://github.com/norlab-ulaval/dockerized-norlab-project-mock-EMPTY.git on test execution. 
+
+## Terminology
+
+- `N2ST` is the acronym for `norlab-shell-script-tools` library
+- `NBS` is the acronym for `norlab-build-system` library
+- `dockerized-norlab-project-mock-EMPTY` is a mock repository of how a user would install and uses TNP. We refer to this as a "super project."
 
