@@ -26,11 +26,10 @@ Always comply with guidelines and instructions.
 - `tests/tests_bats/` contains N2ST bats framework files that are mainly used for unit-testing
 - `tests/tests_dryrun_and_tests_scripts/` contains integration tests
 - `utilities/` contains external libraries such as N2ST, NBS and a mock repository
-- `utilities/tmp/dockerized-norlab-project-mock-EMPTY` is use for cloning a fresh copy of a mock "super project" from https://github.com/norlab-ulaval/dockerized-norlab-project-mock-EMPTY.git on test execution. 
+- `utilities/tmp/dockerized-norlab-project-mock-EMPTY` is used for cloning a fresh copy of a mock "_super project_" from https://github.com/norlab-ulaval/dockerized-norlab-project-mock-EMPTY.git on test execution.
 
-## Terminology
+## Repository Terminology
 
 - `N2ST` is the acronym for `norlab-shell-script-tools` library
 - `NBS` is the acronym for `norlab-build-system` library
-- `dockerized-norlab-project-mock-EMPTY` is a mock repository of how a user would install and uses TNP. We refer to this as a "super project."
-
+- `dockerized-norlab-project-mock-EMPTY` is a mock repository of how a user would install and uses TNP. We refer to this as a "_super project_."

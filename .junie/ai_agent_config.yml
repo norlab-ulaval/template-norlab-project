@@ -1,0 +1,82 @@
+# A2G AI Agent Configuration
+# Full YAML configuration approach for AI agent variable management
+
+a2g:
+  super_project: "template-norlab-project"
+  workflow_mode: "supervised"
+  version: "1.0.0"
+
+branches:
+  bleeding_edge: "dev"
+  release: "main"
+  current: "${GIT_CURRENT_BRANCH}"  # Dynamic resolution
+
+repository:
+  name: "${REPO_NAME}"  # Dynamic resolution
+  super_project_url: "https://github.com/norlab-ulaval/dockerized-norlab-project-mock-EMPTY.git"
+
+youtrack:
+  base_url: "${YOUTRACK_URL}"
+  project_key: "${PROJECT_KEY}"
+  current_task_id: "${YOUTRACK_TASK_ID}"  # Dynamic resolution
+  current_task_summary: "${YOUTRACK_TASK_SUMMARY}"  # Dynamic resolution
+
+paths:
+  artifacts: ".junie/ai_artifact"
+  guidelines: ".junie/ai_agent_guidelines"
+  temp: ".junie/ai_artifact/temp"
+  reports: ".junie/ai_artifact/reports"
+  plans: ".junie/ai_artifact/plans"
+  logs: ".junie/ai_artifact/logs"
+  archive: ".junie/ai_artifact/archive"
+
+validation:
+  required_fields: ["super_project", "workflow_mode"]
+  valid_workflow_modes: ["supervised", "autonomous"]
+
+dynamic_variables:
+  git_current_branch:
+    command: "git rev-parse --abbrev-ref HEAD"
+    fallback: "main"
+  repo_name:
+    command: "basename $(git rev-parse --show-toplevel)"
+    fallback: "unknown-repo"
+  youtrack_task_id:
+    source: "environment"
+    env_var: "YOUTRACK_TASK_ID"
+    fallback: "TASK-000"
+  youtrack_task_summary:
+    source: "environment" 
+    env_var: "YOUTRACK_TASK_SUMMARY"
+    fallback: "default-task"
+
+# Specialized guidelines activation mapping
+specialized_guidelines:
+  file_extensions:
+    ".py": "guidelines.python.md"
+    ".sh": "guidelines.shell_script.md"
+    ".bash": "guidelines.shell_script.md"
+    ".md": "guidelines.markdown.md"
+  directory_contexts:
+    "utilities/norlab-shell-script-tools/": "guidelines.n2st.md"
+    "utilities/norlab-build-system": "guidelines.nbs.md"
+  task_contexts:
+    documentation: "guidelines.markdown.md"
+    testing: "all_relevant"
+
+# Error handling configuration
+error_handling:
+  max_retries: 3
+  backoff_strategy: "exponential"
+  log_file: ".junie/ai_artifact/error_log.md"
+  escalation_file: ".junie/ai_artifact/guideline_conflicts.md"
+
+# File naming patterns
+file_naming:
+  reports: "[task-type]_[description]_report_YYYYMMDD.md"
+  plans: "[task-type]_[description]_plan_YYYYMMDD.md"
+  analysis: "[task-type]_[description]_analysis_YYYYMMDD.md"
+  logs: "[process]_log_YYYYMMDD-HHMMSS.txt"
+  temp_scripts: "temp_[purpose]_YYYYMMDD-HHMMSS.[ext]"
+  temp_data: "temp_[dataset]_YYYYMMDD.[ext]"
+  backups: "backup_[original-name]_YYYYMMDD-HHMMSS.[ext]"
