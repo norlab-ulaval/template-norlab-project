@@ -1,9 +1,10 @@
 # _AI Agent Guidelines (A2G)_ repository structure refactoring plan
 
+YouTrack task: TNP-78 refactor: Improve A2G repository structure 
+
 ## Goal
 Improve A2G repository file structure organization so that it is easier to use and maintain.
 
-YouTrack task: TNP-78 refactor: Improve A2G repository structure 
 
 ## Repository structure
 
