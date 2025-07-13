@@ -446,6 +446,7 @@ ${MSG_END_FORMAT}"
       mkdir -p ".junie/active_plans"
       mkdir -p ".junie/ai_artifact"
       mkdir -p ".junie/ai_ignored"
+      mkdir -p ".junie/ai_ignored/archive_plans"
       cat > ".junie/ai_ignored/scratch.md" <<EOF
 # Prompt Redaction Scratch File
 

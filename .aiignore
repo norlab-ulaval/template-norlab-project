@@ -3,16 +3,21 @@
 
 # ....Junie related................................................................................
 /.junie/ai_ignored/
+/.junie/ai_plans/archive
 
 # ....A2G related..................................................................................
-/.junie/ai_agent_guidelines/**/*
-!/.junie/ai_agent_guidelines/specialized_guidelines/*
-!/.junie/ai_agent_guidelines/guidelines.a2g_framework.md
-!/.junie/ai_agent_guidelines/guidelines.a2g_general.md
-!/.junie/ai_agent_guidelines/quick_reference.md
-!/.junie/ai_agent_guidelines/glossary.md
-!/.junie/ai_agent_guidelines/validation_checklist.md
-!/.junie/ai_agent_guidelines/version.txt
+#/.junie/ai_agent_guidelines/**/*
+#!/.junie/ai_agent_guidelines/specialized_guidelines/*
+#!/.junie/ai_agent_guidelines/guidelines.a2g_framework.md
+#!/.junie/ai_agent_guidelines/guidelines.a2g_general.md
+#!/.junie/ai_agent_guidelines/quick_reference.md
+#!/.junie/ai_agent_guidelines/glossary.md
+#!/.junie/ai_agent_guidelines/validation_checklist.md
+#!/.junie/ai_agent_guidelines/version.txt
+/.junie/ai_agent_guidelines/.junie/
+/.junie/ai_agent_guidelines/template/
+/.junie/ai_agent_guidelines/tools/
+/.junie/ai_agent_guidelines/README.md
 
 
 # ....repository structure related.................................................................

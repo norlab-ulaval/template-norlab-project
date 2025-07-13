@@ -19,7 +19,7 @@ Always comply with guidelines and instructions.
 ## Repository Organization
 
 - `.junie/` contains AI agent related files.
-- `.junie/ai_agent_guidelines` contains _AI Agent Guidelines (A2G)_.
+- `.junie/ai_agent_guidelines` contains _AI Agent Guidelines (A2G)_ with entrypoint at `.junie/ai_agent_guidelines/entrypoint`.
 - `src/` contains repository source code.
 - `tests/` contains tests files.
 - `artifact/` contains project artifact such as experimental log, plot and rosbag.
