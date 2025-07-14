@@ -13,8 +13,8 @@ Always comply with guidelines and instructions.
 
 ## Repository Guidelines Instructions
 
-- First, review _A2G Framework Guidelines_ specified in `.junie/ai_agent_guidelines/framework/guidelines.a2g_framework.md` for
-  additional guidelines.
+- First, review _A2G Framework Guidelines_ specified in
+  `.junie/ai_agent_guidelines/framework/guidelines.a2g_framework.md` for additional guidelines.
 - Then proceed with the remaining repository guidelines instructions.
 
 ## Repository Organization

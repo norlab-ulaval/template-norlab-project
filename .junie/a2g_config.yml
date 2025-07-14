@@ -1,9 +1,9 @@
 # A2G Core Configuration
 A2G:
-  super_project: "template-norlab-project"
+  consumer-project: "template-norlab-project"
   workflow: "supervised"  # supervised | autonomous
 
-# The following specialized guidelines are activated for this A2G-super-project
+# The following specialized guidelines are activated for this A2G-consumer-project
 specialized_guidelines:
   - "guidelines.markdown.md"
   - "guidelines.n2st.md" 
