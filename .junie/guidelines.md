@@ -4,9 +4,8 @@ _template-norlab-project (TNP)_ guidelines and instructions
 
 ## Repository Description
 
-TNP is a template repository for code-related research projects.
-It’s meant to help kick-start repository creation by enabling software engineering
-research-oriented best practice.
+TNP is a template repository for code-related research projects. It’s meant to help kick-start repository creation by
+enabling software engineering research-oriented best practice.
 
 ## Prime directive:
 
@@ -14,8 +13,8 @@ Always comply with guidelines and instructions.
 
 ## Repository Guidelines Instructions
 
-- First, review _A2G Framework Guidelines_ specified in
-  `.junie/ai_agent_guidelines/guidelines.a2g_framework.md` for additional guidelines.
+- First, review _A2G Framework Guidelines_ specified in `.junie/ai_agent_guidelines/framework/guidelines.a2g_framework.md` for
+  additional guidelines.
 - Then proceed with the remaining repository guidelines instructions.
 
 ## Repository Organization
@@ -29,8 +28,8 @@ Always comply with guidelines and instructions.
 - `tests/tests_bats/` contains N2ST bats framework files that are mainly used for unit-testing
 - `tests/tests_dryrun_and_tests_scripts/` contains integration tests
 - `utilities/` contains external libraries such as N2ST, NBS and a mock repository
-- `utilities/tmp/dockerized-norlab-project-mock-EMPTY` is used for cloning a fresh copy of a mock "
-  _super project_" from https://github.com/norlab-ulaval/dockerized-norlab-project-mock-EMPTY.git
+- `utilities/tmp/dockerized-norlab-project-mock-EMPTY` is used for cloning a fresh copy of a mock
+  super project from https://github.com/norlab-ulaval/dockerized-norlab-project-mock-EMPTY.git
   on test execution.
 
 ## Repository Terminology

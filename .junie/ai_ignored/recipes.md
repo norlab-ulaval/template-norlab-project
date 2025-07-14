@@ -9,6 +9,14 @@ Read and implement the plan at `.junie/active_plans/TODO.md`.
 ```
 
 ```markdown
+I have made minor modification to the plan at `.junie/active_plans/TODO`
+Establish feedback loop for measuring AI agent guideline efficiency improvement:
+1. implementation plan;
+2. read files and measure efficiency;
+3. repeat step 1 until **expected outcome** reached (as stated in the plan).
+```
+
+```markdown
 Review guidelines at `.junie/guidelines.md`.
 Execute all unit-tests and all integration tests before submitting.
 ```

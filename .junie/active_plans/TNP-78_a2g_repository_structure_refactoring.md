@@ -48,10 +48,8 @@ Improve A2G repository file structure organization so that it is easier to use a
     ├── visual/
     │   └── ...
     ├── CHANGELOG.md
-    ├── glossary.md
     ├── guidelines.a2g_framework.md
     ├── guidelines.a2g_general.md
-    ├── quick_reference.md
     ├── validation_checklist.md
     ├── README.human.md
     ├── README.md
@@ -86,8 +84,6 @@ Improve A2G repository file structure organization so that it is easier to use a
     │   └── recipes.general.md
     ├── framework/
     │   ├── guidelines.a2g_framework.md 
-    │   ├── guidelines.a2g_glossary.md                     <- renamed from 'glossary.md' 
-    │   ├── guidelines.a2g_quick_reference.md              <- renamed from 'quick_reference.md' 
     │   └── guidelines.a2g_validation_checklist.md         <- renamed from 'validation_checklist.md' 
     ├── template/
     │   └── ...
@@ -106,20 +102,22 @@ Improve A2G repository file structure organization so that it is easier to use a
 ### Planning phase
 
 1. Inspect and validate the expected file structure tree.
-2. Define the **expected outcome** e.g., "A2G framework ready for optimal AI agent deployment with 95%+
-efficiency rating."
+2. Define the **expected outcome** e.g., "A2G framework ready for optimal AI agent deployment with
+   95%+ efficiency rating."
 3. Provide your assessment in the console and wait for my approval before proceeding with the
    refactoring phase.
 
 ### Refactoring phase
 
+#### Refactoring Instructions
+
 1. Refactor directory structure according to the expected file structure tree
 2. Rename files according to the expected file structure tree
 3. Update A2G `.junie/ai_agent_guidelines` files references accordingly
-4. Update super project `.junie` files references accordingly
+4. Update A2G-super-project `.junie` files references accordingly
 5. List files that are ai ignore but should be updated in summary
 
-### Refactoring Strategy
+#### Refactoring Execution
 
 Establish feedback loop for measuring AI agent guideline efficiency improvement:
 

@@ -3,7 +3,7 @@ A2G:
   super_project: "template-norlab-project"
   workflow: "supervised"  # supervised | autonomous
 
-# Specialized Guidelines Activation
+# The following specialized guidelines are activated for this A2G-super-project
 specialized_guidelines:
   - "guidelines.markdown.md"
   - "guidelines.n2st.md" 
@@ -11,6 +11,7 @@ specialized_guidelines:
   - "guidelines.python.md"
   - "guidelines.shell_script.md"
 
+# Repository Protected Branches
 branches:
   bleeding_edge: "dev"
   release: "main"
