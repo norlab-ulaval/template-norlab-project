@@ -32,9 +32,7 @@ Improve A2G repository file structure organization so that it is easier to use a
 │   │   │   └── scratch.md
 │   │   ├── guidelines.a2g_config.md
 │   │   └── guidelines.md
-│   ├── specialized_guidelines/
-│   ├── .gitignore
-│   └── .aiignore
+│   └── specialized_guidelines/
 ├── tools/
 │   └── ...
 ├── visual/
@@ -46,6 +44,7 @@ Improve A2G repository file structure organization so that it is easier to use a
 ├── guidelines.a2g_general.md
 ├── quick_reference.md
 ├── validation_checklist.md
+├── entrypoint
 └── version.txt
 ```
 
@@ -82,14 +81,12 @@ Improve A2G repository file structure organization so that it is easier to use a
 │   │   ├── a2g_config.yaml                            <- renamed from 'ai_agent_config.yml'
 │   │   ├── guidelines.a2g_config.md
 │   │   └── guidelines.md
-│   ├── specialized_guidelines/
-│   ├── .gitignore
-│   └── .aiignore
+│   └── specialized_guidelines/
 ├── tools/
 │   └── ...
 ├── visual/
 │   └── ...
-├── a2G_entrypoint.md
+├── entrypoint
 ├── CHANGELOG.md
 ├── README.md
 └── version.txt
