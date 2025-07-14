@@ -10,3 +10,7 @@ specialized_guidelines:
   - "guidelines.nbs.md"
   - "guidelines.python.md"
   - "guidelines.shell_script.md"
+
+branches:
+  bleeding_edge: "dev"
+  release: "main"
