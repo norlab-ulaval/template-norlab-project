@@ -1,0 +1,12 @@
+# A2G Core Configuration
+A2G:
+  super_project: "template-norlab-project"
+  workflow: "supervised"  # supervised | autonomous
+
+# Specialized Guidelines Activation
+specialized_guidelines:
+  - "guidelines.markdown.md"
+  - "guidelines.n2st.md" 
+  - "guidelines.nbs.md"
+  - "guidelines.python.md"
+  - "guidelines.shell_script.md"

@@ -1,10 +1,20 @@
 # _AI Agent Guidelines (A2G)_ repository structure refactoring plan
 
-YouTrack task: TNP-78 refactor: Improve A2G repository structure 
+YouTrack task: TNP-78 refactor: Improve A2G repository structure
+
+## Context
+
+- _AI Agent Guidelines (A2G)_ located in `.junie/ai_agent_guidelines` is:
+    - An AI agent guideline management framework;
+    - A collection of guidelines for private use;
+    - And is a private repository;
+- The main repository `template-norlab-project` serves as a A2G deployment case study for improving
+  A2G.
+- Review `template-norlab-project` and A2G guidelines from an AI agent usage point of view.
 
 ## Goal
-Improve A2G repository file structure organization so that it is easier to use and maintain.
 
+Improve A2G repository file structure organization so that it is easier to use and maintain.
 
 ## Repository structure
 
@@ -38,18 +48,18 @@ Improve A2G repository file structure organization so that it is easier to use a
 ├── visual/
 │   └── ...
 ├── CHANGELOG.md
-├── README.md
 ├── glossary.md
 ├── guidelines.a2g_framework.md
 ├── guidelines.a2g_general.md
 ├── quick_reference.md
 ├── validation_checklist.md
-├── entrypoint
+├── README.human.md
+├── README.md
 └── version.txt
 ```
 
-
 ### Expected file structure tree
+
 ```text
 .junie/ai_agent_guidelines
 ├── guidelines/
@@ -86,8 +96,8 @@ Improve A2G repository file structure organization so that it is easier to use a
 │   └── ...
 ├── visual/
 │   └── ...
-├── entrypoint
 ├── CHANGELOG.md
+├── README.human.md
 ├── README.md
 └── version.txt
 ```
@@ -95,10 +105,13 @@ Improve A2G repository file structure organization so that it is easier to use a
 ## Instructions
 
 ### Planning phase
-1. Inspect and validate the expected file structure tree. 
-2. Provide your assessment in the console and wait for my approval before proceeding with the refactoring phase.
+
+1. Inspect and validate the expected file structure tree.
+2. Provide your assessment in the console and wait for my approval before proceeding with the
+   refactoring phase.
 
 ### Refactoring phase
+
 1. Refactor directory structure according to the expected file structure tree
 2. Rename files according to the expected file structure tree
 3. Update A2G `.junie/ai_agent_guidelines` files references accordingly
@@ -106,8 +119,12 @@ Improve A2G repository file structure organization so that it is easier to use a
 5. List files that are ai ignore but should be updated in summary
 
 ### Refactoring Strategy
-Definition: **Expected Outcome** as stated at the end of `.junie/active_plans/task2_a2g_improvement_plan.md` plan:  "A2G framework ready for optimal AI agent deployment with 95%+ efficiency rating".
-Establish feedback loop for measuring AI agent guideline efficiency improvement: 
-    1. execute refactoring phase;
-    2. read files and measure efficiency;
-    3. repeat step 1 until **expected outcome** reached (as stated above). 
+
+Definition: **expected outcome** -> "A2G framework ready for optimal AI agent deployment with 95%+
+efficiency rating."
+
+Establish feedback loop for measuring AI agent guideline efficiency improvement:
+
+1. execute refactoring phase;
+2. read files and measure efficiency;
+3. repeat step 1 until **expected outcome** reached (as stated above). 
