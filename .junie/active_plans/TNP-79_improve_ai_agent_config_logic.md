@@ -13,15 +13,21 @@ Variable configuration file `.junie/ai_agent_config.yml` should:
 ## Tasks
 
 ### Planning Phase
-- [ ] Would it be clearer if we had two separate configuration files, one for variables set manually by User and one for dynamically set variables? 
-- [ ] Is it still relevant to keep `.junie/guidelines.a2g_config.md` file as a Markdown file if we go with a two separate YAML configuration files. `guidelines.a2g_config.md` specialized guidelines selection logic could be merged in the YAML manual configuration file which would simplify usage and the "review A2G _framework_ guidelines specified in `.junie/ai_agent_guidelines/guidelines.a2g_framework.md`" instruction could replace the "review _A2G Guidelines Configuration_ specified in `.junie/guidelines.a2g_config.md`" instruction in `.junie/guidelines.md`.
-- [ ] Submit your analysis and wait for approval before executing the implementation phase 
+1. Would it be clearer if we had two separate configuration files, one for variables set manually by User and one for dynamically set variables? 
+2. Is it still relevant to keep `.junie/guidelines.a2g_config.md` file as a Markdown file if we go with a two separate YAML configuration files. `guidelines.a2g_config.md` specialized guidelines selection logic could be merged in the YAML manual configuration file which would simplify usage and the "review A2G _framework_ guidelines specified in `.junie/ai_agent_guidelines/guidelines.a2g_framework.md`" instruction could replace the "review _A2G Guidelines Configuration_ specified in `.junie/guidelines.a2g_config.md`" instruction in `.junie/guidelines.md`.
+3. Submit your analysis
+4. Prepare an implementation plan
+   Note: 
+   - don't make it retro-compatible
+   - the A2G super project configuration logic should be as simple as possible
+   - consider if the dynamic one could go in A2G instead of the super project
+5. Once the plan is submitted, WAIT FOR APPROVAL before executing the implementation phase. 
 
 ### Implementation Phase
-- [ ] assess what variables in `.junie/ai_agent_config.yml` are really useful to AI agent when using A2G
-- [ ] clean up the noise in `.junie/ai_agent_config.yml` i.e., remove unused variables, remove duplicated logic 
-- [ ] Update A2G `.junie/ai_agent_guidelines` files references accordingly
-- [ ] Update super project `.junie` files references accordingly
+1. assess what variables in `.junie/ai_agent_config.yml` are really useful to AI agent when using A2G
+2. clean up the noise in `.junie/ai_agent_config.yml` i.e., remove unused variables, remove duplicated logic 
+3. Update A2G `.junie/ai_agent_guidelines` files references accordingly
+4. Update super project `.junie` files references accordingly
 
 ### Implementation Strategy
 Definition: **Expected Outcome** as stated at the end of `.junie/active_plans/task2_a2g_improvement_plan.md` plan:  "A2G framework ready for optimal AI agent deployment with 95%+ efficiency rating."
