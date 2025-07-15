@@ -5,6 +5,10 @@ Is AI ignore
 ## General
 
 ```markdown
+Evaluate A2G performance from an AI agent usage point of view using `template-norlab-project` as a A2g-consumer-project.
+```
+
+```markdown
 Read and implement the plan at `.junie/active_plans/TODO.md`.
 ```
 
