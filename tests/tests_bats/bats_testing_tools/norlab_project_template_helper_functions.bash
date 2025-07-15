@@ -33,7 +33,7 @@ function norlab_project_template_directory_reset_check() {
     assert_dir_exist tests/tests_bats/bats_testing_tools
     assert_file_exist tests/tests_bats/bats_testing_tools/bats_helper_functions_local.bash
     assert_file_exist tests/run_bats_core_test_in_n2st.template.bash
-    assert_file_exist tests/run_bats_core_test_in_n2st.tnp.bash
+    assert_file_exist tests/run_bats_core_test_in_n2st.bash
     assert_file_exist tests/tests_bats/test_template.bats
     assert_file_exist src/dummy.bash
     assert_file_exist tests/tests_bats/bats_testing_tools/norlab_project_template_helper_functions.bash
@@ -170,10 +170,10 @@ function check_jetbrains_resources_is_installed() {
   assert_file_exist .junie/ai_ignored/scratch.md
   assert_file_exist .aiignore
 
-  assert_file_not_contains ".aiignore" "^# ....A2G related..."
-  assert_file_not_contains ".aiignore" "^/.junie/ai_agent_guidelines/specialized_recipes/"
-  assert_file_not_contains ".aiignore" "^/.junie/ai_agent_guidelines/template/"
-  assert_file_not_contains ".aiignore" "^/.junie/ai_agent_guidelines/.junie/"
+  assert_file_not_contains ".aiignore" "A2G related"
+  assert_file_not_contains ".aiignore" "ai_agent_guidelines"
+  assert_file_not_contains ".aiignore" "^\*$"
+  assert_file_not_contains ".aiignore" "^/$"
 
   assert_dir_not_exist .junie/ai_agent_guidelines
 }
@@ -194,11 +194,22 @@ function check_norlab_project_template_teardown() {
   assert_output --regexp .*"\[Norlab-Project-Template done\]".*"Repository initialization is complete.".*"Your repository structure now look like this".*"You can delete the".*"to_delete/".*"directory whenever you are ready.".*"NorLab project remaining configuration steps:".*"-".*"✔ Step 1 › Generate the new repository".*"-".*"✔ Step 2 › Execute initialize_norlab_project_template.bash".*"-   Step 3".*"Make it your own".*"Happy coding".*"Completed"
 
   cd "${BATS_DOCKER_WORKDIR}" || exit 1
-  assert_file_not_exist tests/run_bats_core_test_in_n2st.tnp.bash
+
+  # ....Check TNP tests related....................................................................
+  assert_file_not_exist tests/run_bats_core_test_in_n2st.template.bash
+  assert_file_not_exist tests/run_all_dryrun_and_tests_scripts.bash
+  assert_dir_not_exist tests/tests_dryrun_and_tests_scripts
+
   assert_file_not_exist tests/tests_bats/bats_testing_tools/norlab_project_template_helper_functions.bash
   assert_file_not_exist tests/tests_bats/test_dotenv_files.bats
   assert_file_not_exist tests/tests_bats/test_initialize_norlab_project_template.bats
 
+  assert_file_not_exist tests/setup_integration_test.bash
+  assert_file_not_exist tests/setup_mock.bash
+  assert_file_not_exist tests/teardown_integration_test.bash
+  assert_file_not_exist tests/teardown_mock.bash
+
+  # ....Check TNP post install related.............................................................
   assert_file_exist to_delete/NORLAB_PROJECT_TEMPLATE_INSTRUCTIONS.md
   assert_file_exist to_delete/initialize_norlab_project_template.bash
   assert_file_exist to_delete/configure_github_branch_protection.bash

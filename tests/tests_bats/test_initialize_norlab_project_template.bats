@@ -331,7 +331,6 @@ teardown() {
   assert_file_not_contains .run/run-Bats-Tests-All.run.xml "folderName=\"\[TNP\]"
   assert_file_contains .run/run-Bats-Tests-All.run.xml "folderName=\"\[MY_PROJECT\]"
 
-  assert_file_not_contains .run/run-Bats-Tests-All.run.xml "tests/run_bats_core_test_in_n2st.tnp.bash"
   assert_file_contains .run/run-Bats-Tests-All.run.xml "tests/run_bats_core_test_in_n2st.bash"
 
   # ....Check Semantic-Release install.............................................................
