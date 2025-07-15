@@ -47,6 +47,96 @@ Establish feedback loop for measuring AI agent guideline efficiency improvement:
 3. repeat step 1 until **expected outcome** reached (as stated above).
 ```
 
+## A2G-consumer-project pov
+
+### A2G-consumer-project pov › Assess And Improve A2G
+
+```markdown
+# Context
+
+- _AI Agent Guidelines (A2G)_ located in `.junie/ai_agent_guidelines` is:
+    - An AI agent guideline management framework;
+    - A collection of guidelines for private use;
+    - And is a private repository;
+- The main repository `template-norlab-project` serves as a A2G deployment case study for improving
+  A2G.
+- Review `template-norlab-project` and A2G guidelines from an AI agent usage point of view. 
+
+# Goal
+
+The goal is to assess and improve A2G and A2G-consumer-project integration.
+
+# Task 1
+
+Review A2G-consumer-project guidelines from an AI agent point of view:
+
+- Assess instruction clarity;
+- Highlight ambiguous or contradicting instructions;
+- Does it need improvement before being used efficiently by Junie?
+
+# Task 2
+
+Base on task 1 report, propose an improvement plan writen to a distinct document.
+
+# General instruction
+
+- Make the report intuitive e.g., use emoji ✅ ❌;
+- When task 1 is done, start task 2 right away.
+```
+
+### A2G-consumer-project pov › Single Tasks
+
+```markdown
+# Context
+
+- _AI Agent Guidelines (A2G)_ located in `.junie/ai_agent_guidelines` is:
+    - An AI agent guideline management framework;
+    - A collection of guidelines for private use;
+    - And is a private repository;
+- The main repository `template-norlab-project` serves as a A2G deployment case study for improving
+  A2G.
+- Review `template-norlab-project` and A2G guidelines from an AI agent usage point of view. 
+
+# Goal
+
+The goal is to...
+
+# Task
+
+TODO
+
+
+```
+
+### A2G-consumer-project pov › Sequential Tasks
+
+```markdown
+# Context
+
+- _AI Agent Guidelines (A2G)_ located in `.junie/ai_agent_guidelines` is:
+    - An AI agent guideline management framework;
+    - A collection of guidelines for private use;
+    - And is a private repository;
+- The main repository `template-norlab-project` serves as a A2G deployment case study for improving
+  A2G.
+- Review `template-norlab-project` and A2G guidelines from an AI agent usage point of view. 
+
+# Goal
+
+The goal is to...
+
+# Task 1
+
+TODO
+
+# Task 2
+
+TODO
+
+# General instruction
+
+- When task 1 is done, start task 2 right away.
+```
 
 ## Improve/refactor source code
 
