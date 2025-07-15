@@ -263,8 +263,6 @@ ${MSG_END_FORMAT}"
     n2st::seek_and_modify_string_in_file "folderName=\"\[TNP\]" "folderName=\"\[${env_prefix}\]" .run/open-a-terminal-in-ubuntu-container.run.xml
     n2st::seek_and_modify_string_in_file "folderName=\"\[TNP\]" "folderName=\"\[${env_prefix}\]" .run/run-Bats-Tests-All.run.xml
 
-    n2st::seek_and_modify_string_in_file "tests/run_bats_core_test_in_n2st.tnp.bash" "tests/run_bats_core_test_in_n2st.bash" .run/run-Bats-Tests-All.run.xml
-
     if [[ ${install_n2st} == true ]]; then
       n2st::seek_and_modify_string_in_file "function n2st::" "function ${fct_prefix}::" src/dummy.bash
       n2st::seek_and_modify_string_in_file "n2st::" "${fct_prefix}::" tests/tests_bats/test_template.bats
@@ -446,15 +444,21 @@ ${MSG_END_FORMAT}"
     elif [[ ${install_jetbrains_resources} == true ]]; then
       rm -Rf ".junie"
       mkdir -p ".junie/active_plans"
+      mkdir -p ".junie/ai_artifact"
       mkdir -p ".junie/ai_ignored"
+      mkdir -p ".junie/ai_ignored/archive_plans"
       cat > ".junie/ai_ignored/scratch.md" <<EOF
 # Prompt Redaction Scratch File
+
 Is vcs ignore and AI ignore
+@formatter:off
 
 EOF
       cat > ".junie/ai_ignored/recipes.md" <<EOF
 # Prompt Instruction Recipes
+
 Is AI ignore
+@formatter:off
 
 EOF
       cat > ".junie/guidelines.md" <<'EOF'
@@ -462,33 +466,43 @@ EOF
 
 ## Repository Organization
 
-- `.junie/` contain AI agent files
-- `src/` contain repository source code
-- `tests/` contain tests files
-- `artifact/` contain project artifact such as experimental log, plot, rosbag, ...
-- `utilities/` contain external libraries
+- `.junie/` contains AI agent related files.
+- `src/` contains repository source code.
+- `tests/` contains tests files.
+- `artifact/` contains project artifact such as experimental log, plot and rosbag.
+- `utilities/` contains external libraries.
 
 ## General Instructions
-TODO
+
+- Unless explicitly mentioned otherwise:
+  - Always put plan, report, summary and analysis document that are ready for review in the `.junie/ai_artifact` directory.
+  - Put AI agent runtime generated artifact not related to implementation such as log file, temporary file or script output in the `.junie/ai_artifact` directory.
 
 ## Coding instructions
-TODO
+
+- Don't repeat yourself:
+    - Use already implemented code whenever possible;
+    - Leverage functionality provided by submodule and available libraries whenever possible.
 
 ## Testing Instructions
-TODO
 
-## Planning instructions
-- Always put plan ready for review in the `.junie/active_plans` directory.
+- Write tests who challenge the intended functionality or behavior.
+- Write at least one test file per corresponding source code file.
 
 ## Version Control Instructions
-- Never `git add` or `git commit` changes, all changes require explicit code review and acceptance by the code owner.
+
+- Never execute `git add` or `git commit` command. All changes made by AI agent require explicit
+  code review and acceptance by the AI agent User before being commited to code base remote origin.
 
 EOF
       # ....Update ai ignore files.................................................................
       n2st::seek_and_modify_string_in_file "# .*A2G related.*" " " ".aiignore"
-      n2st::seek_and_modify_string_in_file "/.junie/ai_agent_guidelines/specialized_recipes/" " " ".aiignore"
-      n2st::seek_and_modify_string_in_file "/.junie/ai_agent_guidelines/template/" " " ".aiignore"
-      n2st::seek_and_modify_string_in_file "/.junie/ai_agent_guidelines/.junie/" " " ".aiignore"
+      if grep -q "/.junie/ai_agent_guidelines/*" ".aiignore"; then
+        n2st::seek_and_modify_string_in_file "/.junie/ai_agent_guidelines/*" " " ".aiignore"
+      fi
+      if grep -q "\!/.junie/ai_agent_guidelines/*" ".aiignore"; then
+        n2st::seek_and_modify_string_in_file "\!/.junie/ai_agent_guidelines/*" " " ".aiignore"
+      fi
 
       git add ".junie/"
       git add ".aiignore"
@@ -518,11 +532,11 @@ EOF
     if [[ ${install_n2st} == true ]]; then
       mkdir -p tests_FINAL/tests_bats/bats_testing_tools
 
+      mv tests/run_bats_core_test_in_n2st.bash tests_FINAL/run_bats_core_test_in_n2st.bash
       mv tests/tests_bats/bats_testing_tools/bats_helper_functions_local.bash tests_FINAL/tests_bats/bats_testing_tools/bats_helper_functions_local.bash
       mv tests/tests_bats/test_template.bats tests_FINAL/tests_bats/test_template.bats
-      mv tests/run_bats_core_test_in_n2st.bash tests_FINAL/run_bats_core_test_in_n2st.bash
 
-      rm -R tests
+      rm -Rf tests
       mv tests_FINAL tests
 
       git add "tests"
