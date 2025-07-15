@@ -9,11 +9,13 @@
 /.junie/ai_agent_guidelines/template/
 /.junie/ai_agent_guidelines/recipes/
 /.junie/ai_agent_guidelines/visual/
+/.junie/ai_agent_guidelines/CHANGELOG.md
 
 # ....repository structure related.................................................................
 /artifact/
 
 # ....General file type............................................................................
+/CHANGELOG.md
 venv/
 __pycache__/
 *.benchmarks/
