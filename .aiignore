@@ -15,7 +15,7 @@
 /artifact/
 
 # ....General file type............................................................................
-/CHANGELOG.md
+CHANGELOG.md
 venv/
 __pycache__/
 *.benchmarks/
