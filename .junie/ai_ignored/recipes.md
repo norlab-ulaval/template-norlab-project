@@ -105,7 +105,6 @@ The goal is to...
 
 TODO
 
-
 ```
 
 ### A2G-consumer-project pov › Sequential Tasks
