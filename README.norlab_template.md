@@ -19,10 +19,11 @@
 
 [//]: # ( ==== Hyperlink ============================================= ) 
 <sup>
-    <a href="http://132.203.26.125:8111">NorLab TeamCity GUI</a>
-    (VPN/intranet access) &nbsp; • &nbsp;
-    <a href="https://hub.docker.com/repositories/norlabulaval">norlabulaval</a>
-    (Docker Hub) &nbsp;
+    <a href="https://github.com/norlab-ulaval/dockerized-norlab-project">Dockerized-NorLab project app (DNA)</a>
+    &nbsp; • &nbsp;
+    <a href="https://hub.docker.com/repositories/norlabulaval">NorLab Docker Hub</a> 
+    &nbsp; • &nbsp;
+    <a href="http://132.203.26.125:8111">NorLab TeamCity (vpn/intranet)</a> 
 </sup>
 <br>
 <br>

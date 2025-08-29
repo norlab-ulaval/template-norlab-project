@@ -99,14 +99,14 @@ teardown() {
 
 # ====Tests========================================================================================
 
-@test "gbp::validate_prerequisites should fail when gh is not installed" {
+@test "tnp::validate_prerequisites should fail when gh is not installed" {
 
-  run gbp::validate_prerequisites
+  run tnp::validate_prerequisites
   assert_failure
   assert_output --partial "GitHub CLI (gh) is not installed"
 }
 
-@test "gbp::validate_prerequisites should fail when not authenticated" {
+@test "tnp::validate_prerequisites should fail when not authenticated" {
   # Mock gh command to simulate not authenticated
   function gh() {
     if [[ "$1" == "auth" && "$2" == "status" ]]; then
@@ -115,12 +115,12 @@ teardown() {
   }
   export -f gh
 
-  run gbp::validate_prerequisites
+  run tnp::validate_prerequisites
   assert_failure
   assert_output --partial "GitHub CLI is not authenticated"
 }
 
-@test "gbp::validate_prerequisites should fail when not in git repository" {
+@test "tnp::validate_prerequisites should fail when not in git repository" {
   # Mock gh command
   function gh() {
     return 0
@@ -135,12 +135,12 @@ teardown() {
   }
   export -f git
 
-  run gbp::validate_prerequisites
+  run tnp::validate_prerequisites
   assert_failure
   assert_output --partial "Current directory is not a git repository"
 }
 
-@test "gbp::validate_prerequisites should fail when not GitHub repository" {
+@test "tnp::validate_prerequisites should fail when not GitHub repository" {
   # Mock git command to simulate non-GitHub repository
   function git() {
     if [[ "$1" == "rev-parse" ]]; then
@@ -159,12 +159,12 @@ teardown() {
   }
   export -f gh
 
-  run gbp::validate_prerequisites
+  run tnp::validate_prerequisites
   assert_failure
   assert_output --partial "Repository is not hosted on GitHub"
 }
 
-@test "gbp::get_repository_info should extract owner, name and default branch correctly" {
+@test "tnp::get_repository_info should extract owner, name and default branch correctly" {
   # Mock gh repo view command
   function gh() {
     if [[ "$1" == "repo" && "$2" == "view" ]]; then
@@ -173,18 +173,18 @@ teardown() {
   }
   export -f gh
 
-  run gbp::get_repository_info
+  run tnp::get_repository_info
   assert_success
   assert_output --partial "Repository: norlab-ulaval/test-repo (default branch: main)"
 }
 
-@test "gbp::create_branch_if_not_exists should work in dry-run mode" {
-  run gbp::create_branch_if_not_exists "test-branch" "true"
+@test "tnp::create_branch_if_not_exists should work in dry-run mode" {
+  run tnp::create_branch_if_not_exists "test-branch" "true"
   assert_success
   assert_output --partial "DRY RUN: Would create branch 'test-branch'"
 }
 
-@test "gbp::create_branch_if_not_exists should skip if branch exists" {
+@test "tnp::create_branch_if_not_exists should skip if branch exists" {
   # Mock git show-ref to simulate existing branch
   function git() {
     if [[ "$1" == "show-ref" ]]; then
@@ -193,21 +193,21 @@ teardown() {
   }
   export -f git
 
-  run gbp::create_branch_if_not_exists "existing-branch" "false"
+  run tnp::create_branch_if_not_exists "existing-branch" "false"
   assert_success
   assert_output --partial "Branch 'existing-branch' already exists"
 }
 
-@test "gbp::rename_branch_if_needed should skip when using default branch name" {
+@test "tnp::rename_branch_if_needed should skip when using default branch name" {
   REPO_DEFAULT_BRANCH="main"
   export REPO_DEFAULT_BRANCH
 
-  run gbp::rename_branch_if_needed "main" "false"
+  run tnp::rename_branch_if_needed "main" "false"
   assert_success
   # Should return 0 without any output since it's using default name
 }
 
-@test "gbp::rename_branch_if_needed should work in dry-run mode" {
+@test "tnp::rename_branch_if_needed should work in dry-run mode" {
   REPO_DEFAULT_BRANCH="main"
   export REPO_DEFAULT_BRANCH
 
@@ -225,12 +225,12 @@ teardown() {
   }
   export -f git
 
-  run gbp::rename_branch_if_needed "master" "true"
+  run tnp::rename_branch_if_needed "master" "true"
   assert_success
   assert_output --partial "DRY RUN: Would rename branch 'main' to 'master'"
 }
 
-@test "gbp::rename_branch_if_needed should skip when default branch doesn't exist" {
+@test "tnp::rename_branch_if_needed should skip when default branch doesn't exist" {
   REPO_DEFAULT_BRANCH="main"
   export REPO_DEFAULT_BRANCH
 
@@ -242,12 +242,12 @@ teardown() {
   }
   export -f git
 
-  run gbp::rename_branch_if_needed "master" "false"
+  run tnp::rename_branch_if_needed "master" "false"
   assert_success
   # Should return 0 without renaming since main doesn't exist
 }
 
-@test "gbp::rename_branch_if_needed should skip when target branch already exists" {
+@test "tnp::rename_branch_if_needed should skip when target branch already exists" {
   REPO_DEFAULT_BRANCH="main"
   export REPO_DEFAULT_BRANCH
 
@@ -259,23 +259,23 @@ teardown() {
   }
   export -f git
 
-  run gbp::rename_branch_if_needed "master" "false"
+  run tnp::rename_branch_if_needed "master" "false"
   assert_success
   # Should return 0 without renaming since target already exists
 }
 
-@test "gbp::configure_branch_protection should work in dry-run mode" {
+@test "tnp::configure_branch_protection should work in dry-run mode" {
   # Mock repository info
   REPO_OWNER="norlab-ulaval"
   REPO_NAME="test-repo"
 
-  run gbp::configure_branch_protection "main" "true"
+  run tnp::configure_branch_protection "main" "true"
   assert_success
   assert_output --partial "DRY RUN: Would configure main with:"
   assert_output --partial "required_pull_request_reviews"
 }
 
-@test "gbp::configure_branch_protection should call GitHub API correctly" {
+@test "tnp::configure_branch_protection should call GitHub API correctly" {
   # Mock repository info
   REPO_OWNER="norlab-ulaval"
   REPO_NAME="test-repo"
@@ -290,13 +290,13 @@ teardown() {
   }
   export -f gh
 
-  run gbp::configure_branch_protection "main" "false"
+  run tnp::configure_branch_protection "main" "false"
   assert_success
   assert_output --partial "Branch protection configured for: main"
 }
 
-@test "gbp::configure_repository_settings should work in dry-run mode" {
-  run gbp::configure_repository_settings "true"
+@test "tnp::configure_repository_settings should work in dry-run mode" {
+  run tnp::configure_repository_settings "true"
   assert_success
   assert_output --partial "DRY RUN: Would configure repository with:"
   assert_output --partial "gh repo edit"
@@ -307,7 +307,7 @@ teardown() {
   assert_output --partial "--allow-update-branch"
 }
 
-@test "gbp::configure_repository_settings should call gh repo edit correctly" {
+@test "tnp::configure_repository_settings should call gh repo edit correctly" {
   # Mock gh repo edit command
   function gh() {
     if [[ "$1" == "repo" && "$2" == "edit" ]]; then
@@ -331,12 +331,12 @@ teardown() {
   }
   export -f gh
 
-  run gbp::configure_repository_settings "false"
+  run tnp::configure_repository_settings "false"
   assert_success
   assert_output --partial "Repository-wide settings configured"
 }
 
-@test "gbp::configure_repository_settings should handle gh repo edit failure" {
+@test "tnp::configure_repository_settings should handle gh repo edit failure" {
   # Mock gh repo edit command to fail
   function gh() {
     if [[ "$1" == "repo" && "$2" == "edit" ]]; then
@@ -345,14 +345,14 @@ teardown() {
   }
   export -f gh
 
-  run gbp::configure_repository_settings "false"
+  run tnp::configure_repository_settings "false"
   assert_failure
   assert_output --partial "Failed to configure repository-wide settings"
 }
 
 
-@test "gbp::show_help should display correct usage information" {
-  run gbp::show_help
+@test "tnp::show_help should display correct usage information" {
+  run tnp::show_help
   assert_success
   assert_output --partial "Configure GitHub branch protection rules"
   assert_output --partial "--dry-run"
@@ -360,98 +360,98 @@ teardown() {
   assert_output --partial "--dev-branch"
 }
 
-@test "gbp::main should handle configurable branch names" {
+@test "tnp::main should handle configurable branch names" {
   # Mock all required functions
-  function gbp::validate_prerequisites() { return 0; }
-  function gbp::get_repository_info() { 
+  function tnp::validate_prerequisites() { return 0; }
+  function tnp::get_repository_info() {
     REPO_OWNER="test-owner"
     REPO_NAME="test-repo"
     REPO_DEFAULT_BRANCH="main"
   }
-  function gbp::configure_repository_settings() { return 0; }
-  function gbp::create_branch_if_not_exists() { return 0; }
-  function gbp::configure_branch_protection() { return 0; }
+  function tnp::configure_repository_settings() { return 0; }
+  function tnp::create_branch_if_not_exists() { return 0; }
+  function tnp::configure_branch_protection() { return 0; }
   function n2st::norlab_splash() { return 0; }
   function n2st::print_formated_script_header() { return 0; }
   function n2st::print_msg_done() { return 0; }
   function n2st::print_formated_script_footer() { return 0; }
   function n2st::print_msg() { return 0; }
-  export -f gbp::validate_prerequisites gbp::get_repository_info gbp::configure_repository_settings
-  export -f gbp::create_branch_if_not_exists gbp::configure_branch_protection
+  export -f tnp::validate_prerequisites tnp::get_repository_info tnp::configure_repository_settings
+  export -f tnp::create_branch_if_not_exists tnp::configure_branch_protection
   export -f n2st::norlab_splash n2st::print_formated_script_header n2st::print_msg_done n2st::print_formated_script_footer n2st::print_msg
 
-  run gbp::main --dry-run --release-branch "master" --dev-branch "develop"
+  run tnp::main --dry-run --release-branch "master" --dev-branch "develop"
   assert_success
 }
 
-@test "gbp::main should handle help option" {
-  run gbp::main --help
+@test "tnp::main should handle help option" {
+  run tnp::main --help
   assert_success
   assert_output --partial "Configure GitHub branch protection rules"
 }
 
-@test "gbp::main should handle invalid arguments" {
+@test "tnp::main should handle invalid arguments" {
   # Mock n2st functions to avoid errors
   function n2st::print_msg_error() { echo "Error: $*"; }
   export -f n2st::print_msg_error
 
-  run gbp::main --invalid-option
+  run tnp::main --invalid-option
   assert_failure
   assert_output --partial "Unknown option: --invalid-option"
 }
 
-@test "gbp::main should handle single branch configuration" {
+@test "tnp::main should handle single branch configuration" {
   # Mock all required functions
-  function gbp::validate_prerequisites() { return 0; }
-  function gbp::get_repository_info() { 
+  function tnp::validate_prerequisites() { return 0; }
+  function tnp::get_repository_info() {
     REPO_OWNER="test-owner"
     REPO_NAME="test-repo"
     REPO_DEFAULT_BRANCH="main"
   }
-  function gbp::configure_repository_settings() { return 0; }
-  function gbp::update_releaserc_json() { return 0; }
-  function gbp::update_semantic_release_yml() { return 0; }
-  function gbp::create_branch_if_not_exists() { return 0; }
-  function gbp::configure_branch_protection() { return 0; }
+  function tnp::configure_repository_settings() { return 0; }
+  function tnp::update_releaserc_json() { return 0; }
+  function tnp::update_semantic_release_yml() { return 0; }
+  function tnp::create_branch_if_not_exists() { return 0; }
+  function tnp::configure_branch_protection() { return 0; }
   function n2st::norlab_splash() { return 0; }
   function n2st::print_formated_script_header() { return 0; }
   function n2st::print_msg_done() { return 0; }
   function n2st::print_formated_script_footer() { return 0; }
   function n2st::print_msg() { return 0; }
-  export -f gbp::validate_prerequisites gbp::get_repository_info gbp::configure_repository_settings
-  export -f gbp::update_releaserc_json gbp::update_semantic_release_yml gbp::create_branch_if_not_exists gbp::configure_branch_protection
+  export -f tnp::validate_prerequisites tnp::get_repository_info tnp::configure_repository_settings
+  export -f tnp::update_releaserc_json tnp::update_semantic_release_yml tnp::create_branch_if_not_exists tnp::configure_branch_protection
   export -f n2st::norlab_splash n2st::print_formated_script_header n2st::print_msg_done n2st::print_formated_script_footer n2st::print_msg
 
-  run gbp::main --dry-run --branch "main"
+  run tnp::main --dry-run --branch "main"
   assert_success
 }
 
-@test "gbp::update_releaserc_json should work in dry-run mode" {
-  run gbp::update_releaserc_json "master" "true"
+@test "tnp::update_releaserc_json should work in dry-run mode" {
+  run tnp::update_releaserc_json "master" "true"
   assert_success
   assert_output --partial "DRY RUN: Would update .releaserc.json:"
   assert_output --partial "Release branch: master"
 }
 
-@test "gbp::update_releaserc_json should skip when using default branch name" {
+@test "tnp::update_releaserc_json should skip when using default branch name" {
   REPO_DEFAULT_BRANCH="main"
   export REPO_DEFAULT_BRANCH
 
-  run gbp::update_releaserc_json "main" "false"
+  run tnp::update_releaserc_json "main" "false"
   assert_success
   assert_output --partial "Using default release branch name, no .releaserc.json update needed"
 }
 
-@test "gbp::update_releaserc_json should handle missing .releaserc.json file" {
+@test "tnp::update_releaserc_json should handle missing .releaserc.json file" {
   # Ensure no .releaserc.json file exists
   rm -f .releaserc.json
 
-  run gbp::update_releaserc_json "master" "false"
+  run tnp::update_releaserc_json "master" "false"
   assert_success
   assert_output --partial ".releaserc.json not found, skipping semantic-release configuration update"
 }
 
-@test "gbp::update_releaserc_json should update file with custom branch name" {
+@test "tnp::update_releaserc_json should update file with custom branch name" {
   # Mock jq to return success
   function jq() {
     echo '{"branches":["master",{"name":"beta","prerelease":true},{"name":"alpha","prerelease":true}]}'
@@ -459,39 +459,39 @@ teardown() {
   }
   export -f jq
 
-  run gbp::update_releaserc_json "master" "false"
+  run tnp::update_releaserc_json "master" "false"
   assert_success
   assert_output --partial ".releaserc.json updated successfully"
   assert_output --partial "Backup saved as .releaserc.json.backup"
 }
 
-@test "gbp::update_semantic_release_yml should work in dry-run mode" {
+@test "tnp::update_semantic_release_yml should work in dry-run mode" {
 
-  run gbp::update_semantic_release_yml "master" "true"
+  run tnp::update_semantic_release_yml "master" "true"
   assert_success
   assert_output --partial "DRY RUN: Would update .github/workflows/semantic_release.yml:"
   assert_output --partial "Release branch: master"
 }
 
-@test "gbp::update_semantic_release_yml should skip when using default branch name" {
+@test "tnp::update_semantic_release_yml should skip when using default branch name" {
   REPO_DEFAULT_BRANCH="main"
   export REPO_DEFAULT_BRANCH
 
-  run gbp::update_semantic_release_yml "main" "false"
+  run tnp::update_semantic_release_yml "main" "false"
   assert_success
   assert_output --partial "Using default release branch name, no semantic_release.yml update needed"
 }
 
-@test "gbp::update_semantic_release_yml should handle missing semantic_release.yml file" {
+@test "tnp::update_semantic_release_yml should handle missing semantic_release.yml file" {
   # Ensure no semantic_release.yml file exists
   rm -rf .github
 
-  run gbp::update_semantic_release_yml "master" "false"
+  run tnp::update_semantic_release_yml "master" "false"
   assert_success
   assert_output --partial ".github/workflows/semantic_release.yml not found, skipping workflow update"
 }
 
-@test "gbp::update_semantic_release_yml should update file with custom branch name" {
+@test "tnp::update_semantic_release_yml should update file with custom branch name" {
 
   # Mock sed to return success
   function sed() {
@@ -502,28 +502,28 @@ teardown() {
   }
   export -f sed
 
-  run gbp::update_semantic_release_yml "master" "false"
+  run tnp::update_semantic_release_yml "master" "false"
   assert_success
   assert_output --partial "semantic_release.yml updated successfully"
   assert_output --partial "Backup saved as .github/workflows/semantic_release.yml.backup"
 }
 
 
-@test "gbp::main should configure both branches by default" {
+@test "tnp::main should configure both branches by default" {
   # Mock all required functions
-  function gbp::validate_prerequisites() { return 0; }
-  function gbp::get_repository_info() { 
+  function tnp::validate_prerequisites() { return 0; }
+  function tnp::get_repository_info() {
     REPO_OWNER="test-owner"
     REPO_NAME="test-repo"
     REPO_DEFAULT_BRANCH="main"
   }
-  function gbp::update_releaserc_json() { return 0; }
-  function gbp::update_semantic_release_yml() { return 0; }
-  function gbp::create_branch_if_not_exists() { 
+  function tnp::update_releaserc_json() { return 0; }
+  function tnp::update_semantic_release_yml() { return 0; }
+  function tnp::create_branch_if_not_exists() {
     echo "Processing branch: $1"
     return 0
   }
-  function gbp::configure_branch_protection() { return 0; }
+  function tnp::configure_branch_protection() { return 0; }
   function n2st::norlab_splash() { return 0; }
   function n2st::print_formated_script_header() { return 0; }
   function n2st::print_msg_done() { return 0; }
@@ -532,11 +532,11 @@ teardown() {
     echo "$*"
     return 0
   }
-  export -f gbp::validate_prerequisites gbp::get_repository_info
-  export -f gbp::update_releaserc_json gbp::update_semantic_release_yml gbp::create_branch_if_not_exists gbp::configure_branch_protection
+  export -f tnp::validate_prerequisites tnp::get_repository_info
+  export -f tnp::update_releaserc_json tnp::update_semantic_release_yml tnp::create_branch_if_not_exists tnp::configure_branch_protection
   export -f n2st::norlab_splash n2st::print_formated_script_header n2st::print_msg_done n2st::print_formated_script_footer n2st::print_msg
 
-  run gbp::main --dry-run
+  run tnp::main --dry-run
   assert_success
   assert_output --partial "Processing branch: main"
   assert_output --partial "Processing branch: beta"
