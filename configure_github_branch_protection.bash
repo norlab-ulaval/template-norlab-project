@@ -30,7 +30,7 @@ EOF
 set -e
 
 # ====Functions====================================================================================
-function gbp::validate_prerequisites() {
+function tnp::validate_prerequisites() {
     local repo_url
     n2st::print_msg "Validate pre-prerequisites"
 
@@ -72,7 +72,7 @@ function gbp::validate_prerequisites() {
     return 0
 }
 
-function gbp::get_repository_info() {
+function tnp::get_repository_info() {
     local repo_info
     repo_info=$(gh repo view --json "owner,name,defaultBranchRef")
 
@@ -86,7 +86,7 @@ function gbp::get_repository_info() {
     n2st::print_msg "Repository: ${REPO_OWNER}/${REPO_NAME} (default branch: ${REPO_DEFAULT_BRANCH})"
 }
 
-function gbp::rename_branch_if_needed() {
+function tnp::rename_branch_if_needed() {
     local target_branch="$1"
     local dry_run="$2"
     local default_branch="${REPO_DEFAULT_BRANCH:-main}"
@@ -165,7 +165,7 @@ function gbp::rename_branch_if_needed() {
     return 0
 }
 
-function gbp::create_branch_if_not_exists() {
+function tnp::create_branch_if_not_exists() {
     local branch_name="$1"
     local dry_run="$2"
 
@@ -194,7 +194,7 @@ function gbp::create_branch_if_not_exists() {
     fi
 }
 
-function gbp::configure_repository_settings() {
+function tnp::configure_repository_settings() {
     local dry_run="$1"
 
     n2st::print_msg "Configuring repository-wide settings"
@@ -222,7 +222,7 @@ function gbp::configure_repository_settings() {
     fi
 }
 
-function gbp::configure_branch_protection() {
+function tnp::configure_branch_protection() {
     local branch_name="$1"
     local dry_run="$2"
     local protection_config
@@ -272,7 +272,7 @@ EOF
 }
 
 
-function gbp::update_releaserc_json() {
+function tnp::update_releaserc_json() {
     local release_branch="$1"
     local dry_run="$2"
 
@@ -319,7 +319,7 @@ function gbp::update_releaserc_json() {
     fi
 }
 
-function gbp::update_semantic_release_yml() {
+function tnp::update_semantic_release_yml() {
     local release_branch="$1"
     local dry_run="$2"
 
@@ -360,7 +360,7 @@ function gbp::update_semantic_release_yml() {
     fi
 }
 
-function gbp::show_help() {
+function tnp::show_help() {
   # (NICE TO HAVE) ToDo: refactor as a n2st fct (ref NMO-583)
   echo -e "${MSG_DIMMED_FORMAT}"
   n2st::draw_horizontal_line_across_the_terminal_window "="
@@ -371,7 +371,7 @@ function gbp::show_help() {
   echo -e "${MSG_END_FORMAT}"
 }
 
-function gbp::main() {
+function tnp::main() {
     local dry_run="false"
     local arbitrary_branch=""
     local release_branch=""
@@ -400,12 +400,12 @@ function gbp::main() {
                 shift 2
                 ;;
             --help)
-                gbp::show_help
+                tnp::show_help
                 return 0
                 ;;
             *)
                 n2st::print_msg_error "Unknown option: $1"
-                gbp::show_help
+                tnp::show_help
                 return 1
                 ;;
         esac
@@ -415,16 +415,16 @@ function gbp::main() {
     #n2st::print_formated_script_header "$( basename $0)" "="
 
     # Validate prerequisites
-    gbp::validate_prerequisites || return 1
+    tnp::validate_prerequisites || return 1
 
     # Get repository information
-    gbp::get_repository_info || return 1
+    tnp::get_repository_info || return 1
     test -n "${REPO_OWNER:?err}" || n2st::print_msg_error_and_exit "Env variable REPO_OWNER need to be set and non-empty."
     test -n "${REPO_NAME:?err}" || n2st::print_msg_error_and_exit "Env variable REPO_NAME need to be set and non-empty."
     test -n "${REPO_DEFAULT_BRANCH:?err}" || n2st::print_msg_error_and_exit "Env variable REPO_DEFAULT_BRANCH need to be set and non-empty."
 
     # Configure repository-wide settings
-    gbp::configure_repository_settings "${dry_run}" || return 1
+    tnp::configure_repository_settings "${dry_run}" || return 1
 
     # Set release branch to repository default if not specified by user
     if [[ "$release_branch_specified" == "false" ]]; then
@@ -435,25 +435,25 @@ function gbp::main() {
     # Configure branches
     if [[ -n "${arbitrary_branch}" ]]; then
         # Create branch if it doesn't exist
-        gbp::create_branch_if_not_exists "${arbitrary_branch}" "${dry_run}" || return 1
-        gbp::configure_branch_protection "${arbitrary_branch}" "${dry_run}" || return 1
+        tnp::create_branch_if_not_exists "${arbitrary_branch}" "${dry_run}" || return 1
+        tnp::configure_branch_protection "${arbitrary_branch}" "${dry_run}" || return 1
     else
         # Try to rename the default branch to the release branch if needed
-        gbp::rename_branch_if_needed "${release_branch}" "${dry_run}" || return 1
+        tnp::rename_branch_if_needed "${release_branch}" "${dry_run}" || return 1
 
         # Update .releaserc.json if using non-default release branch name
-        gbp::update_releaserc_json "${release_branch}" "${dry_run}" || return 1
+        tnp::update_releaserc_json "${release_branch}" "${dry_run}" || return 1
 
         # Update semantic_release.yml if using non-default release branch name
-        gbp::update_semantic_release_yml "${release_branch}" "${dry_run}" || return 1
+        tnp::update_semantic_release_yml "${release_branch}" "${dry_run}" || return 1
 
         # Configure release and dev branches
         for branch in "${release_branch}" "${pre_release_branch}" "${dev_branch}"; do
             n2st::print_msg "Processing branch: ${branch}"
             # Create branch if it doesn't exist
-            gbp::create_branch_if_not_exists "${branch}" "${dry_run}" || return 1
+            tnp::create_branch_if_not_exists "${branch}" "${dry_run}" || return 1
             # Configure protection
-            gbp::configure_branch_protection "${branch}" "${dry_run}" || return 1
+            tnp::configure_branch_protection "${branch}" "${dry_run}" || return 1
         done
 
     fi
@@ -507,7 +507,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     source "${N2ST_PATH:?err}/import_norlab_shell_script_tools_lib.bash"
 
     # ....Execute branch configuration.............................................................
-    gbp::main "${arguments[@]}"
+    tnp::main "${arguments[@]}"
     exit $?
 else
    # This script is being sourced, ie: __name__="__source__"

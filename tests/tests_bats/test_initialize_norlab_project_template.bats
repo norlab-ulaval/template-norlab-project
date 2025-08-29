@@ -118,13 +118,13 @@ setup() {
 echo "Mock 'configure_github_branch_protection.bash' script"
 # Note: 'configure_github_branch_protection.bash' is tested in 'test_configure_github_branch_protection.bats'
 
-gbp::validate_prerequisites() {
-  echo "Mock gbp::validate_prerequisites called with args: $*"
+tnp::validate_prerequisites() {
+  echo "Mock tnp::validate_prerequisites called with args: $*"
   return 0
 }
 
-function gbp::main() {
-  echo "Mock gbp::main called with args: $*"
+function tnp::main() {
+  echo "Mock tnp::main called with args: $*"
   return 0
 }
 EOF

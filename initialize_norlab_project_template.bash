@@ -47,7 +47,7 @@ function tnp::install_norlab_project_template(){
   source configure_github_branch_protection.bash
 
   # ....Pre-condition..............................................................................
-  gbp::validate_prerequisites
+  tnp::validate_prerequisites
 
   if ! command -v tree &> /dev/null; then
     n2st::print_msg_error "Directory visualization command 'tree' is not installed. Please install it first:"
@@ -390,7 +390,7 @@ ${MSG_END_FORMAT}"
   }
 
     # ....Execute branch protection rule setup.....................................................
-    gbp::main "${gbp_args[@]}" || return 1
+    tnp::main "${gbp_args[@]}" || return 1
   fi
 
   # ....Delayed N2ST deletion step.................................................................
