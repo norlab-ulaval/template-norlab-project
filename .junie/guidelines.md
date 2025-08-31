@@ -7,15 +7,15 @@ _template-norlab-project (TNP)_ guidelines and instructions
 TNP is a template repository for code-related research projects. It’s meant to help kick-start repository creation by
 enabling software engineering research-oriented best practice.
 
-## Prime directive:
-
-Always comply with guidelines and instructions.
-
 ## Repository Guidelines Instructions
 
-- First, review _A2G Framework Guidelines_ specified in
-  `.junie/ai_agent_guidelines/framework/guidelines.a2g_framework.md` for additional guidelines.
-- Then proceed with the remaining repository guidelines instructions.
+1. First, review and learn _A2G Framework Guidelines_ specified in
+  `.junie/ai_agent_guidelines/guidelines.a2g_framework.md`.
+2. Then review the remaining repository guidelines below.
+
+## Prime directive:
+
+Always comply with _A2G Framework Guidelines_, _Repository Guidelines_ and _AI operator_ instructions.
 
 ## Repository Organization
 
@@ -38,3 +38,7 @@ Always comply with guidelines and instructions.
 - `NBS` is the acronym for `norlab-build-system` library
 - `dockerized-norlab-project-mock-EMPTY` is a mock repository of how a user would install and uses
   TNP. We refer to this as a "_super project_."
+
+## Repository Specific Additional Guidelines
+
+Proceed with _AI operator_ instructions
