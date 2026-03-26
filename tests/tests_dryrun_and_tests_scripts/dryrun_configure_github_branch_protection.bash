@@ -109,10 +109,10 @@ function tnp::test_both_branches_default() {
     local output
     output=$(bash "${TNP_PATH}"/configure_github_branch_protection.bash --dry-run)
 
-    if [[ "$output" =~ "Processing branch: main" ]] && [[ "$output" =~ "Processing branch: dev" ]]; then
+    if [[ "$output" =~ "Processing branch: ${MOCK_REPO_DEFAULT_BRANCH}" ]] && [[ "$output" =~ "Processing branch: dev" ]]; then
         n2st::print_msg_done "✓ Both branches configured by default"
     else
-        n2st::print_msg_error "✗ Not both branches configured by default"
+        n2st::print_msg_error "✗ Not both branches configured by default (expected ${MOCK_REPO_DEFAULT_BRANCH} and dev)"
         return 1
     fi
 }
@@ -163,10 +163,10 @@ function tnp::test_branch_renaming_functionality() {
     output=$(bash "${TNP_PATH}"/configure_github_branch_protection.bash --dry-run --release-branch master)
 
     # shellcheck disable=SC2076
-    if [[ "$output" =~ "DRY RUN: Would rename branch 'main' to 'master'" ]]; then
+    if [[ "$output" =~ "DRY RUN: Would rename branch '${MOCK_REPO_DEFAULT_BRANCH}' to 'master'" ]]; then
         n2st::print_msg_done "✓ Branch renaming functionality works"
     else
-        n2st::print_msg_error "✗ Branch renaming functionality failed"
+        n2st::print_msg_error "✗ Branch renaming functionality failed (expected rename from ${MOCK_REPO_DEFAULT_BRANCH} to master)"
         return 1
     fi
 }
@@ -211,6 +211,11 @@ function tnp::main() {
     bash "${TNP_PATH:?err}/tests/setup_integration_test.bash"
 
     export TNP_MOCK_REPO_PATH="${TNP_PATH:?err}/utilities/tmp/dockerized-norlab-project-mock-EMPTY"
+
+    # Get the actual default branch from the mock repository
+    cd "${TNP_MOCK_REPO_PATH}"
+    MOCK_REPO_DEFAULT_BRANCH=$(gh repo view --json "defaultBranchRef" --jq '.defaultBranchRef.name')
+    export MOCK_REPO_DEFAULT_BRANCH
 
     # ....Begin....................................................................................
 
